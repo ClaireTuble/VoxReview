@@ -4,31 +4,18 @@ import "./LandingPage.css";
 import bgImage from "../pages/img/landing.jpg";
 
 const UNIVERSITY_ORGS = {
-  "Mindanao State University": [
+  "Western Mindanao State University": [
     "Supreme Student Council (SSC)",
     "Computer Science Society (COSS)",
     "Society of Information Technology Educators (SITE)",
     "Junior Marketing Association (JMA)",
     "League of Young Entrepreneurs (LYE)",
   ],
-  "University of the Philippines": [
-    "University Student Council (USC)",
-    "UP Engineering Society",
-    "UP Science Association",
-    "UP Writers Guild",
+  "Coffee Station": [
+    "Coffee Station Baristas",
+    "Coffee Station Managers",
+    "location",
   ],
-  "Ateneo de Manila University": [
-    "Sanggunian ng mga Mag-aaral",
-    "Ateneo Computer Society (ACS)",
-    "Management Engineering Association (MEA)",
-    "Ateneo Debating Society",
-  ],
-  "De La Salle University": [
-    "University Student Government (USG)",
-    "DLSU Computer Studies Government",
-    "DLSU Green Archers Athletics",
-    "DLSU Business Association",
-  ]
 };
 
 const LandingPage = () => {
@@ -296,7 +283,7 @@ const LandingPage = () => {
                             {profilePhoto ? (
                               <img src={profilePhoto} alt="Profile preview" className="photo-preview" />
                             ) : (
-                              <div className="photo-placeholder">👤</div>
+                              <div className="photo-placeholder"></div>
                             )}
                           </div>
                           <div className="photo-upload-controls">
@@ -325,7 +312,7 @@ const LandingPage = () => {
 
                         <div className="auth-input-group">
                           <label>Email Address</label>
-                          <input type="email" placeholder="••••••••@gmail.com" required value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+                          <input type="email" placeholder="name@gmail.com" required value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
                         </div>
 
                         <div className="auth-input-group">
@@ -369,13 +356,13 @@ const LandingPage = () => {
                       <form onSubmit={handleOrgRegisterSubmit}>
                         <div className="auth-input-group">
                           <label>Organization Name</label>
-                          <input type="text" placeholder="Supreme Student Council (SSC)" required value={orgName} onChange={(e) => setOrgName(e.target.value)} />
+                          <input type="text" placeholder="Organization Name" required value={orgName} onChange={(e) => setOrgName(e.target.value)} />
                         </div>
 
                         <div className="auth-input-group">
                           <label>University / Establishment</label>
                           <select required value={orgUniversity} onChange={(e) => setOrgUniversity(e.target.value)}>
-                            <option value="">Select Affiliated University</option>
+                            <option value="">Select Affiliated University/Establishment</option>
                             {Object.keys(UNIVERSITY_ORGS).map(uni => (
                               <option key={uni} value={uni}>{uni}</option>
                             ))}
@@ -390,11 +377,11 @@ const LandingPage = () => {
                         <div className="auth-input-row">
                           <div className="auth-input-group">
                             <label>Representative Name</label>
-                            <input type="text" placeholder="Jane Doe" required value={repName} onChange={(e) => setRepName(e.target.value)} />
+                            <input type="text" placeholder="Name" required value={repName} onChange={(e) => setRepName(e.target.value)} />
                           </div>
                           <div className="auth-input-group">
                             <label>Contact Email</label>
-                            <input type="email" placeholder="rep@msu.edu.ph" required value={repEmail} onChange={(e) => setRepEmail(e.target.value)} />
+                            <input type="email" placeholder="name@gmail.com" required value={repEmail} onChange={(e) => setRepEmail(e.target.value)} />
                           </div>
                         </div>
 
