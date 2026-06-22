@@ -168,19 +168,9 @@ const UserPortal = () => {
                 ></textarea>
               </div>
 
-              <div className="form-group">
-                <div className="sentiment-indicator-wrapper">
-                  <span className="sentiment-label-text">
-                    Predicted Sentiment (Real-Time AI):
-                  </span>
-                  <span className={`user-badge user-badge--${sentiment.toLowerCase()}`}>
-                    {sentiment}
-                  </span>
-                </div>
-              </div>
 
               <button type="submit" className="btn-submit">
-                Submit Feedback
+                Submit
               </button>
 
             </form>

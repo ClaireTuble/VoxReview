@@ -5,16 +5,15 @@ import bgImage from "../pages/img/landing.jpg";
 
 const UNIVERSITY_ORGS = {
   "Western Mindanao State University": [
-    "Supreme Student Council (SSC)",
     "Computer Science Society (COSS)",
     "Society of Information Technology Educators (SITE)",
     "Junior Marketing Association (JMA)",
     "League of Young Entrepreneurs (LYE)",
   ],
-  "Coffee Station": [
-    "Coffee Station Baristas",
-    "Coffee Station Managers",
-    "location",
+  "Mountaineering": [
+    "Alphinity Mountaineering organization",
+    "Beruda Mountaineering organization",
+    "Apo Mountaineering organization",
   ],
 };
 
@@ -89,13 +88,15 @@ const LandingPage = () => {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    alert("Sign In successful! (Demo implementation)");
+    alert("Sign In success,");
     closeModal();
   };
 
   const handleUserRegisterSubmit = (e) => {
     e.preventDefault();
-    setSuccessMessage(`User Account for ${userName} registered successfully!`);
+    setSuccessMessage(
+  `Welcome to VoxReview, ${userName}! Your user account has been successfully created. You can now participate in evaluations, submit feedback, and help organizations improve through your valuable insights.`
+);
     setShowSuccess(true);
     // Reset form fields
     setProfilePhoto("");
@@ -109,7 +110,9 @@ const LandingPage = () => {
 
   const handleOrgRegisterSubmit = (e) => {
     e.preventDefault();
-    setSuccessMessage(`Accreditation submitted for ${orgName}!`);
+   setSuccessMessage(
+  `Registration submitted successfully. Your organization accreditation request is now under review. Once approved, you will be able to create an administrator account and access the organization dashboard. the confirmation message will be sent to your email within 1-5 days. Thank you for your interest in joining VoxReview!`
+);
     setShowSuccess(true);
     // Reset form fields
     setOrgName("");
@@ -124,7 +127,7 @@ const LandingPage = () => {
       {/* Navbar Header */}
       <header className="landing-header">
         <div className="brand">
-          <span className="brand-icon">💠</span>
+          <span className="brand-icon"></span>
           <span className="brand-name">VoxReview</span>
         </div>
         <div className="nav-buttons">
@@ -147,7 +150,7 @@ const LandingPage = () => {
           {/* Evaluator Review Portal */}
           <Link to="/user" className="portal-card portal-card--student">
             <div className="portal-card-top">
-              <div className="portal-icon-wrapper">👤</div>
+              <div className="portal-icon-wrapper"></div>
               <h2 className="portal-title">Evaluator Portal</h2>
               <p className="portal-description">
                 Submit event feedback, rate activities, and view public sentiment reports. No sign-in required.
@@ -161,7 +164,7 @@ const LandingPage = () => {
           {/* Org Admin Portal */}
           <Link to="/admin" className="portal-card">
             <div className="portal-card-top">
-              <div className="portal-icon-wrapper">💼</div>
+              <div className="portal-icon-wrapper"></div>
               <h2 className="portal-title">Organization Admin</h2>
               <p className="portal-description">
                 Manage organization events, monitor real-time sentiment metrics, moderate feedback, and export reports.
@@ -175,7 +178,7 @@ const LandingPage = () => {
           {/* Superadmin Portal */}
           <Link to="/superadmin" className="portal-card portal-card--superadmin">
             <div className="portal-card-top">
-              <div className="portal-icon-wrapper">🖥️</div>
+              <div className="portal-icon-wrapper"></div>
               <h2 className="portal-title">Super Administrator</h2>
               <p className="portal-description">
                 Manage your site, verify registered organizations, and view platform-wide analytics.
@@ -209,28 +212,37 @@ const LandingPage = () => {
               {showSuccess ? (
                 /* Success Registration Message */
                 <div className="success-register-screen">
-                  <div className="success-icon">🎉</div>
-                  <h2>Success!</h2>
+                <h2>
+              {signUpType === "user"
+                ? "Welcome to VoxReview!"
+                : "Create Account For your admin access"}
+            </h2>
                   <p>{successMessage}</p>
-                  <button className="auth-btn-primary" style={{ width: "80%" }} onClick={openLoginModal}>
-                    Go to Sign In
-                  </button>
-                </div>
+               <button
+                  className="auth-btn-primary"
+                  style={{ width: "80%" }}
+                  onClick={openLoginModal}
+                >
+                  {signUpType === "user"
+                    ? "Log In"
+                    : "Go back to landing page"}
+                </button>
+              </div>
               ) : !isSignUp ? (
                 /* Login Content */
                 <div className="auth-card-content">
-                  <h2>Welcome Back</h2>
+                  <h2>Welcome</h2>
                   <p className="auth-subtitle">Login to your VoxReview account</p>
                   <form onSubmit={handleLoginSubmit}>
                     <div className="auth-input-group">
                       <label>Email Address</label>
-                      <input type="email" placeholder="••••••••@gmail.com" required />
+                      <input type="email" placeholder="name@gmail.com" required />
                     </div>
                     <div className="auth-input-group">
                       <label>Password</label>
                       <input type="password" placeholder="••••••••" required />
                     </div>
-                    <button type="submit" className="auth-btn-primary">Sign In</button>
+                    <button type="submit" className="auth-btn-primary">Log In</button>
                   </form>
                   <div className="auth-switch-text">
                     Don't have an account?{" "}
@@ -247,14 +259,14 @@ const LandingPage = () => {
                       <p className="auth-subtitle">Choose your account type to proceed</p>
                       <div className="signup-type-buttons">
                         <button className="signup-type-btn" onClick={() => setSignUpType("user")}>
-                          <div className="signup-type-icon">🎓</div>
+                          <div className="signup-type-icon"></div>
                           <div className="signup-type-text">
                             <h3>Create User Account</h3>
                             <p>Join as evaluator</p>
                           </div>
                         </button>
                         <button className="signup-type-btn" onClick={() => setSignUpType("org")}>
-                          <div className="signup-type-icon">🏢</div>
+                          <div className="signup-type-icon"></div>
                           <div className="signup-type-text">
                             <h3>Register Your Organization</h3>
                             <p>Accredit and manage events for sentiment tracking</p>
@@ -316,7 +328,7 @@ const LandingPage = () => {
                         </div>
 
                         <div className="auth-input-group">
-                          <label>University / Establishment</label>
+                          <label>University / Organization</label>
                           <select required value={selectedUniversity} onChange={handleUniversityChange}>
                             <option value="">Select Organization</option>
                             {Object.keys(UNIVERSITY_ORGS).map(uni => (
@@ -348,11 +360,11 @@ const LandingPage = () => {
                       </form>
                     </div>
                   ) : (
-                    /* Organization Registration Form */
+                    /* org register */
                     <div className="register-form scrollable-form">
                       <button className="btn-back" onClick={() => setSignUpType(null)}>← Back</button>
                       <h2>Register Org</h2>
-                      <p className="auth-subtitle">Register your organization for VoxReview tracking</p>
+                      <p className="auth-subtitle">Register your organization for VoxReview</p>
                       <form onSubmit={handleOrgRegisterSubmit}>
                         <div className="auth-input-group">
                           <label>Organization Name</label>
@@ -360,9 +372,9 @@ const LandingPage = () => {
                         </div>
 
                         <div className="auth-input-group">
-                          <label>University / Establishment</label>
+                          <label>University / Organization</label>
                           <select required value={orgUniversity} onChange={(e) => setOrgUniversity(e.target.value)}>
-                            <option value="">Select Affiliated University/Establishment</option>
+                            <option value="">Select Affiliated University/Organization</option>
                             {Object.keys(UNIVERSITY_ORGS).map(uni => (
                               <option key={uni} value={uni}>{uni}</option>
                             ))}
@@ -384,8 +396,8 @@ const LandingPage = () => {
                             <input type="email" placeholder="name@gmail.com" required value={repEmail} onChange={(e) => setRepEmail(e.target.value)} />
                           </div>
                         </div>
-
                         <button type="submit" className="auth-btn-primary">Submit Registration</button>
+                        
                       </form>
                     </div>
                   )}
