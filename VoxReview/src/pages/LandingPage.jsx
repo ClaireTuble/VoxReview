@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
-import bgImage from "../pages/img/landing.jpg";
 
 const UNIVERSITY_ORGS = {
   "Western Mindanao State University": [
@@ -17,19 +16,54 @@ const UNIVERSITY_ORGS = {
   ],
 };
 
-const LandingPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false); // false for Login, true for SignUp
-  const [signUpType, setSignUpType] = useState(null); // 'user', 'org', or null
+const PRESET_FEEDBACK = [
+  {
+    id: "1",
+    studentName: "Maky Boi",
+    event: "Foundation Week 2025",
+    rating: 5,
+    comment: "This event was so much fun! Kudos to the student council for putting together such an active week!",
+    sentiment: "Positive"
+  },
+  {
+    id: "2",
+    studentName: "Mary Uy",
+    event: "CSM Fest",
+    rating: 3,
+    comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.",
+    sentiment: "Neutral"
+  },
+  {
+    id: "3",
+    studentName: "Anonymous",
+    event: "Palaro 2025",
+    rating: 1,
+    comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.",
+    sentiment: "Negative"
+  }
+];
 
-  // User registration states
-  const [profilePhoto, setProfilePhoto] = useState("");
-  const [userName, setUserName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [selectedUniversity, setSelectedUniversity] = useState("");
-  const [selectedOrgs, setSelectedOrgs] = useState([]);
+const EVENTS = [
+  "Foundation Week 2025",
+  "CSM Fest",
+  "Palaro 2025",
+  "Leadership Summit 2026",
+  "General Assembly"
+];
+
+const LandingPage = () => {
+  const navigate = useNavigate();
+
+  // Modals & Panels State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Authentication State (For Admins)
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginRole, setLoginRole] = useState("admin"); // 'admin' or 'superadmin'
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
 
   // Org registration states
   const [orgName, setOrgName] = useState("");
@@ -37,370 +71,473 @@ const LandingPage = () => {
   const [orgDesc, setOrgDesc] = useState("");
   const [repName, setRepName] = useState("");
   const [repEmail, setRepEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
   // Registration success state
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
+  // Extension Feedback Form States
+  const [feedbackList, setFeedbackList] = useState(() => {
+    const saved = localStorage.getItem("vox_feedback");
+    return saved ? JSON.parse(saved) : PRESET_FEEDBACK;
+  });
+  const [studentName, setStudentName] = useState("");
+  const [selectedEvent, setSelectedEvent] = useState(EVENTS[0]);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [sentiment, setSentiment] = useState("Neutral");
+
+  // Save feedback list to localStorage
+  useEffect(() => {
+    localStorage.setItem("vox_feedback", JSON.stringify(feedbackList));
+  }, [feedbackList]);
+
+  // Sentiment Analyzer
+  useEffect(() => {
+    if (!comment.trim()) {
+      setSentiment("Neutral");
+      return;
+    }
+    const posWords = ["great", "good", "love", "awesome", "fun", "amazing", "excellent", "nice", "best", "cool", "happy", "kudos", "enjoy", "decent", "success", "wonderful"];
+    const negWords = ["bad", "worst", "terrible", "boring", "disappointed", "slow", "hate", "waste", "poor", "sad", "dislike", "hot", "disorganized", "delayed", "ruined", "annoyed"];
+    
+    let score = 0;
+    const lower = comment.toLowerCase();
+    
+    posWords.forEach(w => {
+      if (lower.includes(w)) score += 1;
+    });
+    negWords.forEach(w => {
+      if (lower.includes(w)) score -= 1;
+    });
+
+    if (score > 0) {
+      setSentiment("Positive");
+    } else if (score < 0) {
+      setSentiment("Negative");
+    } else {
+      setSentiment("Neutral");
+    }
+  }, [comment]);
+
   const openLoginModal = () => {
     setIsSignUp(false);
-    setSignUpType(null);
     setShowSuccess(false);
     setIsModalOpen(true);
   };
 
   const openRegisterModal = () => {
     setIsSignUp(true);
-    setSignUpType(null);
     setShowSuccess(false);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSignUpType(null);
     setShowSuccess(false);
-  };
-
-  const handleUniversityChange = (e) => {
-    setSelectedUniversity(e.target.value);
-    setSelectedOrgs([]); // Reset selected orgs when university changes
-  };
-
-  const handleOrgCheckChange = (org, isChecked) => {
-    if (isChecked) {
-      setSelectedOrgs([...selectedOrgs, org]);
-    } else {
-      setSelectedOrgs(selectedOrgs.filter(item => item !== org));
-    }
-  };
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePhoto(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    alert("Sign In success,");
+    if (loginRole === "superadmin") {
+      navigate("/superadmin");
+    } else {
+      navigate("/admin");
+    }
     closeModal();
-  };
-
-  const handleUserRegisterSubmit = (e) => {
-    e.preventDefault();
-    setSuccessMessage(
-  `Welcome to VoxReview, ${userName}! Your user account has been successfully created. You can now participate in evaluations, submit feedback, and help organizations improve through your valuable insights.`
-);
-    setShowSuccess(true);
-    // Reset form fields
-    setProfilePhoto("");
-    setUserName("");
-    setBirthDate("");
-    setContactNumber("");
-    setUserEmail("");
-    setSelectedUniversity("");
-    setSelectedOrgs([]);
   };
 
   const handleOrgRegisterSubmit = (e) => {
     e.preventDefault();
-   setSuccessMessage(
-  `Registration submitted successfully. Your organization accreditation request is now under review. Once approved, you will be able to create an administrator account and access the organization dashboard. the confirmation message will be sent to your email within 1-5 days. Thank you for your interest in joining VoxReview!`
-);
+    setSuccessMessage(
+      `Registration for "${orgName}" submitted successfully. Accreditation requests are under review by the platform Super Administrator. Approval details will be sent to "${repEmail}" in 1-2 business days.`
+    );
     setShowSuccess(true);
-    // Reset form fields
+    // Reset fields
     setOrgName("");
     setOrgUniversity("");
     setOrgDesc("");
     setRepName("");
     setRepEmail("");
+    setRegisterPassword("");
+  };
+
+  const handleFeedbackSubmit = (e) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+
+    const newFeedback = {
+      id: Date.now().toString(),
+      studentName: studentName.trim() || "Anonymous Student",
+      event: selectedEvent,
+      rating,
+      comment: comment.trim(),
+      sentiment
+    };
+
+    const updated = [newFeedback, ...feedbackList];
+    setFeedbackList(updated);
+    
+    // Save to sync with dashboards if needed
+    localStorage.setItem("vox_feedback_latest", JSON.stringify(newFeedback));
+
+    // Reset Form
+    setStudentName("");
+    setComment("");
+    setRating(5);
+    alert("Feedback submitted successfully! Thank you.");
   };
 
   return (
-    <div className="landing-container">
-      {/* Navbar Header */}
-      <header className="landing-header">
-        <div className="brand">
-          <span className="brand-icon"></span>
-          <span className="brand-name">VoxReview</span>
+    <div className="host-container-blank">
+      {/* Background Hub Description (representing Shopee or another host website) */}
+      <div className="blank-page-helper">
+        <div className="blank-page-card">
+          <div className="mock-shopee-header">
+            <span className="shopee-logo">VoxReview</span>
+            <div className="mock-user-meta">Example Site</div>
+          </div>
+          <h1>VoxReview Integration Sandbox</h1>
+          <p>
+            This represents a blank page of a host application (like Shopee) where your sentiment review plugin is integrated.
+          </p>
+          <p>
+            To interact with the review plugin, click the floating <strong>VoxReview</strong> icon in the <strong>upper right corner</strong>.
+          </p>
+          <div style={{ marginTop: "1rem", color: "#64748b", fontSize: "0.85rem" }}>
+            The plugin's navigation bar (Log In ) is fully embedded inside the sidebar view itself.
+          </div>
         </div>
-        <div className="nav-buttons">
-          <button className="btn-nav btn-login" onClick={openLoginModal}>Log In</button>
-          <button className="btn-nav btn-register" onClick={openRegisterModal}>Create Account</button>
+      </div>
+
+      {/* FLOATING TRIGGER BUTTON (UPPER RIGHT CORNER) */}
+      <button 
+        className={`floating-feedback-trigger-ur ${isSidebarOpen ? "active" : ""}`}
+        onClick={() => setIsSidebarOpen(true)}
+        title="Open VoxReview Sidebar"
+      >
+        <span className="trigger-pulse"></span>
+        <svg viewBox="0 0 24 24" className="trigger-icon">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span className="trigger-text">Review Portal</span>
+      </button>
+
+      {/* RIGHT SIDEBAR: VoxReview Feedback Plugin (Extension Sized) */}
+      <div className={`extension-sidebar ${isSidebarOpen ? "open" : ""}`}>
+        {/* Navigation Bar inside the User View */}
+        <header className="user-view-navbar">
+          <div className="user-navbar-brand">
+            <svg viewBox="0 0 24 24" className="brand-svg-logo-sm">
+              <path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z" fill="#4f46e5" />
+              <path d="M3 10v6c0 2.21 4.03 4 9 4s9-1.79 9-4v-6l-9 4-9-4z" fill="#818cf8" />
+            </svg>
+            <div className="brand-titles">
+              <h4>Your View Matters</h4>
+              <span>VoxReview</span>
+            </div>
+          </div>
+          <div className="user-navbar-buttons">
+            <button className="btn-user-nav btn-user-login" onClick={openLoginModal}>Log In</button>
+            <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Organization</button>
+          </div>
+        </header>
+
+        <div className="extension-header">
+          <div className="ext-logo">
+            <span className="ext-logo-icon">📣</span>
+            <div className="ext-logo-text">
+              <h3>VoxReview</h3>
+              <p>Event Feedback Plugin</p>
+            </div>
+          </div>
+          <button className="btn-close-extension" onClick={() => setIsSidebarOpen(false)} title="Close Sidebar">
+            ✕
+          </button>
         </div>
-      </header>
 
-      {/* Hero Content */}
-      <section className="hero-section">
-        <h1 className="hero-title">
-          <span>VoxReview</span> Feedback Portal
-        </h1>
-        <p className="hero-subtitle">
-          Voice of the Critics. VoxReview uses sentiment analysis to transform 
-          evaluator and client feedback into actionable insights.
-        </p>
+        <div className="extension-body">
+          {/* Form Card */}
+          <section className="ext-card ext-form-section">
+            <h4>Submit Event Review</h4>
+            <form onSubmit={handleFeedbackSubmit}>
+              <div className="ext-form-group">
+                <label>Name (Optional)</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Anonymous Student"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                />
+              </div>
 
-        <div className="portal-grid">
-          {/* Evaluator Review Portal */}
-          <Link to="/user" className="portal-card portal-card--student">
-            <div className="portal-card-top">
-              <div className="portal-icon-wrapper"></div>
-              <h2 className="portal-title">Evaluator Portal</h2>
-              <p className="portal-description">
-                Submit event feedback, rate activities, and view public sentiment reports. No sign-in required.
-              </p>
-            </div>
-            <div className="portal-action">
-              Give Feedback <span>➔</span>
-            </div>
-          </Link>
+              <div className="ext-form-group">
+                <label>Select Event</label>
+                <select
+                  value={selectedEvent}
+                  onChange={(e) => setSelectedEvent(e.target.value)}
+                >
+                  {EVENTS.map(ev => (
+                    <option key={ev} value={ev}>{ev}</option>
+                  ))}
+                </select>
+              </div>
 
-          {/* Org Admin Portal */}
-          <Link to="/admin" className="portal-card">
-            <div className="portal-card-top">
-              <div className="portal-icon-wrapper"></div>
-              <h2 className="portal-title">Organization Admin</h2>
-              <p className="portal-description">
-                Manage organization events, monitor real-time sentiment metrics, moderate feedback, and export reports.
-              </p>
-            </div>
-            <div className="portal-action">
-              Access Org Dashboard <span>➔</span>
-            </div>
-          </Link>
+              <div className="ext-form-group">
+                <label>Overall Rating</label>
+                <div className="ext-star-rating">
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={`ext-star-btn ${star <= rating ? "active" : ""}`}
+                      onClick={() => setRating(star)}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-          {/* Superadmin Portal */}
-          <Link to="/superadmin" className="portal-card portal-card--superadmin">
-            <div className="portal-card-top">
-              <div className="portal-icon-wrapper"></div>
-              <h2 className="portal-title">Super Administrator</h2>
-              <p className="portal-description">
-                Manage your site, verify registered organizations, and view platform-wide analytics.
-              </p>
+              <div className="ext-form-group">
+                <label>Comments / Review</label>
+                <textarea
+                  rows="3"
+                  placeholder="Write your review here. sentiment detected dynamically..."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  required
+                ></textarea>
+              </div>
+
+              {comment.trim() && (
+                <div className="ext-sentiment-indicator">
+                  <span>Sentiment Detected:</span>
+                  <span className={`ext-badge ext-badge--${sentiment.toLowerCase()}`}>
+                    {sentiment}
+                  </span>
+                </div>
+              )}
+
+              <button type="submit" className="ext-btn-submit">
+                Submit Review
+              </button>
+            </form>
+          </section>
+
+          {/* Feed Card */}
+          <section className="ext-card ext-feed-section">
+            <h4>Recent Reviews</h4>
+            <div className="ext-feedback-list">
+              {feedbackList.map(item => (
+                <div key={item.id} className="ext-feedback-item">
+                  <div className="ext-item-header">
+                    <div>
+                      <h5>{item.studentName}</h5>
+                      <span className="ext-item-event">{item.event}</span>
+                    </div>
+                    <span className={`ext-badge ext-badge-small ext-badge--${item.sentiment.toLowerCase()}`}>
+                      {item.sentiment}
+                    </span>
+                  </div>
+                  <div className="ext-item-stars">
+                    {"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}
+                  </div>
+                  <p className="ext-item-comment">"{item.comment}"</p>
+                </div>
+              ))}
             </div>
-            <div className="portal-action">
-              Access System Console <span>➔</span>
-            </div>
-          </Link>
+          </section>
         </div>
-      </section>
+      </div>
 
-      {/* Footer */}
-      <footer className="landing-footer">
-        <p>© {new Date().getFullYear()} VoxReview. All rights reserved.</p>
-      </footer>
-
-      {/* Auth Modal Overlay */}
+      {/* Auth Modal Overlay (Admin Only) */}
       {isModalOpen && (
         <div className="auth-modal-overlay" onClick={closeModal}>
           <div className="auth-modal-container" onClick={(e) => e.stopPropagation()}>
-            {/* Background Columns */}
             <div className="auth-bg-column auth-bg-left"></div>
             <div className="auth-bg-column auth-bg-right"></div>
-
-            {/* Close button */}
             <button className="auth-modal-close" onClick={closeModal}>×</button>
 
-            {/* Sliding Card */}
             <div className={`auth-sliding-card ${isSignUp ? "slide-right" : ""}`}>
               {showSuccess ? (
-                /* Success Registration Message */
+                /* Success Screen */
                 <div className="success-register-screen">
-                <h2>
-              {signUpType === "user"
-                ? "Welcome to VoxReview!"
-                : "Create Account For your admin access"}
-            </h2>
+                  <h2>Organization Registration submitted</h2>
                   <p>{successMessage}</p>
-               <button
-                  className="auth-btn-primary"
-                  style={{ width: "80%" }}
-                  onClick={openLoginModal}
-                >
-                  {signUpType === "user"
-                    ? "Log In"
-                    : "Go back to landing page"}
-                </button>
-              </div>
+                  <button className="auth-btn-primary" onClick={openLoginModal}>
+                    Go to Login
+                  </button>
+                </div>
               ) : !isSignUp ? (
                 /* Login Content */
                 <div className="auth-card-content">
-                  <h2>Welcome</h2>
-                  <p className="auth-subtitle">Login to your VoxReview account</p>
+                  <h2>Admin Portal Log In</h2>
+                  <p className="auth-subtitle">Access your VoxReview administrative dashboard</p>
+                  
+                  {/* Role Selector Tabs */}
+                  <div className="role-selector">
+                    <button 
+                      type="button" 
+                      className={`role-tab ${loginRole === "admin" ? "active" : ""}`}
+                      onClick={() => setLoginRole("admin")}
+                    >
+                      Org Admin
+                    </button>
+                    <button 
+                      type="button" 
+                      className={`role-tab ${loginRole === "superadmin" ? "active" : ""}`}
+                      onClick={() => setLoginRole("superadmin")}
+                    >
+                      Example SuperAdmin
+                    </button>
+                  </div>
+
                   <form onSubmit={handleLoginSubmit}>
                     <div className="auth-input-group">
                       <label>Email Address</label>
-                      <input type="email" placeholder="name@gmail.com" required />
+                      <input 
+                        type="email" 
+                        placeholder={loginRole === "superadmin" ? "superadmin@voxreview.com" : "admin@voxreview.com"} 
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        required 
+                      />
                     </div>
+                    
                     <div className="auth-input-group">
                       <label>Password</label>
-                      <input type="password" placeholder="••••••••" required />
+                      <div style={{ position: "relative" }}>
+                        <input 
+                          type={showLoginPassword ? "text" : "password"} 
+                          placeholder="••••••••" 
+                          value={loginPassword}
+                          onChange={(e) => setLoginPassword(e.target.value)}
+                          required 
+                          style={{ paddingRight: "50px", width: "100%" }}
+                        />
+                        <button 
+                          type="button" 
+                          onClick={() => setShowLoginPassword(!showLoginPassword)}
+                          className="password-toggle-btn"
+                        >
+                          {showLoginPassword ? "Hide" : "Show"}
+                        </button>
+                      </div>
                     </div>
-                    <button type="submit" className="auth-btn-primary">Log In</button>
+                    
+                    <button type="submit" className="auth-btn-primary">
+                      Log In {loginRole === "superadmin" ? "SuperAdmin" : "Admin"}
+                    </button>
                   </form>
+
+                  <div className="quick-test-note">
+                    <strong>Reminder:</strong> Dipa tapos kalmaaa </div>
+
                   <div className="auth-switch-text">
-                    Don't have an account?{" "}
-                    <button className="auth-switch-btn" onClick={() => setIsSignUp(true)}>Sign Up</button>
+                    Want to register an organization?{" "}
+                    <button className="auth-switch-btn" onClick={() => setIsSignUp(true)}>Register here</button>
                   </div>
                 </div>
               ) : (
-                /* Register Content */
+                /* Register Org Content (No User Option) */
                 <div className="auth-card-content">
-                  {!signUpType ? (
-                    /* Choose Account Type */
-                    <div className="signup-type-selection">
-                      <h2>Create Account</h2>
-                      <p className="auth-subtitle">Choose your account type to proceed</p>
-                      <div className="signup-type-buttons">
-                        <button className="signup-type-btn" onClick={() => setSignUpType("user")}>
-                          <div className="signup-type-icon"></div>
-                          <div className="signup-type-text">
-                            <h3>Create User Account</h3>
-                            <p>Join as evaluator</p>
-                          </div>
-                        </button>
-                        <button className="signup-type-btn" onClick={() => setSignUpType("org")}>
-                          <div className="signup-type-icon"></div>
-                          <div className="signup-type-text">
-                            <h3>Register Your Organization</h3>
-                            <p>Accredit and manage events for sentiment tracking</p>
-                          </div>
-                        </button>
+                  <div className="register-form scrollable-form">
+                    <h2>Register Organization</h2>
+                    <p className="auth-subtitle">Accredit your campus organization for event feedback</p>
+                    
+                    <form onSubmit={handleOrgRegisterSubmit}>
+                      <div className="auth-input-group">
+                        <label>Organization Name</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. Computer Science Society" 
+                          required 
+                          value={orgName} 
+                          onChange={(e) => setOrgName(e.target.value)} 
+                        />
                       </div>
-                      <div className="auth-switch-text">
-                        Already have an account?{" "}
-                        <button className="auth-switch-btn" onClick={() => {
-                          setIsSignUp(false);
-                          setSignUpType(null);
-                        }}>Log In</button>
+
+                      <div className="auth-input-group">
+                        <label>University</label>
+                        <select 
+                          required 
+                          value={orgUniversity} 
+                          onChange={(e) => setOrgUniversity(e.target.value)}
+                        >
+                          <option value="">Select Affiliated University</option>
+                          {Object.keys(UNIVERSITY_ORGS).map(uni => (
+                            <option key={uni} value={uni}>{uni}</option>
+                          ))}
+                        </select>
                       </div>
+
+                      <div className="auth-input-group">
+                        <label>Brief Description</label>
+                        <textarea 
+                          rows="2" 
+                          placeholder="What is the mission of this organization..." 
+                          value={orgDesc} 
+                          onChange={(e) => setOrgDesc(e.target.value)}
+                          required
+                        ></textarea>
+                      </div>
+
+                      <div className="auth-input-row">
+                        <div className="auth-input-group">
+                          <label>Representative Name</label>
+                          <input 
+                            type="text" 
+                            placeholder="Full Name" 
+                            required 
+                            value={repName} 
+                            onChange={(e) => setRepName(e.target.value)} 
+                          />
+                        </div>
+                        <div className="auth-input-group">
+                          <label>Contact Email</label>
+                          <input 
+                            type="email" 
+                            placeholder="name@gmail.com" 
+                            required 
+                            value={repEmail} 
+                            onChange={(e) => setRepEmail(e.target.value)} 
+                          />
+                        </div>
+                      </div>
+
+                      {/* Password with hide/see feature */}
+                      <div className="auth-input-group">
+                        <label>Password</label>
+                        <div style={{ position: "relative" }}>
+                          <input 
+                            type={showRegisterPassword ? "text" : "password"} 
+                            placeholder="••••••••" 
+                            value={registerPassword}
+                            onChange={(e) => setRegisterPassword(e.target.value)}
+                            required 
+                            style={{ paddingRight: "50px", width: "100%" }}
+                          />
+                          <button 
+                            type="button" 
+                            onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                            className="password-toggle-btn"
+                          >
+                            {showRegisterPassword ? "Hide" : "Show"}
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <button type="submit" className="auth-btn-primary">Submit Accreditation Request</button>
+                    </form>
+
+                    <div className="auth-switch-text" style={{ marginTop: "1rem" }}>
+                      Already have an account?{" "}
+                      <button className="auth-switch-btn" onClick={() => setIsSignUp(false)}>Log In</button>
                     </div>
-                  ) : signUpType === "user" ? (
-                    /* User Registration Form */
-                    <div className="register-form scrollable-form">
-                      <button className="btn-back" onClick={() => setSignUpType(null)}>← Back</button>
-                      <h2>User Account</h2>
-                      <p className="auth-subtitle">Fill in the profile details</p>
-                      <form onSubmit={handleUserRegisterSubmit}>
-                        
-                        {/* Profile Photo Uploader */}
-                        <div className="profile-photo-uploader">
-                          <div className="photo-preview-wrapper">
-                            {profilePhoto ? (
-                              <img src={profilePhoto} alt="Profile preview" className="photo-preview" />
-                            ) : (
-                              <div className="photo-placeholder"></div>
-                            )}
-                          </div>
-                          <div className="photo-upload-controls">
-                            <label className="photo-upload-label">
-                              Choose Photo
-                              <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ display: "none" }} />
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="auth-input-group">
-                          <label>Full Name</label>
-                          <input type="text" placeholder="name" required value={userName} onChange={(e) => setUserName(e.target.value)} />
-                        </div>
-
-                        <div className="auth-input-row">
-                          <div className="auth-input-group">
-                            <label>Birth Date</label>
-                            <input type="date" required value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
-                          </div>
-                          <div className="auth-input-group">
-                            <label>Contact Number</label>
-                            <input type="tel" placeholder="09123456789" required value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
-                          </div>
-                        </div>
-
-                        <div className="auth-input-group">
-                          <label>Email Address</label>
-                          <input type="email" placeholder="name@gmail.com" required value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
-                        </div>
-
-                        <div className="auth-input-group">
-                          <label>University / Organization</label>
-                          <select required value={selectedUniversity} onChange={handleUniversityChange}>
-                            <option value="">Select Organization</option>
-                            {Object.keys(UNIVERSITY_ORGS).map(uni => (
-                              <option key={uni} value={uni}>{uni}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        {selectedUniversity && (
-                          <div className="auth-input-group org-checklist-group">
-                            <label>Check Affiliated Organizations</label>
-                            <p className="helper-text">Select university you belong to in {selectedUniversity}:</p>
-                            <div className="org-checklist">
-                              {UNIVERSITY_ORGS[selectedUniversity].map(org => (
-                                <label key={org} className="org-checkbox-label">
-                                  <input
-                                    type="checkbox"
-                                    checked={selectedOrgs.includes(org)}
-                                    onChange={(e) => handleOrgCheckChange(org, e.target.checked)}
-                                  />
-                                  <span>{org}</span>
-                                </label>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        <button type="submit" className="auth-btn-primary">Register User Account</button>
-                      </form>
-                    </div>
-                  ) : (
-                    /* org register */
-                    <div className="register-form scrollable-form">
-                      <button className="btn-back" onClick={() => setSignUpType(null)}>← Back</button>
-                      <h2>Register Org</h2>
-                      <p className="auth-subtitle">Register your organization for VoxReview</p>
-                      <form onSubmit={handleOrgRegisterSubmit}>
-                        <div className="auth-input-group">
-                          <label>Organization Name</label>
-                          <input type="text" placeholder="Organization Name" required value={orgName} onChange={(e) => setOrgName(e.target.value)} />
-                        </div>
-
-                        <div className="auth-input-group">
-                          <label>University / Organization</label>
-                          <select required value={orgUniversity} onChange={(e) => setOrgUniversity(e.target.value)}>
-                            <option value="">Select Affiliated University/Organization</option>
-                            {Object.keys(UNIVERSITY_ORGS).map(uni => (
-                              <option key={uni} value={uni}>{uni}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="auth-input-group">
-                          <label>Brief Description</label>
-                          <textarea rows="2" placeholder="Tell us about the organization..." value={orgDesc} onChange={(e) => setOrgDesc(e.target.value)}></textarea>
-                        </div>
-
-                        <div className="auth-input-row">
-                          <div className="auth-input-group">
-                            <label>Representative Name</label>
-                            <input type="text" placeholder="Name" required value={repName} onChange={(e) => setRepName(e.target.value)} />
-                          </div>
-                          <div className="auth-input-group">
-                            <label>Contact Email</label>
-                            <input type="email" placeholder="name@gmail.com" required value={repEmail} onChange={(e) => setRepEmail(e.target.value)} />
-                          </div>
-                        </div>
-                        <button type="submit" className="auth-btn-primary">Submit Registration</button>
-                        
-                      </form>
-                    </div>
-                  )}
+                  </div>
                 </div>
               )}
             </div>
