@@ -59,13 +59,13 @@ const LandingPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Authentication State (For Admins)
+  // Authentication (Admins)
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginRole, setLoginRole] = useState("admin"); // 'admin' or 'superadmin'
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
-  // Org registration states
+  // Org register
   const [orgName, setOrgName] = useState("");
   const [orgUniversity, setOrgUniversity] = useState("");
   const [orgDesc, setOrgDesc] = useState("");
@@ -74,11 +74,11 @@ const LandingPage = () => {
   const [registerPassword, setRegisterPassword] = useState("");
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
-  // Registration success state
+  // Register Success
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Extension Feedback Form States
+  // Extension Feedback Form 
   const [feedbackList, setFeedbackList] = useState(() => {
     const saved = localStorage.getItem("vox_feedback");
     return saved ? JSON.parse(saved) : PRESET_FEEDBACK;
@@ -192,7 +192,7 @@ const LandingPage = () => {
 
   return (
     <div className="host-container-blank">
-      {/* Background Hub Description (representing Shopee or another host website) */}
+      {/* Background Hub Description ) */}
       <div className="blank-page-helper">
         <div className="blank-page-card">
           <div className="mock-shopee-header">
@@ -212,7 +212,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* FLOATING TRIGGER BUTTON (UPPER RIGHT CORNER) */}
+      {/* upper right button*/}
       <button 
         className={`floating-feedback-trigger-ur ${isSidebarOpen ? "active" : ""}`}
         onClick={() => setIsSidebarOpen(true)}
@@ -225,9 +225,9 @@ const LandingPage = () => {
         <span className="trigger-text">VoxReview Portal</span>
       </button>
 
-      {/* RIGHT SIDEBAR: VoxReview Feedback Plugin (Extension Sized) */}
+      {/* sidebar */}
       <div className={`extension-sidebar ${isSidebarOpen ? "open" : ""}`}>
-        {/* Navigation Bar inside the User View */}
+        {/* navnar in the User View */}
         <header className="user-view-navbar">
           <div className="user-navbar-brand">
             <svg viewBox="0 0 24 24" className="brand-svg-logo-sm">
@@ -353,7 +353,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Auth Modal Overlay (Admin Only) */}
+      {/* Modal (Admin) */}
       {isModalOpen && (
         <div className="auth-modal-overlay" onClick={closeModal}>
           <div className="auth-modal-container" onClick={(e) => e.stopPropagation()}>
@@ -372,12 +372,12 @@ const LandingPage = () => {
                   </button>
                 </div>
               ) : !isSignUp ? (
-                /* Login Content */
+                /* Login */
                 <div className="auth-card-content">
                   <h2>Admin Portal Log In</h2>
                   <p className="auth-subtitle">Access your VoxReview administrative dashboard</p>
                   
-                  {/* Role Selector Tabs */}
+                  {/* Role Selector */}
                   <div className="role-selector">
                     <button 
                       type="button" 

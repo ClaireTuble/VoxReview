@@ -847,16 +847,6 @@ const AdminDashboard = () => {
                 <p style={{ color: "#64748b", fontSize: "0.85rem", margin: "0.25rem 0 1rem" }}>
                   Embed script integrations keys to connect VoxReview sidebar widgets to any department website.
                 </p>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <input type="text" readOnly value={apiKey} style={{ flex: 1, padding: "10px", background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "monospace" }} />
-                  <button className="btn btn--secondary" style={{ whiteSpace: "nowrap" }} onClick={() => {
-                    const r = "vox_live_" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10);
-                    setApiKey(r);
-                    alert("A new secure integrations key was generated!");
-                  }}>
-                    Regenerate Key
-                  </button>
-                </div>
               </div>
 
               <div>
