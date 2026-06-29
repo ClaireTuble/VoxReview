@@ -82,7 +82,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-// Pre-populated states
+// Pre-populated 
 const INITIAL_EVENTS = [
   { id: "e1", name: "Foundation Week 2025", organizer: "Student Council", date: "Dec 12-18, 2025", reviews: 120, rating: 4.5, status: "Completed" },
   { id: "e2", name: "CSM Fest", organizer: "Science Club", date: "Oct 10-14, 2025", reviews: 85, rating: 3.8, status: "Completed" },
@@ -115,16 +115,16 @@ const AdminDashboard = () => {
   const [activeNav, setActiveNav] = useState("dashboard");
   const navigate = useNavigate();
 
-  // Shared application states
+  // Shared application 
   const [events, setEvents] = useState(INITIAL_EVENTS);
   const [feedbacks, setFeedbacks] = useState(INITIAL_FEEDBACKS);
   const [modQueue, setModQueue] = useState(INITIAL_MODERATION);
   const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
 
-  // Modal State
+  // Modal 
   const [showNotificationsModal, setShowNotificationsModal] = useState(false);
 
-  // Profile fields state
+  // Profile fields 
   const [profName, setProfName] = useState("Faye Vega");
   const [profEmail, setProfEmail] = useState("admin@voxreview.com");
   const [profOrg, setProfOrg] = useState("Computer Science Society");
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
       }
     };
 
-    // Check periodically since local storage listeners don't fire on the same window
+    // Check periodically since local storage don't fire on the same window
     const interval = setInterval(handleStorageChange, 1500);
     return () => clearInterval(interval);
   }, [feedbacks]);
@@ -251,7 +251,7 @@ const AdminDashboard = () => {
     alert("Feedback review rejected and archived.");
   };
 
-  // Feedback Inbox Filter and Search States
+  // Feedback Inbox Filter and Search
   const [inboxPriority, setInboxPriority] = useState("All"); // All, High Priority, Neutral
   const [inboxStatus, setInboxStatus] = useState("All"); // All, Read, Unread
   const [inboxSentiment, setInboxSentiment] = useState("All"); // All, Positive, Neutral, Negative
@@ -334,7 +334,7 @@ const AdminDashboard = () => {
               </div>
             </section>
 
-            {/* Sentiment Distribution */}
+            {/* Sentiment */}
             <section className="card">
               <h2 className="card__title">Overall Sentiment Distribution</h2>
               <div className="sentiment-section">
@@ -416,17 +416,17 @@ const AdminDashboard = () => {
         return (
           <div className="card">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-              <h2>Campus Events Management</h2>
+              <h2>Events Management</h2>
               <button className="btn btn--primary" style={{ padding: "10px 18px", display: "flex", alignItems: "center", gap: "6px" }} onClick={() => setShowEventModal(true)}>
                 <Icons.Plus /> New Event
               </button>
             </div>
 
-            {/* Create Event Modal */}
+            {/* Create Event */}
             {showEventModal && (
               <div className="custom-modal-overlay">
                 <div className="custom-modal-content">
-                  <h3>Register New WMSU Event</h3>
+                  <h3>Register New Event</h3>
                   <form onSubmit={handleCreateEvent} style={{ marginTop: "1rem" }}>
                     <div className="form-item">
                       <label>Event Name</label>
@@ -540,7 +540,7 @@ const AdminDashboard = () => {
                 />
               </div>
 
-              {/* Advanced Multi-Filter Bar */}
+              {/* filters */}
               <div className="filter-controls-group" style={{ display: "flex", flexDirection: "column", gap: "12px", border: "1px solid #e2e8f0", padding: "1rem", borderRadius: "10px", background: "#f8fafc" }}>
                 <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px" }}>
                   <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", minWidth: "90px" }}>PRIORITY:</span>
@@ -906,7 +906,7 @@ const AdminDashboard = () => {
         </div>
       </aside>
 
-      {/* Main shell area */}
+      {/* Main */}
       <div className="main-area">
         <header className="topbar">
           <nav className="topbar__breadcrumb" aria-label="breadcrumb">
