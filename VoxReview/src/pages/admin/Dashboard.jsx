@@ -904,11 +904,7 @@ const AdminDashboard = () => {
             <span className="topbar__breadcrumb-sep">/</span>
             <span className="topbar__breadcrumb-current" style={{ textTransform: "capitalize" }}>{activeNav.replace("-", " ")}</span>
           </nav>
-          <div className="topbar__actions">
-            <button className="topbar__icon-btn" aria-label="Search" onClick={() => alert("Search field active")}>
-              <Icons.Search />
-            </button>
-            
+          <div className="topbar__actions">        
             {/* Clickable Bell to open Modal Design notifications */}
             <button 
               className="topbar__icon-btn topbar__icon-btn--notif" 

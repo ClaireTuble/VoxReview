@@ -593,7 +593,7 @@ const SuperAdminDashboard = () => {
           <div className="breadcrumb" style={{ textTransform: "capitalize" }}>
             Super Administrator / <strong>{activeNav.replace("-", " ")}</strong>
           </div>
-
+            
           <div className="topbar-right" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
             
             {/* Notification Bell with working modal triggers */}
