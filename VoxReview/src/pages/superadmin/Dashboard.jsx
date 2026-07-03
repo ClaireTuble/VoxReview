@@ -511,10 +511,7 @@ const SuperAdminDashboard = () => {
     <div className="dashboard-layout">
       {/* Sidebar */}
       <aside className="sidebar">
-        <div className="logo" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "1.5rem" }}>
-          <div style={{ color: "#4f46e5", display: "flex", alignItems: "center" }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
+        <div className="logo" style={{ background: "lightcyan", display: "flex", alignItems: "center", gap: "10px", padding: "1.6rem", borderBottom: "1px solid #e2e8f0" }}>
           <h2 style={{ fontSize: "1.5rem", fontWeight: 800, margin: 0, color: "#4f46e5" }}>VoxReview</h2>
         </div>
 

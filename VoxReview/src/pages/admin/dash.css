@@ -35,7 +35,7 @@
 
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: Roboto, sans-serif;
   background: var(--background);
   color: var(--text-primary);
   overflow-y: auto;
@@ -81,8 +81,9 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-
-  padding: 1.5rem;
+  background: lightcyan;
+  padding: 1.6rem;
+  margin-top: 1rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -94,7 +95,6 @@ body {
 
 .sidebar__nav {
   flex: 1;
-  padding: 1rem;
 }
 
 .nav-section {
@@ -108,6 +108,8 @@ body {
   color: var(--text-secondary);
   letter-spacing: 1px;
   margin-bottom: 0.75rem;
+  background: lightcyan;
+  padding: 10px;
 }
 
 .nav-item {
@@ -143,7 +145,6 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-
   padding: 1rem;
   border-top: 1px solid var(--border);
 }
@@ -175,15 +176,13 @@ body {
 ========================================================================== */
 
 .topbar {
-  height: 70px;
-  background: var(--white);
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0 2rem;
-  border-bottom: 1px solid var(--border);
+    display: flex;
+    background: lightcyan;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .topbar__breadcrumb {
@@ -910,6 +909,61 @@ body {
   border-radius: 6px !important;
 }
 
+/* =========================
+   FILTER DROPDOWNS
+========================= */
+
 .filter-controls-group {
-  margin-top: 0.5rem;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.filter-item label {
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.filter-item select {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #fff;
+    color: #374151;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+}
+
+.filter-item select:hover {
+    border-color: #6366f1;
+}
+
+.filter-item select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79,70,229,.15);
 }

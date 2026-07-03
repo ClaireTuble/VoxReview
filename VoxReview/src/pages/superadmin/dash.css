@@ -16,7 +16,7 @@
 
 body {
   background: var(--bg);
-  font-family: Inter, sans-serif;
+  font-family:Roboto, sans-serif;
   color: var(--text);
 }
 
@@ -102,13 +102,15 @@ body {
 
 .main-content {
   flex: 1;
-  padding: 30px;
 }
 
 .topbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
+    display: flex;
+    background: lightcyan;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .topbar-right {

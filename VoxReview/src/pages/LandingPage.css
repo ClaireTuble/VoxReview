@@ -306,6 +306,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  background: repeating-linear-gradient(45deg, black, transparent 100px);
 }
 
 .extension-body::-webkit-scrollbar {
@@ -559,13 +560,12 @@ body {
 }
 
 .auth-bg-left {
-  background: radial-gradient(circle at 0% 0%, rgba(153, 27, 27, 0.08) 0%, transparent 60%),
-              radial-gradient(circle at 100% 100%, rgba(79, 70, 229, 0.08) 0%, transparent 60%);
+  background: aliceblue;
   border-right: 1px solid #f1f5f9;
 }
 
 .auth-bg-right {
-  background: transparent;
+  background: aliceblue;
 }
 
 .auth-modal-close {
@@ -671,6 +671,7 @@ body {
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   font-size: 0.7rem;
+  margin-top: 1rem;
   margin-bottom: 0.85rem;
   line-height: 1.35;
 }
@@ -737,7 +738,7 @@ body {
 }
 
 .auth-btn-primary {
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  background: darkslategray;
   color: white;
   padding: 0.6rem;
   border: none;

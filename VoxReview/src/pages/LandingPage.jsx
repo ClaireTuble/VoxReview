@@ -230,10 +230,6 @@ const LandingPage = () => {
         {/* navnar in the User View */}
         <header className="user-view-navbar">
           <div className="user-navbar-brand">
-            <svg viewBox="0 0 24 24" className="brand-svg-logo-sm">
-              <path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z" fill="#4f46e5" />
-              <path d="M3 10v6c0 2.21 4.03 4 9 4s9-1.79 9-4v-6l-9 4-9-4z" fill="#818cf8" />
-            </svg>
             <div className="brand-titles">
               <h4>Your View Matters</h4>
               <span>VoxReview</span>
@@ -247,10 +243,9 @@ const LandingPage = () => {
 
         <div className="extension-header">
           <div className="ext-logo">
-            <span className="ext-logo-icon">📣</span>
             <div className="ext-logo-text">
               <h3>VoxReview</h3>
-              <p>Event Feedback Plugin</p>
+              <p>Feedback Plugin</p>
             </div>
           </div>
           <button className="btn-close-extension" onClick={() => setIsSidebarOpen(false)} title="Close Sidebar">
@@ -261,7 +256,7 @@ const LandingPage = () => {
         <div className="extension-body">
           {/* Form Card */}
           <section className="ext-card ext-form-section">
-            <h4>Submit Event Review</h4>
+            <h4>Submit Review</h4>
             <form onSubmit={handleFeedbackSubmit}>
               <div className="ext-form-group">
                 <label>Name (Optional)</label>

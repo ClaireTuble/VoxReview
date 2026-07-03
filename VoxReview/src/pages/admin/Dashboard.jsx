@@ -63,7 +63,7 @@ const NAV_SECTIONS = [
     heading: "Management",
     items: [
       { id: "events", label: "Events", icon: Icons.Events },
-      { id: "feedback-inbox", label: "Personal Inbox", icon: Icons.Feedback },
+      { id: "feedback-inbox", label: "Inbox", icon: Icons.Feedback },
       { id: "moderation-queue", label: "Moderation Queue", icon: Icons.Moderation },
     ],
   },
@@ -540,55 +540,48 @@ const AdminDashboard = () => {
                 />
               </div>
 
-              {/* filters */}
-              <div className="filter-controls-group" style={{ display: "flex", flexDirection: "column", gap: "12px", border: "1px solid #e2e8f0", padding: "1rem", borderRadius: "10px", background: "#f8fafc" }}>
-                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", minWidth: "90px" }}>PRIORITY:</span>
-                  <div className="filter-tabs">
-                    {["All", "High Priority", "Neutral"].map(p => (
-                      <button 
-                        key={p} 
-                        className={`tab-btn tab-btn-sm ${inboxPriority === p ? "active" : ""}`}
-                        onClick={() => setInboxPriority(p)}
-                      >
-                        {p}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+              {/* Filters */}
+<div className="filter-controls-group">
 
-                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", minWidth: "90px" }}>STATUS:</span>
-                  <div className="filter-tabs">
-                    {["All", "Unread", "Read"].map(s => (
-                      <button 
-                        key={s} 
-                        className={`tab-btn tab-btn-sm ${inboxStatus === s ? "active" : ""}`}
-                        onClick={() => setInboxStatus(s)}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+  <div className="filter-item">
+    <label>Priority</label>
+    <select
+      value={inboxPriority}
+      onChange={(e) => setInboxPriority(e.target.value)}
+    >
+      <option value="All">All</option>
+      <option value="High Priority">High Priority</option>
+      <option value="Neutral">Neutral</option>
+    </select>
+  </div>
 
-                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", minWidth: "90px" }}>SENTIMENT:</span>
-                  <div className="filter-tabs">
-                    {["All", "Positive", "Neutral", "Negative"].map(s => (
-                      <button 
-                        key={s} 
-                        className={`tab-btn tab-btn-sm ${inboxSentiment === s ? "active" : ""}`}
-                        onClick={() => setInboxSentiment(s)}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
+  <div className="filter-item">
+    <label>Status</label>
+    <select
+      value={inboxStatus}
+      onChange={(e) => setInboxStatus(e.target.value)}
+    >
+      <option value="All">All</option>
+      <option value="Unread">Unread</option>
+      <option value="Read">Read</option>
+    </select>
+  </div>
+
+  <div className="filter-item">
+    <label>Sentiment</label>
+    <select
+      value={inboxSentiment}
+      onChange={(e) => setInboxSentiment(e.target.value)}
+    >
+      <option value="All">All</option>
+      <option value="Positive">Positive</option>
+      <option value="Neutral">Neutral</option>
+      <option value="Negative">Negative</option>
+    </select>
+  </div>
+</div>
+
             </div>
-
             <div className="feedback-cards-list">
               {filteredFeedbacks.length === 0 ? (
                 <div className="empty-state">
@@ -870,9 +863,6 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar__brand">
-          <div style={{ color: "#4f46e5", display: "flex", alignItems: "center" }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
           <span className="sidebar__brand-name">VoxReview</span>
         </div>
 
