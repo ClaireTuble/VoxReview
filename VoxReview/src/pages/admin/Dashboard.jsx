@@ -81,7 +81,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-// Pre-populated 
+// eme
 const INITIAL_EVENTS = [
   { id: "e1", name: "Foundation Week 2025", organizer: "Student Council", date: "Dec 12-18, 2025", reviews: 120, rating: 4.5, status: "Completed" },
   { id: "e2", name: "CSM Fest", organizer: "Science Club", date: "Oct 10-14, 2025", reviews: 85, rating: 3.8, status: "Completed" },
@@ -94,8 +94,8 @@ const INITIAL_FEEDBACKS = [
   { id: "f1", studentName: "Maky Boi", event: "Foundation Week 2025", rating: 5, comment: "This event was so much fun! Kudos to the student council for putting together such an active week!", sentiment: "Positive", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
   { id: "f2", studentName: "Mary Uy", event: "CSM Fest", rating: 3, comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.", sentiment: "Neutral", date: "5 hrs ago", priority: "Neutral", status: "Read" },
   { id: "f3", studentName: "Anonymous Student", event: "Palaro 2025", rating: 1, comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.", sentiment: "Negative", date: "1 day ago", priority: "High Priority", status: "Unread" },
-  { id: "f4", studentName: "Riza San", event: "Foundation Week 2025", rating: 4, comment: "Loved the food trucks and overall vibe. Concert was amazing!", sentiment: "Positive", date: "2 days ago", priority: "Neutral", status: "Read" },
-  { id: "f5", studentName: "Dave Lee", event: "CSM Fest", rating: 4, comment: "Great booths, had a lot of interactive games. Well done organizers.", sentiment: "Positive", date: "3 days ago", priority: "Neutral", status: "Unread" }
+  { id: "f4", studentName: "Cardo", event: "Foundation Week 2025", rating: 4, comment: "Loved the food trucks and overall vibe. Concert was amazing!", sentiment: "Positive", date: "2 days ago", priority: "Neutral", status: "Read" },
+  { id: "f5", studentName: "Susan roses", event: "CSM Fest", rating: 4, comment: "Great booths, had a lot of interactive games. Well done organizers.", sentiment: "Positive", date: "3 days ago", priority: "Neutral", status: "Unread" }
 ];
 
 const INITIAL_MODERATION = [
@@ -729,9 +729,6 @@ const AdminDashboard = () => {
               <button className="btn btn--primary" onClick={() => alert("PDF report compilation started. Check downloads folder.")}>
                 Download PDF Report
               </button>
-              <button className="btn btn--secondary" onClick={() => alert("CSV feedback log export complete!")}>
-                Export Feedback Log (CSV)
-              </button>
             </div>
           </div>
         );
@@ -810,13 +807,6 @@ const AdminDashboard = () => {
                     Allow anonymous feedback submissions on the widget sidebar
                   </label>
                 </div>
-              </div>
-
-              <div className="settings-block" style={{ borderTop: "1px solid #e5e7eb", paddingTop: "1.5rem" }}>
-                <h3>API Widget Integration Keys</h3>
-                <p style={{ color: "#64748b", fontSize: "0.85rem", margin: "0.25rem 0 1rem" }}>
-                  Embed script integrations keys to connect VoxReview sidebar widgets to any department website.
-                </p>
               </div>
 
               <div>

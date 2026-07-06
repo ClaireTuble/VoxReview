@@ -317,7 +317,7 @@ useEffect(() => {
           </div>
           <div className="user-navbar-buttons">
             <button className="btn-user-nav btn-user-login" onClick={openLoginModal}>Log In</button>
-            <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Organization</button>
+            <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Website</button>
           </div>
         </header>
 
@@ -344,15 +344,14 @@ useEffect(() => {
             </div>
 
             {/* Filter Dropdown Bar */}
-            <div className="ext-filter-bar" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.85rem', background: 'rgba(8, 47, 73, 0.04)', padding: '0.45rem 0.75rem', borderRadius: '8px', border: '1px solid rgba(8, 47, 73, 0.08)' }}>
-              <label htmlFor="sentiment-filter" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#082f49' }}>Sentiment:</label>
+            <div className="ext-filter-bar">
+              <label htmlFor="sentiment-filter" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#082f49' }}>Filter:</label>
               <select
                 id="sentiment-filter"
                 value={sentimentFilter}
                 onChange={(e) => setSentimentFilter(e.target.value)}
                 className="ext-filter-select"
-                style={{ flex: 1, background: 'white', border: '1px solid rgba(8, 145, 178, 0.2)', borderRadius: '6px', padding: '0.35rem 0.5rem', color: '#0f172a', fontFamily: 'inherit', fontSize: '0.75rem', fontWeight: 600, outline: 'none', cursor: 'pointer' }}
-              >
+             >
                 <option value="ALL">ALL</option>
                 <option value="POSITIVE">POSITIVE</option>
                 <option value="NEUTRAL">NEUTRAL</option>
@@ -481,8 +480,8 @@ useEffect(() => {
                 /* Register Org Content (No User Option) */
                 <div className="auth-card-content">
                   <div className="register-form scrollable-form">
-                    <h2>Register Organization</h2>
-                    <p className="auth-subtitle">Accredit your campus organization for event feedback</p>
+                    <h2>Register Site</h2>
+                    <p className="auth-subtitle">Accredit your website for feedback</p>
                     
                     <form onSubmit={handleOrgRegisterSubmit}>
                       <div className="auth-input-group">

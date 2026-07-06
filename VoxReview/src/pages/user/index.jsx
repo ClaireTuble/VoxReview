@@ -6,25 +6,25 @@ const PRESET_FEEDBACK = [
   {
     id: "1",
     studentName: "Maky Boi",
-    event: "Foundation Week 2025",
+    event: "Shovel",
     rating: 5,
-    comment: "This event was so much fun! Kudos to the student council for putting together such an active week!",
+    comment: "The Material is great.",
     sentiment: "Positive"
   },
   {
     id: "2",
     studentName: "Mary Uy",
-    event: "CSM Fest",
+    event: "Electrifan",
     rating: 3,
-    comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.",
+    comment: "It worked okay.",
     sentiment: "Neutral"
   },
   {
     id: "3",
     studentName: "Anonymous",
-    event: "Palaro 2025",
+    event: "tshirt",
     rating: 1,
-    comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.",
+    comment: "the cotton are ugly and the design is not good. I hate it.",
     sentiment: "Negative"
   }
 ];
