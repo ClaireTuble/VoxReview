@@ -2,6 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
+const CLIENT_PLATFORMS = {
+  "E-Commerce Websites": [
+    "Shopee Sandbox Integration",
+    "Lazada Sandbox Integration",
+    "Shopify Client Plugin",
+    "WooCommerce Plugin"
+  ],
+  "Educational / Corporate Portals": [
+    "Moodle LMS Client",
+    "WMSU Portal Integration",
+    "CS Society Website",
+    "WordPress Client Site"
+  ]
+};
 
 const UNIVERSITY_ORGS = {
   "Western Mindanao State University": [
@@ -17,39 +31,37 @@ const UNIVERSITY_ORGS = {
   ],
 };
 
-const PRESET_FEEDBACK = [
-  {
-    id: "1",
-    studentName: "Maky Boi",
-    event: "Foundation Week 2025",
-    rating: 5,
-    comment: "This event was so much fun! Kudos to the student council for putting together such an active week!",
-    sentiment: "Positive"
-  },
-  {
-    id: "2",
-    studentName: "Mary Uy",
-    event: "CSM Fest",
-    rating: 3,
-    comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.",
-    sentiment: "Neutral"
-  },
-  {
-    id: "3",
-    studentName: "Anonymous",
-    event: "Palaro 2025",
-    rating: 1,
-    comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.",
-    sentiment: "Negative"
-  }
-];
-
 const EVENTS = [
   "Foundation Week 2025",
   "CSM Fest",
   "Palaro 2025",
   "Leadership Summit 2026",
   "General Assembly"
+];
+
+
+const PRESET_FEEDBACK = [
+  {
+    id: "1",
+    studentName: "Maky Boi",
+    rating: 5,
+    comment: "This checkout process was so smooth! Kudos to the website devs for putting together such a fast loading interface!",
+    sentiment: "Positive"
+  },
+  {
+    id: "2",
+    studentName: "Mary Uy",
+    rating: 3,
+    comment: "The page layout is a bit too cluttered, but finding products and checking reviews was decent.",
+    sentiment: "Neutral"
+  },
+  {
+    id: "3",
+    studentName: "Anonymous",
+    rating: 1,
+    comment: "Very slow connection and extremely disorganized. The cart kept removing my items. Not happy at all.",
+    sentiment: "Negative"
+  }
 ];
 
 const LandingPage = () => {
@@ -89,6 +101,60 @@ const LandingPage = () => {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [sentiment, setSentiment] = useState("Neutral");
+
+  // Sidebar drag resizing states
+  const [sidebarWidth, setSidebarWidth] = useState(400);
+  const [isResizing, setIsResizing] = useState(false);
+  const [sentimentFilter, setSentimentFilter] = useState("ALL");
+
+  const handlePointerDown = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  document.body.style.userSelect = "none";
+  document.body.style.cursor = "ew-resize";
+
+  setIsResizing(true);
+};
+
+useEffect(() => {
+  if (!isResizing) return;
+
+  const handlePointerMove = (e) => {
+    const newWidth = window.innerWidth - e.clientX;
+
+    setSidebarWidth(
+      Math.max(320, Math.min(newWidth, 900))
+    );
+  };
+
+  const handlePointerUp = () => {
+    setIsResizing(false);
+
+    document.body.style.userSelect = "";
+    document.body.style.cursor = "";
+  };
+
+  window.addEventListener("pointermove", handlePointerMove);
+  window.addEventListener("pointerup", handlePointerUp);
+
+  return () => {
+    window.removeEventListener("pointermove", handlePointerMove);
+    window.removeEventListener("pointerup", handlePointerUp);
+
+    document.body.style.userSelect = "";
+    document.body.style.cursor = "";
+  };
+}, [isResizing]);
+
+  // Derived filtered feedback list
+  const filteredFeedbackList = feedbackList.filter(item => {
+    if (sentimentFilter === "ALL") return true;
+    if (sentimentFilter === "POSITIVE") return item.sentiment.toLowerCase() === "positive";
+    if (sentimentFilter === "NEUTRAL") return item.sentiment.toLowerCase() === "neutral";
+  if (sentimentFilter === "NEGATIVE") return item.sentiment.toLowerCase() === "negative";
+    return true;
+  });
 
   // Save feedback list to localStorage
   useEffect(() => {
@@ -227,7 +293,20 @@ const LandingPage = () => {
       </button>
 
       {/* sidebar */}
-      <div className={`extension-sidebar ${isSidebarOpen ? "open" : ""}`}>
+        <div
+         className={`extension-sidebar ${isSidebarOpen ? "open" : ""} ${
+           isResizing ? "resizing" : ""
+          }`}
+          style={{
+          width: `${sidebarWidth}px`,
+          transform: isSidebarOpen
+         ? "translateX(0)"
+       : "translateX(100%)",  }}
+    >
+        <div
+        className="sidebar-resize-handle"
+         onPointerDown={handlePointerDown}
+         />
         {/* navnar in the User View */}
         <header className="user-view-navbar">
           <div className="user-navbar-brand">
@@ -255,29 +334,56 @@ const LandingPage = () => {
         </div>
 
         <div className="extension-body">
-          {/* Form Card */}
-
           {/* Feed Card */}
-          <section className="ext-card ext-feed-section">
-            <h4>Feedbacks</h4>
-            <div className="ext-feedback-list">
-              {feedbackList.map(item => (
-                <div key={item.id} className="ext-feedback-item">
-                  <div className="ext-item-header">
-                    <div>
-                      <h5>{item.studentName}</h5>
-                      <span className="ext-item-event">{item.event}</span>
-                    </div>
-                    <span className={`ext-badge ext-badge-small ext-badge--${item.sentiment.toLowerCase()}`}>
-                      {item.sentiment}
-                    </span>
-                  </div>
-                  <div className="ext-item-stars">
-                    {"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}
-                  </div>
-                  <p className="ext-item-comment">"{item.comment}"</p>
+          <section className="ext-card ext-feed-section" style={{ display: 'flex', flexDirection: 'column', flex: 1, maxHeight: 'calc(100vh - 150px)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', borderBottom: '1px solid rgba(8, 145, 178, 0.15)', paddingBottom: '0.4rem' }}>
+              <h4 style={{ margin: 0, border: 'none', padding: 0 }}>Feedbacks</h4>
+              <span className="feedback-count-badge" style={{ fontSize: '0.75rem', background: 'rgba(8, 145, 178, 0.1)', color: '#0891b2', padding: '0.15rem 0.5rem', borderRadius: '12px', fontWeight: 700 }}>
+                {filteredFeedbackList.length} items
+              </span>
+            </div>
+
+            {/* Filter Dropdown Bar */}
+            <div className="ext-filter-bar" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.85rem', background: 'rgba(8, 47, 73, 0.04)', padding: '0.45rem 0.75rem', borderRadius: '8px', border: '1px solid rgba(8, 47, 73, 0.08)' }}>
+              <label htmlFor="sentiment-filter" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#082f49' }}>Sentiment:</label>
+              <select
+                id="sentiment-filter"
+                value={sentimentFilter}
+                onChange={(e) => setSentimentFilter(e.target.value)}
+                className="ext-filter-select"
+                style={{ flex: 1, background: 'white', border: '1px solid rgba(8, 145, 178, 0.2)', borderRadius: '6px', padding: '0.35rem 0.5rem', color: '#0f172a', fontFamily: 'inherit', fontSize: '0.75rem', fontWeight: 600, outline: 'none', cursor: 'pointer' }}
+              >
+                <option value="ALL">ALL</option>
+                <option value="POSITIVE">POSITIVE</option>
+                <option value="NEUTRAL">NEUTRAL</option>
+                <option value="NEGATIVE">NEGATI</option>
+              </select>
+            </div>
+
+            <div className="ext-feedback-list" style={{ flex: 1, overflowY: 'auto' }}>
+              {filteredFeedbackList.length === 0 ? (
+                <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
+                  No feedbacks match this sentiment.
                 </div>
-              ))}
+              ) : (
+                filteredFeedbackList.map(item => (
+                  <div key={item.id} className="ext-feedback-item">
+                    <div className="ext-item-header">
+                      <div>
+                        <h5>{item.studentName}</h5>
+                        <span className="ext-item-event">{item.event}</span>
+                      </div>
+                      <span className={`ext-badge ext-badge-small ext-badge--${item.sentiment.toLowerCase()}`}>
+                        {item.sentiment === "Negative" ? "Negative" : item.sentiment}
+                      </span>
+                    </div>
+                    <div className="ext-item-stars">
+                      {"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}
+                    </div>
+                    <p className="ext-item-comment">"{item.comment}"</p>
+                  </div>
+                ))
+              )}
             </div>
           </section>
         </div>

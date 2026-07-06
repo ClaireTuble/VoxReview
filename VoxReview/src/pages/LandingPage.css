@@ -146,23 +146,108 @@ body {
 
 /* EXTENSION SIDEBAR - Right Hand Feedback Plug-in */
 .extension-sidebar {
-  position: fixed;
-  top: 0;
-  right: -420px; /* Hide by default */
-  width: 400px;
-  height: 100vh;
-  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-  box-shadow: -15px 0 45px rgba(0, 0, 0, 0.35), 0 0 30px rgba(99, 102, 241, 0.05);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  z-index: 150;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  color: #f1f5f9;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    min-width: 320px;
+    max-width: 900px;
+    height: 100vh;
+
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    box-shadow:
+        -15px 0 45px rgba(0, 0, 0, 0.35),
+        0 0 30px rgba(99, 102, 241, 0.05);
+
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+
+    display: flex;
+    flex-direction: column;
+
+    color: #f1f5f9;
+    z-index: 150;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        width 0.08s linear;
+
+    will-change: transform, width;
 }
 
 .extension-sidebar.open {
-  transform: translateX(-420px); /* Slide in */
+    transform: translateX(0);
+}
+
+.extension-sidebar.resizing {
+    transition: none;
+}
+
+/* ============================
+   RESIZE HANDLE
+============================ */
+
+.sidebar-resize-handle {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 8px;
+    height: 100%;
+
+    cursor: ew-resize;
+
+    background: transparent;
+
+    z-index: 9999;
+
+    user-select: none;
+    touch-action: none;
+}
+
+.sidebar-resize-handle:hover {
+    background: rgba(59, 130, 246, 0.25);
+}
+
+.sidebar-resize-handle::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0;
+
+    width: 2px;
+    height: 100%;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    transition: 0.2s;
+}
+
+.sidebar-resize-handle:hover::after {
+    background: #3b82f6;
+}
+
+
+.extension-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Hide scrollbar (optional) */
+
+.extension-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.extension-body::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.18);
+    border-radius: 999px;
+}
+
+.extension-body::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 /* Navigation Bar inside the User View */

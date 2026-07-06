@@ -393,7 +393,7 @@ const SuperAdminDashboard = () => {
                   <p style={{ margin: 0, color: "#64748b", fontSize: "0.75rem" }}>{neutralCount.toLocaleString()} reviews analyzed</p>
                 </div>
                 <div style={{ borderLeft: "4px solid #ef4444", paddingLeft: "10px" }}>
-                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 700 }}>NEGATIVE / NEGATION</span>
+                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 700 }}>NEGATIVE / NEGATIVE</span>
                   <h3 style={{ margin: "2px 0 0", fontSize: "1.3rem", fontWeight: 800 }}>14%</h3>
                   <p style={{ margin: 0, color: "#64748b", fontSize: "0.75rem" }}>{negativeCount.toLocaleString()} reviews analyzed</p>
                 </div>
