@@ -62,9 +62,8 @@ const NAV_SECTIONS = [
   {
     heading: "Management",
     items: [
-      { id: "events", label: "Events", icon: Icons.Events },
       { id: "feedback-inbox", label: "Inbox", icon: Icons.Feedback },
-      { id: "moderation-queue", label: "Moderation Queue", icon: Icons.Moderation },
+      
     ],
   },
   {
@@ -315,23 +314,7 @@ const AdminDashboard = () => {
                 <p className="stat-trend stat-trend--positive">Stable rating</p>
               </div>
 
-              <div className="stat-card">
-                <div className="stat-icon stat-icon--orange">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                </div>
-                <p className="stat-value">{modQueue.length}</p>
-                <p className="stat-label">Pending Moderation</p>
-                <p className="stat-trend stat-trend--warning">{modQueue.length > 0 ? "Requires attention" : "Queue empty"}</p>
-              </div>
 
-              <div className="stat-card">
-                <div className="stat-icon stat-icon--teal">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                </div>
-                <p className="stat-value">{events.filter(e => e.status === "Active").length}</p>
-                <p className="stat-label">Active Events</p>
-                <p className="stat-trend stat-trend--positive">Ongoing evaluations</p>
-              </div>
             </section>
 
             {/* Sentiment */}
@@ -365,8 +348,8 @@ const AdminDashboard = () => {
                   <table className="feedback-table">
                     <thead>
                       <tr>
-                        <th>Student Name</th>
-                        <th>Event</th>
+                        <th>Name</th>
+                        <th>Website</th>
                         <th>Sentiment</th>
                         <th>Rating</th>
                         <th>Date</th>
@@ -395,17 +378,11 @@ const AdminDashboard = () => {
 
               <section className="card quick-actions">
                 <h2 className="card__title">Quick Actions</h2>
-                <button className="btn btn--primary" onClick={() => { setShowEventModal(true); setActiveNav("events"); }}>
-                  Create New Event
-                </button>
+
                 <button className="btn btn--secondary" onClick={() => {
                   alert("Preparing export files... Excel template report download started!");
                 }}>
                   Export Report
-                </button>
-                <button className="btn btn--outline" onClick={() => setActiveNav("moderation-queue")}>
-                  View Moderation Queue
-                  <span className="queue-badge">{modQueue.length}</span>
                 </button>
               </section>
             </div>

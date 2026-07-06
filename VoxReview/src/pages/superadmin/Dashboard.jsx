@@ -36,6 +36,12 @@ const Icons = {
   ),
   Trash: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+  ),
+  UserManagement: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+  ),
+  SystemMonitoring: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
   )
 };
 
@@ -63,15 +69,12 @@ const INITIAL_EVENT_HISTORY = [
 ];
 
 const INITIAL_ACTIVITIES = [
-  { title: "New organization registered", description: "Alphinity Mountaineering organization submitted registration request", time: "2h ago" },
+  { title: "New website registered", description: "Alphinity Mountaineering organization submitted registration request", time: "2h ago" },
   { title: "Feedback milestone reached", description: "3,000 platform-wide reviews successfully processed", time: "4h ago" },
-  { title: "New event created", description: "General Assembly event set up by SITE", time: "6h ago" },
 ];
 
 const INITIAL_NOTIFICATIONS = [
-  { id: "sn1", text: "New organization accreditation requested by Alphinity Mountaineering", date: "15m ago", read: false },
-  { id: "sn2", text: "High priority ticket resolved: WMSU Site Connection Online", date: "2h ago", read: false },
-  { id: "sn3", text: "Daily database backup generated successfully", date: "1d ago", read: true },
+  { id: "sn1", text: "New website accreditation requested by Alphinity Mountaineering", date: "15m ago", read: false }
 ];
 
 const SuperAdminDashboard = () => {
@@ -83,6 +86,23 @@ const SuperAdminDashboard = () => {
   const [eventHistory, setEventHistory] = useState(INITIAL_EVENT_HISTORY);
   const [activities, setActivities] = useState(INITIAL_ACTIVITIES);
   const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
+
+  // Registered Website accounts using the extension
+  const [registeredWebsites, setRegisteredWebsites] = useState([
+    { id: "w1", name: "Shopee Philippines", domain: "shopee.com", repEmail: "admin@shopee.ph", status: "Active", regDate: "Jan 12, 2025", platform: "Shopee Sandbox", totalReviews: 2410 },
+    { id: "w3", name: "Computer Science Society Portal", domain: "cosspreview.com", repEmail: "coss@wmsu.edu.ph", status: "Active", regDate: "Mar 10, 2025", platform: "Vite App", totalReviews: 104 },
+    { id: "w4", name: "Apo Mountaineering Hub", domain: "apomountaineering.com", repEmail: "apo@gmail.com", status: "Suspended", regDate: "May 20, 2025", platform: "WordPress", totalReviews: 15 },
+  ]);
+
+  // System activity logs showing logins 
+  const [activityLogs, setActivityLogs] = useState([
+    { id: 1, user: "Maky Boi", role: "client Admin", action: "Logged In", ip: "192.168.1.102", time: "2026-07-05 18:32:05" },
+    { id: 2, user: "Dwayne", role: "clientAdmin", action: "Logged In", ip: "192.168.1.105", time: "2026-07-05 18:10:44" },
+    { id: 5, user: "shoppe.ph", role: "Client Admin", action: "Logged In", ip: "203.111.4.52", time: "2026-07-05 16:22:19" },
+    { id: 7, user: "lebron", role: "Client Admin", action: "Logged In", ip: "192.168.2.40", time: "2026-07-05 14:15:22" }
+  ]);
+
+  const totalUsersRegistered = 1248;
 
   // Modal State
   const [showNotificationsModal, setShowNotificationsModal] = useState(false);
@@ -101,6 +121,63 @@ const SuperAdminDashboard = () => {
   const [orgSearch, setOrgSearch] = useState("");
   const [eventSearch, setEventSearch] = useState("");
   const [selectedReportOrg, setSelectedReportOrg] = useState("o1");
+
+  // Handlers for website suspension/deletion
+  const handleToggleSuspendWebsite = (id) => {
+    setRegisteredWebsites(registeredWebsites.map(site => {
+      if (site.id === id) {
+        const nextStatus = site.status === "Active" ? "Suspended" : "Active";
+        alert(`Website Account "${site.name}" has been ${nextStatus === "Active" ? "re-activated" : "suspended"}.`);
+        
+        // Log activity
+        const newAct = {
+          title: nextStatus === "Active" ? "Client Site Restored" : "Client Site Suspended",
+          description: `"${site.name}" account status set to ${nextStatus} by ${adminName}`,
+          time: "Just now"
+        };
+        setActivities([newAct, ...activities]);
+
+        // Log to activity logs
+        const newLog = {
+          id: Date.now(),
+          user: adminName,
+          role: "Super Admin",
+          action: nextStatus === "Active" ? "Restored Site" : "Suspended Site",
+          ip: "192.168.1.100",
+          time: new Date().toISOString().replace('T', ' ').substring(0, 19)
+        };
+        setActivityLogs([newLog, ...activityLogs]);
+
+        return { ...site, status: nextStatus };
+      }
+      return site;
+    }));
+  };
+
+  const handleDeleteWebsite = (id) => {
+    if (confirm("Are you sure you want to permanently delete this website account? This will block its API key access.")) {
+      const site = registeredWebsites.find(s => s.id === id);
+      setRegisteredWebsites(registeredWebsites.filter(s => s.id !== id));
+      
+      const newAct = {
+        title: "Client Site Deleted",
+        description: `"${site?.name || 'Unknown'}" account removed by ${adminName}`,
+        time: "Just now"
+      };
+      setActivities([newAct, ...activities]);
+
+      // Log to activity logs
+      const newLog = {
+        id: Date.now(),
+        user: adminName,
+        role: "Super Admin",
+        action: "Deleted Client Site",
+        ip: "192.168.1.100",
+        time: new Date().toISOString().replace('T', ' ').substring(0, 19)
+      };
+      setActivityLogs([newLog, ...activityLogs]);
+    }
+  };
 
   // Handlers
   const handleApproveOrg = (id) => {
@@ -140,34 +217,61 @@ const SuperAdminDashboard = () => {
   const renderSubpage = () => {
     switch (activeNav) {
       case "dashboard":
+        const totalReviewsAnalyzedDash = registeredWebsites.reduce((sum, s) => sum + s.totalReviews, 0) + 18;
+
         return (
           <>
             {/* Stats Grid */}
             <section className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.25rem", marginBottom: "1.5rem" }}>
-              {INITIAL_STATS.map((item) => {
-                const SvgIcon = item.svgIcon;
-                // Dynamically fetch values
-                let val = item.value;
-                if (item.id === 1) val = organizations.length.toString();
-                if (item.id === 2) val = (organizations.reduce((sum, o) => sum + o.events, 0) + eventHistory.length).toString();
-
-                return (
-                  <div key={item.id} className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                    <div className={`stat-icon ${item.color}`} style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
-                      <SvgIcon />
-                    </div>
-                    <div>
-                      <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>{item.title}</p>
-                      <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{val}</h2>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <div className="stat-icon purple" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
+                  <Icons.Profile />
+                </div>
+                <div>
+                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Total Registered Users</p>
+                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{totalUsersRegistered.toLocaleString()}</h2>
+                </div>
+              </div>
+              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <div className="stat-icon green" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
+                  <Icons.Reports />
+                </div>
+                <div>
+                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Total Reviews Analyzed</p>
+                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{totalReviewsAnalyzedDash.toLocaleString()}</h2>
+                </div>
+              </div>
+              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <div className="stat-icon teal" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
+                  <Icons.Orgs />
+                </div>
+                <div>
+                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Active Client Websites</p>
+                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{registeredWebsites.length}</h2>
+                </div>
+              </div>
+              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <div className="stat-icon yellow" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
+                  <Icons.EventHistory />
+                </div>
+                <div>
+                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Active Site Events</p>
+                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>27</h2>
+                </div>
+              </div>
             </section>
 
             {/* Platform-wide Sentiment Overview */}
             <section className="analytics-card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)", marginBottom: "1.5rem" }}>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 800, marginBottom: "1rem" }}>Platform-Wide Sentiment Analysis</h2>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h2 style={{ fontSize: "1.2rem", fontWeight: 800, margin: 0 }}>Platform-Wide Sentiment Analysis</h2>
+                <button 
+                  style={{ border: "none", background: "none", color: "#4f46e5", fontWeight: 700, cursor: "pointer", fontSize: "0.85rem" }} 
+                  onClick={() => setActiveNav("system-monitoring")}
+                >
+                  Detailed Monitor ↗
+                </button>
+              </div>
               <div className="sentiment-bar" style={{ display: "flex", height: "12px", borderRadius: "999px", overflow: "hidden", margin: "1rem 0" }}>
                 <div className="positive" style={{ background: "#22c55e", flex: 61 }} title="61% Positive"></div>
                 <div className="neutral" style={{ background: "#eab308", flex: 25 }} title="25% Neutral"></div>
@@ -182,35 +286,32 @@ const SuperAdminDashboard = () => {
 
             {/* Bottom Grid */}
             <div className="bottom-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1.5rem" }}>
-              {/* Top Organizations Card */}
+              {/* Activity Log Panel */}
               <section className="table-card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <div className="card-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                  <h2 style={{ fontSize: "1.1rem", fontWeight: 800 }}>Accredited Campus Organizations</h2>
-                  <button style={{ border: "none", background: "none", color: "#4f46e5", fontWeight: 700, cursor: "pointer" }} onClick={() => setActiveNav("organizations")}>View All ↗</button>
-                </div>
+                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>System Activity Logs (User Logins & Actions)</h2>
                 <div className="feedback-table-wrapper" style={{ overflowX: "auto" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.9rem" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
                     <thead>
                       <tr style={{ background: "#f8fafc", textAlign: "left" }}>
-                        <th style={{ padding: "10px" }}>Org Name</th>
-                        <th style={{ padding: "10px" }}>University</th>
-                        <th style={{ padding: "10px" }}>Events</th>
-                        <th style={{ padding: "10px" }}>Avg Sentiment</th>
-                        <th style={{ padding: "10px" }}>Status</th>
+                        <th style={{ padding: "10px" }}>User</th>
+                        <th style={{ padding: "10px" }}>Role</th>
+                        <th style={{ padding: "10px" }}>Action</th>
+                        <th style={{ padding: "10px" }}>IP Address</th>
+                        <th style={{ padding: "10px" }}>Timestamp</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {organizations.slice(0, 3).map((org) => (
-                        <tr key={org.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                          <td style={{ padding: "10px", fontWeight: 600 }}>{org.name}</td>
-                          <td style={{ padding: "10px" }}>{org.university}</td>
-                          <td style={{ padding: "10px" }}>{org.events}</td>
-                          <td style={{ padding: "10px", fontWeight: 700, color: "#166534" }}>{org.sentiment}</td>
+                      {activityLogs.map((log) => (
+                        <tr key={log.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                          <td style={{ padding: "10px", fontWeight: 600 }}>{log.user}</td>
                           <td style={{ padding: "10px" }}>
-                            <span className={`status-tag status-${org.status.toLowerCase().replace(" ", "-")}`} style={{ fontSize: "0.75rem", fontWeight: 700, padding: "4px 8px", borderRadius: "4px" }}>
-                              {org.status}
+                            <span style={{ background: log.role === "Super Admin" ? "#e0f2fe" : "#f1f5f9", color: log.role === "Super Admin" ? "#0369a1" : "#475569", padding: "2px 6px", borderRadius: "4px", fontWeight: 700, fontSize: "0.75rem" }}>
+                              {log.role}
                             </span>
                           </td>
+                          <td style={{ padding: "10px", fontWeight: 500, color: log.action.includes("Logged In") ? "#16a34a" : "#ea580c" }}>{log.action}</td>
+                          <td style={{ padding: "10px", color: "#64748b" }}>{log.ip}</td>
+                          <td style={{ padding: "10px", color: "#64748b" }}>{log.time}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -218,9 +319,9 @@ const SuperAdminDashboard = () => {
                 </div>
               </section>
 
-              {/* Activity Feed Card */}
+              {/* Platform Alerts list */}
               <section className="activity-card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>Platform Log</h2>
+                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>Platform Alerts</h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {activities.map((activity, index) => (
                     <div key={index} className="activity-item" style={{ display: "flex", gap: "10px", fontSize: "0.85rem", borderBottom: "1px solid #f1f5f9", paddingBottom: "8px" }}>
@@ -236,6 +337,198 @@ const SuperAdminDashboard = () => {
               </section>
             </div>
           </>
+        );
+
+      case "system-monitoring":
+        const totalReviewsAnalyzed = registeredWebsites.reduce((sum, s) => sum + s.totalReviews, 0) + 18;
+        const positiveCount = Math.round(totalReviewsAnalyzed * 0.61);
+        const neutralCount = Math.round(totalReviewsAnalyzed * 0.25);
+        const negativeCount = totalReviewsAnalyzed - positiveCount - neutralCount;
+        const sortedPlatforms = [...registeredWebsites].sort((a, b) => b.totalReviews - a.totalReviews);
+        const topUsedPlatform = sortedPlatforms[0];
+
+        return (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {/* Metrics cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }}>
+              <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Total Analyzed Reviews</p>
+                <h2 style={{ fontSize: "2.2rem", fontWeight: 800, color: "#0f172a", margin: "4px 0" }}>{totalReviewsAnalyzed.toLocaleString()}</h2>
+                <span style={{ fontSize: "0.75rem", color: "#166534", fontWeight: 700 }}>▲ 12.4% vs last week</span>
+              </div>
+              <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Most Active Client Platform</p>
+                <h2 style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0891b2", margin: "8px 0" }}>{topUsedPlatform?.name || "Shopee Sandbox"}</h2>
+                <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600 }}>Domain: {topUsedPlatform?.domain}</span>
+              </div>
+              <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Average Sentiment Score</p>
+                <h2 style={{ fontSize: "2.2rem", fontWeight: 800, color: "#166534", margin: "4px 0" }}>82%</h2>
+                <span style={{ fontSize: "0.75rem", color: "#166534", fontWeight: 700 }}>🟢 Highly Positive Trend</span>
+              </div>
+            </div>
+
+            {/* Sentiment Breakdown */}
+            <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>System-Wide Sentiment Breakdown</h3>
+              <p style={{ color: "#64748b", fontSize: "0.85rem", marginBottom: "1rem" }}>
+                Cumulative analysis of all reviews processed across all integrated website platforms.
+              </p>
+              
+              <div className="sentiment-bar" style={{ display: "flex", height: "24px", borderRadius: "12px", overflow: "hidden", margin: "1.5rem 0", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1)" }}>
+                <div className="positive" style={{ background: "#22c55e", flex: 61 }} title={`Positive: 61% (${positiveCount} reviews)`}></div>
+                <div className="neutral" style={{ background: "#eab308", flex: 25 }} title={`Neutral: 25% (${neutralCount} reviews)`}></div>
+                <div className="negative" style={{ background: "#ef4444", flex: 14 }} title={`Negative: 14% (${negativeCount} reviews)`}></div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", marginTop: "1rem" }}>
+                <div style={{ borderLeft: "4px solid #22c55e", paddingLeft: "10px" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 700 }}>POSITIVE SENTIMENT</span>
+                  <h3 style={{ margin: "2px 0 0", fontSize: "1.3rem", fontWeight: 800 }}>61%</h3>
+                  <p style={{ margin: 0, color: "#64748b", fontSize: "0.75rem" }}>{positiveCount.toLocaleString()} reviews analyzed</p>
+                </div>
+                <div style={{ borderLeft: "4px solid #eab308", paddingLeft: "10px" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 700 }}>NEUTRAL SENTIMENT</span>
+                  <h3 style={{ margin: "2px 0 0", fontSize: "1.3rem", fontWeight: 800 }}>25%</h3>
+                  <p style={{ margin: 0, color: "#64748b", fontSize: "0.75rem" }}>{neutralCount.toLocaleString()} reviews analyzed</p>
+                </div>
+                <div style={{ borderLeft: "4px solid #ef4444", paddingLeft: "10px" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 700 }}>NEGATIVE / NEGATION</span>
+                  <h3 style={{ margin: "2px 0 0", fontSize: "1.3rem", fontWeight: 800 }}>14%</h3>
+                  <p style={{ margin: 0, color: "#64748b", fontSize: "0.75rem" }}>{negativeCount.toLocaleString()} reviews analyzed</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Platform Usage Ranking */}
+            <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>Extension Usage Ranking by Platform</h3>
+              <p style={{ color: "#64748b", fontSize: "0.85rem", marginBottom: "1rem" }}>
+                Ranked by volume of analyzed reviews. Helps identify which client sites generate the highest traffic.
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {sortedPlatforms.map((site, index) => {
+                  const percent = Math.round((site.totalReviews / totalReviewsAnalyzed) * 100);
+                  return (
+                    <div key={site.id} style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", fontWeight: 700 }}>
+                        <span style={{ color: "#0f172a" }}>
+                          {index + 1}. {site.name} <span style={{ fontWeight: 500, color: "#64748b" }}>({site.domain})</span>
+                        </span>
+                        <span style={{ color: "#0891b2" }}>{site.totalReviews.toLocaleString()} reviews ({percent}%)</span>
+                      </div>
+                      <div style={{ height: "8px", background: "#f1f5f9", borderRadius: "4px", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${percent}%`, background: index === 0 ? "linear-gradient(90deg, #0891b2, #0d9488)" : "#0891b2", borderRadius: "4px" }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+
+      case "user-management":
+        return (
+          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+              <div>
+                <h2 style={{ fontSize: "1.4rem", fontWeight: 800 }}>Registered Website Accounts</h2>
+                <p style={{ color: "#64748b", fontSize: "0.85rem", marginTop: "4px" }}>
+                  Manage client accounts using the VoxReview feedback extension. Suspended accounts cannot load the plugin.
+                </p>
+              </div>
+            </div>
+
+            <div className="feedback-table-wrapper">
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ background: "#f8fafc", textAlign: "left" }}>
+                    <th style={{ padding: "12px" }}>Website / App Name</th>
+                    <th style={{ padding: "12px" }}>Domain</th>
+                    <th style={{ padding: "12px" }}>Representative Email</th>
+                    <th style={{ padding: "12px" }}>Integration Platform</th>
+                    <th style={{ padding: "12px" }}>Status</th>
+                    <th style={{ padding: "12px", textAlign: "right" }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {registeredWebsites.map((site) => (
+                    <tr key={site.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                      <td style={{ padding: "12px", fontWeight: 700 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <span style={{ fontSize: "1.2rem" }}>🌐</span>
+                          {site.name}
+                        </div>
+                      </td>
+                      <td style={{ padding: "12px", color: "#0891b2", fontWeight: 600 }}>{site.domain}</td>
+                      <td style={{ padding: "12px" }}>{site.repEmail}</td>
+                      <td style={{ padding: "12px" }}>
+                        <span style={{ background: "#f1f5f9", padding: "3px 8px", borderRadius: "6px", fontSize: "0.8rem", fontWeight: 600 }}>
+                          {site.platform}
+                        </span>
+                      </td>
+                      <td style={{ padding: "12px" }}>
+                        <span className={`status-tag status-${site.status.toLowerCase()}`} style={{
+                          background: site.status === "Active" ? "#d1fae5" : "#fee2e2",
+                          color: site.status === "Active" ? "#065f46" : "#991b1b",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          fontSize: "0.75rem",
+                          fontWeight: 700
+                        }}>
+                          {site.status}
+                        </span>
+                      </td>
+                      <td style={{ padding: "12px", textAlign: "right" }}>
+                        <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+                          <button 
+                            className="action-btn-success" 
+                            style={{ 
+                              display: "inline-flex", 
+                              alignItems: "center", 
+                              gap: "4px",
+                              background: site.status === "Active" ? "#f59e0b" : "#10b981",
+                              color: "white",
+                              border: "none",
+                              padding: "6px 12px",
+                              borderRadius: "6px",
+                              cursor: "pointer",
+                              fontWeight: 600,
+                              fontSize: "0.8rem"
+                            }} 
+                            onClick={() => handleToggleSuspendWebsite(site.id)}
+                          >
+                            {site.status === "Active" ? "Suspend" : "Unsuspend"}
+                          </button>
+                          <button 
+                            className="action-btn-danger" 
+                            style={{ 
+                              display: "inline-flex", 
+                              alignItems: "center", 
+                              gap: "4px",
+                              background: "#ef4444",
+                              color: "white",
+                              border: "none",
+                              padding: "6px 12px",
+                              borderRadius: "6px",
+                              cursor: "pointer",
+                              fontWeight: 600,
+                              fontSize: "0.8rem"
+                            }} 
+                            onClick={() => handleDeleteWebsite(site.id)}
+                          >
+                            <Icons.Trash /> Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         );
 
       case "organizations":
@@ -518,24 +811,17 @@ const SuperAdminDashboard = () => {
         <div className="nav-section">
           <span className="section-title">OVERVIEW</span>
           <button className={`nav-item ${activeNav === "dashboard" ? "active" : ""}`} onClick={() => setActiveNav("dashboard")}>
-            <Icons.Dashboard /> Dashboard
+            <Icons.Dashboard /> Analytics Overview
+          </button>
+          <button className={`nav-item ${activeNav === "system-monitoring" ? "active" : ""}`} onClick={() => setActiveNav("system-monitoring")}>
+            <Icons.SystemMonitoring /> System Monitoring
           </button>
         </div>
 
         <div className="nav-section">
           <span className="section-title">PLATFORM MANAGEMENT</span>
-          <button className={`nav-item ${activeNav === "organizations" ? "active" : ""}`} onClick={() => setActiveNav("organizations")}>
-            <Icons.Orgs /> Organizations
-          </button>
-          <button className={`nav-item ${activeNav === "event-history" ? "active" : ""}`} onClick={() => setActiveNav("event-history")}>
-            <Icons.EventHistory /> Event History
-          </button>
-        </div>
-
-        <div className="nav-section">
-          <span className="section-title">REPORTS</span>
-          <button className={`nav-item ${activeNav === "reports" ? "active" : ""}`} onClick={() => setActiveNav("reports")}>
-            <Icons.Reports /> Organization Reports
+          <button className={`nav-item ${activeNav === "user-management" ? "active" : ""}`} onClick={() => setActiveNav("user-management")}>
+            <Icons.UserManagement /> User Management
           </button>
         </div>
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
+
 const UNIVERSITY_ORGS = {
   "Western Mindanao State University": [
     "Computer Science Society (COSS)",
@@ -255,76 +256,10 @@ const LandingPage = () => {
 
         <div className="extension-body">
           {/* Form Card */}
-          <section className="ext-card ext-form-section">
-            <h4>Submit Review</h4>
-            <form onSubmit={handleFeedbackSubmit}>
-              <div className="ext-form-group">
-                <label>Name (Optional)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Anonymous Student"
-                  value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
-                />
-              </div>
-
-              <div className="ext-form-group">
-                <label>Select Event</label>
-                <select
-                  value={selectedEvent}
-                  onChange={(e) => setSelectedEvent(e.target.value)}
-                >
-                  {EVENTS.map(ev => (
-                    <option key={ev} value={ev}>{ev}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="ext-form-group">
-                <label>Overall Rating</label>
-                <div className="ext-star-rating">
-                  {[1, 2, 3, 4, 5].map(star => (
-                    <button
-                      key={star}
-                      type="button"
-                      className={`ext-star-btn ${star <= rating ? "active" : ""}`}
-                      onClick={() => setRating(star)}
-                    >
-                      ★
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="ext-form-group">
-                <label>Comments / Review</label>
-                <textarea
-                  rows="3"
-                  placeholder="Write your review here. sentiment detected dynamically..."
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  required
-                ></textarea>
-              </div>
-
-              {comment.trim() && (
-                <div className="ext-sentiment-indicator">
-                  <span>Sentiment Detected:</span>
-                  <span className={`ext-badge ext-badge--${sentiment.toLowerCase()}`}>
-                    {sentiment}
-                  </span>
-                </div>
-              )}
-
-              <button type="submit" className="ext-btn-submit">
-                Submit Review
-              </button>
-            </form>
-          </section>
 
           {/* Feed Card */}
           <section className="ext-card ext-feed-section">
-            <h4>Recent Reviews</h4>
+            <h4>Feedbacks</h4>
             <div className="ext-feedback-list">
               {feedbackList.map(item => (
                 <div key={item.id} className="ext-feedback-item">
