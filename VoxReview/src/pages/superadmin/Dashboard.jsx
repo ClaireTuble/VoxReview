@@ -89,16 +89,16 @@ const SuperAdminDashboard = () => {
 
   // Registered Website accounts using the extension
   const [registeredWebsites, setRegisteredWebsites] = useState([
-    { id: "w1", name: "Shopee Philippines", domain: "shopee.com", repEmail: "admin@shopee.ph", status: "Active", regDate: "Jan 12, 2025", platform: "Shopee Sandbox", totalReviews: 2410 },
-    { id: "w3", name: "Computer Science Society Portal", domain: "cosspreview.com", repEmail: "coss@wmsu.edu.ph", status: "Active", regDate: "Mar 10, 2025", platform: "Vite App", totalReviews: 104 },
-    { id: "w4", name: "Apo Mountaineering Hub", domain: "apomountaineering.com", repEmail: "apo@gmail.com", status: "Suspended", regDate: "May 20, 2025", platform: "WordPress", totalReviews: 15 },
+    { id: "w1", name: "Shopee Philippines", domain: "shopee.com", repEmail: "admin@shopee.ph", status: "Active", regDate: "Jan 12, 2025", totalReviews: 2410 },
+    { id: "w3", name: "Google Play", domain: "cosspreview.com", repEmail: "coss@wmsu.edu.ph", status: "Active", regDate: "Mar 10, 2025",  totalReviews: 104 },
+    { id: "w4", name: "Agoda", domain: "apomountaineering.com", repEmail: "apo@gmail.com", status: "Suspended", regDate: "May 20, 2025", totalReviews: 15 },
   ]);
 
   // System activity logs showing logins 
   const [activityLogs, setActivityLogs] = useState([
-    { id: 1, user: "Maky Boi", role: "client Admin", action: "Logged In", ip: "192.168.1.102", time: "2026-07-05 18:32:05" },
+    { id: 1, user: "Mark zack", role: "client Admin", action: "Logged In", ip: "192.168.1.102", time: "2026-07-05 18:32:05" },
     { id: 2, user: "Dwayne", role: "clientAdmin", action: "Logged In", ip: "192.168.1.105", time: "2026-07-05 18:10:44" },
-    { id: 5, user: "shoppe.ph", role: "Client Admin", action: "Logged In", ip: "203.111.4.52", time: "2026-07-05 16:22:19" },
+    { id: 5, user: "Faye Vega", role: "Client Admin", action: "Logged In", ip: "203.111.4.52", time: "2026-07-05 16:22:19" },
     { id: 7, user: "lebron", role: "Client Admin", action: "Logged In", ip: "192.168.2.40", time: "2026-07-05 14:15:22" }
   ]);
 
@@ -224,15 +224,6 @@ const SuperAdminDashboard = () => {
             {/* Stats Grid */}
             <section className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.25rem", marginBottom: "1.5rem" }}>
               <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <div className="stat-icon purple" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
-                  <Icons.Profile />
-                </div>
-                <div>
-                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Total Registered Users</p>
-                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{totalUsersRegistered.toLocaleString()}</h2>
-                </div>
-              </div>
-              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
                 <div className="stat-icon green" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
                   <Icons.Reports />
                 </div>
@@ -248,15 +239,6 @@ const SuperAdminDashboard = () => {
                 <div>
                   <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Active Client Websites</p>
                   <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{registeredWebsites.length}</h2>
-                </div>
-              </div>
-              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <div className="stat-icon yellow" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
-                  <Icons.EventHistory />
-                </div>
-                <div>
-                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Active Site Events</p>
-                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>27</h2>
                 </div>
               </div>
             </section>
@@ -364,7 +346,6 @@ const SuperAdminDashboard = () => {
               <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
                 <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Average Sentiment Score</p>
                 <h2 style={{ fontSize: "2.2rem", fontWeight: 800, color: "#166534", margin: "4px 0" }}>82%</h2>
-                <span style={{ fontSize: "0.75rem", color: "#166534", fontWeight: 700 }}>🟢 Highly Positive Trend</span>
               </div>
             </div>
 
@@ -445,10 +426,10 @@ const SuperAdminDashboard = () => {
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ background: "#f8fafc", textAlign: "left" }}>
-                    <th style={{ padding: "12px" }}>Website / App Name</th>
+                    <th style={{ padding: "12px" }}>Admin Name</th>
                     <th style={{ padding: "12px" }}>Domain</th>
                     <th style={{ padding: "12px" }}>Representative Email</th>
-                    <th style={{ padding: "12px" }}>Integration Platform</th>
+                    <th style={{ padding: "12px" }}></th>
                     <th style={{ padding: "12px" }}>Status</th>
                     <th style={{ padding: "12px", textAlign: "right" }}>Actions</th>
                   </tr>
@@ -753,23 +734,6 @@ const SuperAdminDashboard = () => {
             <h2>System Settings & Global Configurations</h2>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginTop: "1.5rem" }}>
-              <div className="settings-block">
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700 }}>Organization Auto-Accreditation</h3>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", marginBottom: "0.5rem" }}>Automatically approve organization accreditation requests upon registration form submission.</p>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontWeight: 600 }}>
-                  <input type="checkbox" checked={autoApprove} onChange={(e) => setAutoApprove(e.target.checked)} />
-                  Enable Auto-Accreditation
-                </label>
-              </div>
-
-              <div className="settings-block">
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700 }}>Security & Alerts</h3>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontWeight: 600, marginTop: "0.5rem" }}>
-                  <input type="checkbox" checked={emailAlerts} onChange={(e) => setEmailAlerts(e.target.checked)} />
-                  Send platform metrics alert to Super Admin daily
-                </label>
-              </div>
-
               <div className="settings-block">
                 <h3 style={{ fontSize: "1.05rem", fontWeight: 700 }}>Database Backup</h3>
                 <p style={{ fontSize: "0.85rem", color: "#64748b", marginBottom: "0.5rem" }}>Configure system backups schedule for database logs and sentiment indexes.</p>

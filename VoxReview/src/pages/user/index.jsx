@@ -30,9 +30,9 @@ const PRESET_FEEDBACK = [
 ];
 
 const EVENTS = [
-  "Foundation Week 2025",
-  "CSM Fest",
-  "Palaro 2025",
+  "Pants",
+  "fan",
+  "Tshirt",
   "Leadership Summit 2026",
   "General Assembly"
 ];

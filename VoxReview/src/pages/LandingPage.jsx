@@ -32,9 +32,9 @@ const UNIVERSITY_ORGS = {
 };
 
 const EVENTS = [
-  "Foundation Week 2025",
-  "CSM Fest",
-  "Palaro 2025",
+  "Pants",
+  "fan",
+  "Tshirt",
   "Leadership Summit 2026",
   "General Assembly"
 ];
@@ -266,16 +266,10 @@ useEffect(() => {
             <span className="shopee-logo">VoxReview</span>
             <div className="mock-user-meta">Example Site</div>
           </div>
-          <h1>VoxReview Integration Sandbox</h1>
+          <h1>VoxReview Integration</h1>
           <p>
-            This represents a blank page of a host application (like Shopee) where your sentiment review plugin is integrated.
+            This is just a blank page of a host application where your sentiment review plugin is integrated.
           </p>
-          <p>
-            To interact with the review plugin, click the floating <strong>VoxReview</strong> icon in the <strong>upper right corner</strong>.
-          </p>
-          <div style={{ marginTop: "1rem", color: "#64748b", fontSize: "0.85rem" }}>
-            The plugin's navigation bar (Log In ) is fully embedded inside the sidebar view itself.
-          </div>
         </div>
       </div>
 
@@ -317,7 +311,7 @@ useEffect(() => {
           </div>
           <div className="user-navbar-buttons">
             <button className="btn-user-nav btn-user-login" onClick={openLoginModal}>Log In</button>
-            <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Website</button>
+                   {/* <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Website</button> */}
           </div>
         </header>
 
@@ -355,7 +349,10 @@ useEffect(() => {
                 <option value="ALL">ALL</option>
                 <option value="POSITIVE">POSITIVE</option>
                 <option value="NEUTRAL">NEUTRAL</option>
-                <option value="NEGATIVE">NEGATI</option>
+                <option value="NEGATIVE">NEGATIVE</option>
+                <option value="NEGATIVE">URGENT</option>
+                <option value="NEGATIVE">NEEDS ATTENTION</option>
+                <option value="NEGATIVE">LOW PRIORITY</option>
               </select>
             </div>
 
@@ -375,9 +372,6 @@ useEffect(() => {
                       <span className={`ext-badge ext-badge-small ext-badge--${item.sentiment.toLowerCase()}`}>
                         {item.sentiment === "Negative" ? "Negative" : item.sentiment}
                       </span>
-                    </div>
-                    <div className="ext-item-stars">
-                      {"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}
                     </div>
                     <p className="ext-item-comment">"{item.comment}"</p>
                   </div>
@@ -471,10 +465,10 @@ useEffect(() => {
                   <div className="quick-test-note">
                     <strong>Reminder:</strong> Dipa tapos pi </div>
 
-                  <div className="auth-switch-text">
+                  {/* <div className="auth-switch-text">
                     Want to register an organization?{" "}
-                    <button className="auth-switch-btn" onClick={() => setIsSignUp(true)}>Register here</button>
-                  </div>
+                   <button className="auth-switch-btn" onClick={() => setIsSignUp(true)}>Register here</button> Feed Card 
+                  </div> */}
                 </div>
               ) : (
                 /* Register Org Content (No User Option) */
@@ -485,7 +479,7 @@ useEffect(() => {
                     
                     <form onSubmit={handleOrgRegisterSubmit}>
                       <div className="auth-input-group">
-                        <label>Organization Name</label>
+                        <label>Website Name</label>
                         <input 
                           type="text" 
                           placeholder="e.g. Computer Science Society" 
@@ -495,25 +489,12 @@ useEffect(() => {
                         />
                       </div>
 
-                      <div className="auth-input-group">
-                        <label>University</label>
-                        <select 
-                          required 
-                          value={orgUniversity} 
-                          onChange={(e) => setOrgUniversity(e.target.value)}
-                        >
-                          <option value="">Select Affiliated University</option>
-                          {Object.keys(UNIVERSITY_ORGS).map(uni => (
-                            <option key={uni} value={uni}>{uni}</option>
-                          ))}
-                        </select>
-                      </div>
 
                       <div className="auth-input-group">
                         <label>Brief Description</label>
                         <textarea 
                           rows="2" 
-                          placeholder="What is the mission of this organization..." 
+                          placeholder="About your website" 
                           value={orgDesc} 
                           onChange={(e) => setOrgDesc(e.target.value)}
                           required

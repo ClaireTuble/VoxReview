@@ -83,17 +83,17 @@ const NAV_SECTIONS = [
 
 // eme
 const INITIAL_EVENTS = [
-  { id: "e1", name: "Foundation Week 2025", organizer: "Student Council", date: "Dec 12-18, 2025", reviews: 120, rating: 4.5, status: "Completed" },
-  { id: "e2", name: "CSM Fest", organizer: "Science Club", date: "Oct 10-14, 2025", reviews: 85, rating: 3.8, status: "Completed" },
-  { id: "e3", name: "Palaro 2025", organizer: "Sports Office", date: "Sep 5-8, 2025", reviews: 142, rating: 2.1, status: "Completed" },
+  { id: "e1", name: "Pants", organizer: "Student Council", date: "Dec 12-18, 2025", reviews: 120, rating: 4.5, status: "Completed" },
+  { id: "e2", name: "fan", organizer: "Science Club", date: "Oct 10-14, 2025", reviews: 85, rating: 3.8, status: "Completed" },
+  { id: "e3", name: "Tshirt", organizer: "Sports Office", date: "Sep 5-8, 2025", reviews: 142, rating: 2.1, status: "Completed" },
   { id: "e4", name: "Leadership Summit 2026", organizer: "COSS", date: "Feb 15, 2026", reviews: 0, rating: 0.0, status: "Upcoming" },
   { id: "e5", name: "General Assembly", organizer: "SITE", date: "Jul 10, 2026", reviews: 0, rating: 0.0, status: "Active" }
 ];
 
 const INITIAL_FEEDBACKS = [
-  { id: "f1", studentName: "Maky Boi", event: "Foundation Week 2025", rating: 5, comment: "This event was so much fun! Kudos to the student council for putting together such an active week!", sentiment: "Positive", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
-  { id: "f2", studentName: "Mary Uy", event: "CSM Fest", rating: 3, comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.", sentiment: "Neutral", date: "5 hrs ago", priority: "Neutral", status: "Read" },
-  { id: "f3", studentName: "Anonymous Student", event: "Palaro 2025", rating: 1, comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.", sentiment: "Negative", date: "1 day ago", priority: "High Priority", status: "Unread" },
+  { id: "f1", studentName: "Maky Boi", event: "Pants", rating: 5, comment: "This event was so much fun! Kudos to the student council for putting together such an active week!", sentiment: "Positive", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
+  { id: "f2", studentName: "Mary Uy", event: "fan", rating: 3, comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.", sentiment: "Neutral", date: "5 hrs ago", priority: "Neutral", status: "Read" },
+  { id: "f3", studentName: "Mike po ", event: "Tshirt", rating: 1, comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.", sentiment: "Negative", date: "1 day ago", priority: "High Priority", status: "Unread" },
   { id: "f4", studentName: "Cardo", event: "Foundation Week 2025", rating: 4, comment: "Loved the food trucks and overall vibe. Concert was amazing!", sentiment: "Positive", date: "2 days ago", priority: "Neutral", status: "Read" },
   { id: "f5", studentName: "Susan roses", event: "CSM Fest", rating: 4, comment: "Great booths, had a lot of interactive games. Well done organizers.", sentiment: "Positive", date: "3 days ago", priority: "Neutral", status: "Unread" }
 ];
@@ -349,7 +349,7 @@ const AdminDashboard = () => {
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Website</th>
+                        <th>Item</th>
                         <th>Sentiment</th>
                         <th>Rating</th>
                         <th>Date</th>
@@ -682,18 +682,13 @@ const AdminDashboard = () => {
                 <div className="sentiment-mini-bar" style={{ background: "#22c55e", height: "4px", borderRadius: "2px", width: "82%" }}></div>
               </div>
               <div className="stat-sub-card">
-                <h5>Evaluation Volume</h5>
-                <h3>{feedbacks.length} Submissions</h3>
-                <p>Participation rate: 87%</p>
-              </div>
-              <div className="stat-sub-card">
-                <h5>Highest Rated Event</h5>
-                <h3>Foundation Week (4.5 ★)</h3>
+                <h5>Highest Rated</h5>
+                <h3>Product (4.5 ★)</h3>
                 <p>Total reviews: 120</p>
               </div>
             </div>
 
-            <h3 style={{ margin: "2rem 0 1rem" }}>Sentiment Split by Registered Event</h3>
+            <h3 style={{ margin: "2rem 0 1rem" }}>Sentiment Split</h3>
             
             <div className="event-sentiment-charts">
               {events.filter(e => e.reviews > 0).map(ev => {
@@ -790,7 +785,7 @@ const AdminDashboard = () => {
                   <span style={{ fontWeight: 700, minWidth: "50px" }}>{sensitivity}%</span>
                 </div>
               </div>
-
+              {/*
               <div className="settings-block">
                 <h3>System Configurations</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "1rem" }}>
@@ -808,7 +803,7 @@ const AdminDashboard = () => {
                   </label>
                 </div>
               </div>
-
+*/}
               <div>
                 <button className="btn btn--primary" onClick={() => alert("Configurations saved successfully!")}>
                   Save System Settings
@@ -817,6 +812,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         );
+        
 
       default:
         return <div>View not implemented.</div>;

@@ -422,27 +422,6 @@ body {
   background: rgba(15, 23, 42, 0.8);
 }
 
-.ext-star-rating {
-  display: flex;
-  gap: 0.3rem;
-}
-
-.ext-star-btn {
-  background: none;
-  border: none;
-  font-size: 1.35rem;
-  color: rgba(255, 255, 255, 0.12);
-  cursor: pointer;
-  transition: transform 0.15s ease, color 0.15s ease;
-}
-
-.ext-star-btn:hover {
-  transform: scale(1.2);
-}
-
-.ext-star-btn.active {
-  color: #fbbf24;
-}
 
 .ext-sentiment-indicator {
   display: flex;
