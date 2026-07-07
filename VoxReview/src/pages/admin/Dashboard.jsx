@@ -91,9 +91,9 @@ const INITIAL_EVENTS = [
 ];
 
 const INITIAL_FEEDBACKS = [
-  { id: "f1", studentName: "Maky Boi", event: "Pants", rating: 5, comment: "This event was so much fun! Kudos to the student council for putting together such an active week!", sentiment: "Positive", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
-  { id: "f2", studentName: "Mary Uy", event: "fan", rating: 3, comment: "The seminars were a bit too long, but the booths and activities in the afternoon were decent.", sentiment: "Neutral", date: "5 hrs ago", priority: "Neutral", status: "Read" },
-  { id: "f3", studentName: "Mike po ", event: "Tshirt", rating: 1, comment: "Too hot and very disorganized. The games were delayed by hours. Not happy at all.", sentiment: "Negative", date: "1 day ago", priority: "High Priority", status: "Unread" },
+  { id: "f1", studentName: "Maky Boi", event: "Pants", rating: 5, comment: "The Material is great.", sentiment: "Positive", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
+  { id: "f2", studentName: "Mary Uy", event: "fan", rating: 3, comment: "it works okay.", sentiment: "Neutral", date: "5 hrs ago", priority: "Neutral", status: "Read" },
+  { id: "f3", studentName: "Mike po ", event: "Tshirt", rating: 1, comment: "Too hot and very thin cotton are ugly and the design is not good. I hate it.", sentiment: "Negative", date: "1 day ago", priority: "High Priority", status: "Unread" },
   { id: "f4", studentName: "Cardo", event: "Foundation Week 2025", rating: 4, comment: "Loved the food trucks and overall vibe. Concert was amazing!", sentiment: "Positive", date: "2 days ago", priority: "Neutral", status: "Read" },
   { id: "f5", studentName: "Susan roses", event: "CSM Fest", rating: 4, comment: "Great booths, had a lot of interactive games. Well done organizers.", sentiment: "Positive", date: "3 days ago", priority: "Neutral", status: "Unread" }
 ];
@@ -105,9 +105,9 @@ const INITIAL_MODERATION = [
 ];
 
 const INITIAL_NOTIFICATIONS = [
-  { id: "n1", text: "New negative review received for Palaro 2025", date: "10m ago", read: false },
-  { id: "n2", text: "General Assembly feedback flagged as high priority", date: "1h ago", read: false },
-  { id: "n3", text: "CSM Fest reached a milestone of 80 reviews", date: "2h ago", read: true },
+  { id: "n1", text: "New negative review received for Tshirt", date: "10m ago", read: false },
+  { id: "n2", text: "Shirt feedback flagged as high priority", date: "1h ago", read: false },
+  { id: "n3", text: "Pants reached a milestone of 80 reviews", date: "2h ago", read: true },
 ];
 
 const AdminDashboard = () => {
@@ -500,7 +500,7 @@ const AdminDashboard = () => {
       case "feedback-inbox":
         return (
           <div className="card">
-            <h2>Personal Inbox</h2>
+            <h2>Inbox</h2>
             <p style={{ color: "#64748b", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
               Filter feedback dynamically by Priority levels, Read/Unread statuses, and Sentiment types.
             </p>
@@ -528,6 +528,9 @@ const AdminDashboard = () => {
     >
       <option value="All">All</option>
       <option value="High Priority">High Priority</option>
+      <option value="Low Priority">Low Priority</option>
+      <option value="Urgent">Urgent</option>
+      <option value="Needs Attention">Needs Attention</option>
       <option value="Neutral">Neutral</option>
     </select>
   </div>
@@ -592,10 +595,7 @@ const AdminDashboard = () => {
                       <button className="card-action-btn" onClick={() => toggleReadStatus(f.id)}>
                         Mark as {f.status === "Read" ? "Unread" : "Read"}
                       </button>
-                      
-                      <button className="card-action-btn" onClick={() => togglePriority(f.id)}>
-                        Make {f.priority === "High Priority" ? "Neutral Priority" : "High Priority"}
-                      </button>
+                    
 
                       <button className="card-action-btn card-action-btn-danger" onClick={() => {
                         if (confirm("Delete this review permanently?")) {
@@ -683,7 +683,7 @@ const AdminDashboard = () => {
               </div>
               <div className="stat-sub-card">
                 <h5>Highest Rated</h5>
-                <h3>Product (4.5 ★)</h3>
+                <h3>Products (4.5 ★)</h3>
                 <p>Total reviews: 120</p>
               </div>
             </div>
@@ -731,7 +731,7 @@ const AdminDashboard = () => {
       case "profile":
         return (
           <div className="card">
-            <h2>Organization Administrator Profile</h2>
+            <h2>Website Administrator Profile</h2>
             
             <form style={{ maxWidth: "600px", marginTop: "1.5rem" }} onSubmit={(e) => {
               e.preventDefault();
@@ -748,11 +748,6 @@ const AdminDashboard = () => {
               <div className="form-item">
                 <label>Contact Phone Number</label>
                 <input type="text" value={profPhone} onChange={(e) => setProfPhone(e.target.value)} required />
-              </div>
-              <div className="form-item">
-                <label>Associated University Organization</label>
-                <input type="text" value={profOrg} disabled style={{ background: "#f1f5f9", cursor: "not-allowed" }} />
-                <span style={{ fontSize: "0.75rem", color: "#64748b" }}>Accredited organization. Contact Super Administrator to change affiliated group.</span>
               </div>
               
               <button type="submit" className="btn btn--primary" style={{ marginTop: "1rem" }}>
@@ -890,14 +885,14 @@ const AdminDashboard = () => {
         </main>
       </div>
 
-      {/* NOTIFICATIONS MODAL DESIGN */}
+      {/* Notif modal design */}
       {showNotificationsModal && (
         <div className="custom-modal-overlay" onClick={() => setShowNotificationsModal(false)}>
           <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{ width: "450px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
               <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "1.15rem", fontWeight: 800 }}>
                 <span style={{ color: "#4f46e5", display: "inline-flex" }}><Icons.Bell /></span>
-                Admin Alerts Queue
+                Admin Alerts
               </h3>
               <button 
                 onClick={() => setShowNotificationsModal(false)}

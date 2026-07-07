@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import VRLogo from "./img/VR.png";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
@@ -44,22 +45,25 @@ const PRESET_FEEDBACK = [
   {
     id: "1",
     studentName: "Maky Boi",
+    event: "Pants",
     rating: 5,
-    comment: "This checkout process was so smooth! Kudos to the website devs for putting together such a fast loading interface!",
+    comment: "The material is great.",
     sentiment: "Positive"
   },
   {
     id: "2",
     studentName: "Mary Uy",
+    event: "Fan",
     rating: 3,
-    comment: "The page layout is a bit too cluttered, but finding products and checking reviews was decent.",
+    comment: "It works okay.",
     sentiment: "Neutral"
   },
   {
     id: "3",
-    studentName: "Anonymous",
+    studentName: "Mike Po",
+    event: "T-Shirt",
     rating: 1,
-    comment: "Very slow connection and extremely disorganized. The cart kept removing my items. Not happy at all.",
+    comment: "Too hot and very thin cotton. The design is not good and I really don't like the quality.",
     sentiment: "Negative"
   }
 ];
@@ -92,10 +96,8 @@ const LandingPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   // Extension Feedback Form 
-  const [feedbackList, setFeedbackList] = useState(() => {
-    const saved = localStorage.getItem("vox_feedback");
-    return saved ? JSON.parse(saved) : PRESET_FEEDBACK;
-  });
+const [feedbackList, setFeedbackList] = useState(PRESET_FEEDBACK);
+
   const [studentName, setStudentName] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(EVENTS[0]);
   const [rating, setRating] = useState(5);
@@ -189,23 +191,23 @@ useEffect(() => {
     }
   }, [comment]);
 
-  const openLoginModal = () => {
-    setIsSignUp(false);
-    setShowSuccess(false);
-    setIsModalOpen(true);
-  };
+const openLoginModal = () => {
+  setIsSidebarOpen(false);   
+  setIsSignUp(false);
+  setShowSuccess(false);
+  setIsModalOpen(true);
+};
 
   const openRegisterModal = () => {
     setIsSignUp(true);
     setShowSuccess(false);
     setIsModalOpen(true);
   };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setShowSuccess(false);
-  };
-
+const closeModal = () => {
+  setIsModalOpen(false);
+  setShowSuccess(false);
+  setIsSidebarOpen(true);    // Show the sidebar again after closing
+};
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (loginRole === "superadmin") {
@@ -350,9 +352,6 @@ useEffect(() => {
                 <option value="POSITIVE">POSITIVE</option>
                 <option value="NEUTRAL">NEUTRAL</option>
                 <option value="NEGATIVE">NEGATIVE</option>
-                <option value="NEGATIVE">URGENT</option>
-                <option value="NEGATIVE">NEEDS ATTENTION</option>
-                <option value="NEGATIVE">LOW PRIORITY</option>
               </select>
             </div>
 
@@ -387,7 +386,28 @@ useEffect(() => {
         <div className="auth-modal-overlay" onClick={closeModal}>
           <div className="auth-modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="auth-bg-column auth-bg-left"></div>
-            <div className="auth-bg-column auth-bg-right"></div>
+      <div className="auth-bg-column auth-bg-left"></div>
+
+<div className="auth-bg-column auth-bg-right">
+  <div className="auth-right-content">    
+    <div className="auth-logo">
+      <h1>VoxReview</h1>
+      <span>Sentiment Review Platform</span>
+    </div>
+    <div className="auth-illustration"> 
+    <img src={VRLogo} alt="VoxReview Logo" className="auth-logo-image"
+/>
+    </div>
+
+    <div className="auth-description">
+      <h2>Welcome!</h2>
+
+      <p>
+        Log in to manage your Website's feedback, monitor sentiment.
+      </p>
+    </div>
+  </div>
+</div>
             <button className="auth-modal-close" onClick={closeModal}>×</button>
 
             <div className={`auth-sliding-card ${isSignUp ? "slide-right" : ""}`}>

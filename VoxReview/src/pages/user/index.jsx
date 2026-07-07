@@ -6,7 +6,7 @@ const PRESET_FEEDBACK = [
   {
     id: "1",
     studentName: "Maky Boi",
-    event: "Shovel",
+    event: "Pants",
     rating: 5,
     comment: "The Material is great.",
     sentiment: "Positive"
@@ -14,7 +14,7 @@ const PRESET_FEEDBACK = [
   {
     id: "2",
     studentName: "Mary Uy",
-    event: "Electrifan",
+    event: "Fan",
     rating: 3,
     comment: "It worked okay.",
     sentiment: "Neutral"
@@ -80,7 +80,7 @@ const UserPortal = () => {
 
     const newFeedback = {
       id: Date.now().toString(),
-      studentName: studentName.trim() || "Anonymous Student",
+      studentName: studentName.trim() || "Anonymous",
       event: selectedEvent,
       rating,
       comment: comment.trim(),

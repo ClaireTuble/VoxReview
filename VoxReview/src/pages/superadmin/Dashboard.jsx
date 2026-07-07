@@ -62,9 +62,9 @@ const INITIAL_ORGANIZATIONS = [
 ];
 
 const INITIAL_EVENT_HISTORY = [
-  { id: "eh1", name: "Foundation Week 2025", organization: "Computer Science Society (COSS)", date: "Dec 12-18, 2025", feedback: 120, rating: "4.5 ★", sentiment: "Positive" },
-  { id: "eh2", name: "CSM Fest", organization: "Society of Information Technology Educators (SITE)", date: "Oct 10-14, 2025", feedback: 85, rating: "3.8 ★", sentiment: "Neutral" },
-  { id: "eh3", name: "Palaro 2025", organization: "Junior Marketing Association (JMA)", date: "Sep 5-8, 2025", feedback: 142, rating: "2.1 ★", sentiment: "Negative" },
+  { id: "eh1", name: "Tshirt", organization: "Computer Science Society (COSS)", date: "Dec 12-18, 2025", feedback: 120, rating: "4.5 ★", sentiment: "Positive" },
+  { id: "eh2", name: "Fan", organization: "Society of Information Technology Educators (SITE)", date: "Oct 10-14, 2025", feedback: 85, rating: "3.8 ★", sentiment: "Neutral" },
+  { id: "eh3", name: "Pants", organization: "Junior Marketing Association (JMA)", date: "Sep 5-8, 2025", feedback: 142, rating: "2.1 ★", sentiment: "Negative" },
   { id: "eh4", name: "Leadership Summit 2026", organization: "League of Young Entrepreneurs (LYE)", date: "Feb 15, 2026", feedback: 12, rating: "4.2 ★", sentiment: "Positive" },
 ];
 
@@ -89,9 +89,9 @@ const SuperAdminDashboard = () => {
 
   // Registered Website accounts using the extension
   const [registeredWebsites, setRegisteredWebsites] = useState([
-    { id: "w1", name: "Shopee Philippines", domain: "shopee.com", repEmail: "admin@shopee.ph", status: "Active", regDate: "Jan 12, 2025", totalReviews: 2410 },
-    { id: "w3", name: "Google Play", domain: "cosspreview.com", repEmail: "coss@wmsu.edu.ph", status: "Active", regDate: "Mar 10, 2025",  totalReviews: 104 },
-    { id: "w4", name: "Agoda", domain: "apomountaineering.com", repEmail: "apo@gmail.com", status: "Suspended", regDate: "May 20, 2025", totalReviews: 15 },
+    { id: "w1", name: "Faye", domain: "shopee.com", repEmail: "faye@gmail.com", status: "Active", regDate: "Jan 12, 2025", totalReviews: 2410 },
+    { id: "w3", name: "Dwayne", domain: "googleplay.com", repEmail: "Dwayne@gmail.com", status: "Active", regDate: "Mar 10, 2025",  totalReviews: 104 },
+    { id: "w4", name: "Mark", domain: "agoda.com", repEmail: "Mark@gmail.com", status: "Suspended", regDate: "May 20, 2025", totalReviews: 15 },
   ]);
 
   // System activity logs showing logins 
@@ -427,7 +427,7 @@ const SuperAdminDashboard = () => {
                 <thead>
                   <tr style={{ background: "#f8fafc", textAlign: "left" }}>
                     <th style={{ padding: "12px" }}>Admin Name</th>
-                    <th style={{ padding: "12px" }}>Domain</th>
+                    <th style={{ padding: "12px" }}>Website</th>
                     <th style={{ padding: "12px" }}>Representative Email</th>
                     <th style={{ padding: "12px" }}></th>
                     <th style={{ padding: "12px" }}>Status</th>
