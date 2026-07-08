@@ -307,8 +307,7 @@ const closeModal = () => {
         <header className="user-view-navbar">
           <div className="user-navbar-brand">
             <div className="brand-titles">
-              <h4>Your View Matters</h4>
-              <span>VoxReview</span>
+              <h3>VoxReview</h3>
             </div>
           </div>
           <div className="user-navbar-buttons">
@@ -316,11 +315,9 @@ const closeModal = () => {
                    {/* <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Website</button> */}
           </div>
         </header>
-
         <div className="extension-header">
           <div className="ext-logo">
             <div className="ext-logo-text">
-              <h3>VoxReview</h3>
               <p>Feedback Plugin</p>
             </div>
           </div>
@@ -433,7 +430,7 @@ const closeModal = () => {
                       className={`role-tab ${loginRole === "admin" ? "active" : ""}`}
                       onClick={() => setLoginRole("admin")}
                     >
-                      Org Admin
+                      Web Admin
                     </button>
                     <button 
                       type="button" 
