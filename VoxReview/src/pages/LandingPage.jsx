@@ -389,7 +389,7 @@ const closeModal = () => {
   <div className="auth-right-content">    
     <div className="auth-logo">
       <h1>VoxReview</h1>
-      <span>Sentiment Review Platform</span>
+      <span>Sentiment Review Plugin</span>
     </div>
     <div className="auth-illustration"> 
     <img src={VRLogo} alt="VoxReview Logo" className="auth-logo-image"
