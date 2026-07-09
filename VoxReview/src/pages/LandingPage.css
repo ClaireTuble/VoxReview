@@ -232,27 +232,34 @@ body {
     background: #3b82f6;
 }
 
-
 .extension-body{
-    padding:1.25rem;
-    flex:1;
-    overflow-y:auto;
-    background:#efffff;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 /* Hide scrollbar (optional) */
 
-.extension-body::-webkit-scrollbar {
-    width: 6px;
+.extension-body::-webkit-scrollbar{
+    width:8px;
 }
 
-.extension-body::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.18);
-    border-radius: 999px;
+.extension-body::-webkit-scrollbar-track{
+    background:transparent;
 }
 
-.extension-body::-webkit-scrollbar-track {
-    background: transparent;
+.extension-body::-webkit-scrollbar-thumb{
+    background:#94a3b8;
+    border-radius:999px;
+}
+
+.extension-body::-webkit-scrollbar-thumb:hover{
+    background:#64748b;
 }
 
 /* Navigation Bar inside the User View */
@@ -373,25 +380,6 @@ body {
   background: rgba(239, 68, 68, 0.15);
   border-color: rgba(239, 68, 68, 0.35);
   color: #ef4444;
-}
-
-/* Extension Body */
-.extension-body {
-  padding: 1.25rem;
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.extension-body::-webkit-scrollbar {
-  width: 5px;
-}
-
-.extension-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
 }
 
 /* Ext Cards */
@@ -518,24 +506,38 @@ body {
     color:#1e293b;
     font-weight:600;
 }
-/* Feedback List in Sidebar */
-.ext-feedback-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  max-height: 280px;
-  overflow-y: auto;
+
+.ext-feed-section{
+    display: flex;
+    flex-direction: column;
 }
 
-.ext-feedback-list::-webkit-scrollbar {
-  width: 4px;
+.ext-feedback-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
 }
 
-.ext-feedback-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
+.ext-feedback-list::-webkit-scrollbar{
+    width: 8px;
 }
 
+.ext-feedback-list::-webkit-scrollbar-track{
+    background: #edf2f7;
+}
+
+.ext-feedback-list::-webkit-scrollbar-thumb{
+    background: #94a3b8;
+    border-radius: 10px;
+}
+
+.ext-feedback-list::-webkit-scrollbar-thumb:hover{
+    background: #64748b;
+}
 .ext-feedback-item{
     background:#f8ffff;
     border:1px solid #d4f4f4;
@@ -570,6 +572,179 @@ body {
 }
 
 .ext-item-comment{
+    color:#334155;
+}
+.ext-top-issues{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:18px;
+}
+
+.issues-title{
+    margin:0 0 12px;
+    font-size:15px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.issue-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 0;
+    border-bottom:1px solid #eef2f7;
+}
+
+.issue-row:last-child{
+    border-bottom:none;
+}
+
+.issue-name{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    font-weight:500;
+}
+
+.issue-icon{
+    color:#0ea5e9;
+    font-size:15px;
+    min-width:15px;
+}
+
+.issue-percent{
+    font-size:13px;
+    font-weight:700;
+    color:#475569;
+}
+
+.ext-feedback-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.ext-feedback-header h4{
+    margin:0;
+}
+
+.ext-filter-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+.ext-product-summary,
+.ext-overall-sentiment{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:18px;
+}
+
+.summary-title{
+    margin:0 0 14px;
+    font-size:16px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.product-name{
+    font-size:15px;
+    font-weight:600;
+    color:#334155;
+    margin-bottom:12px;
+}
+
+.product-rating{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.rating-star{
+    color:#fbbf24;
+    font-size:22px;
+}
+
+.rating-score{
+    font-size:22px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.rating-count{
+    font-size:13px;
+    color:#64748b;
+}
+
+.sentiment-row{
+    display:grid;
+    grid-template-columns:140px 1fr 45px;
+    align-items:center;
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.sentiment-row:last-child{
+    margin-bottom:0;
+}
+
+.sentiment-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+}
+
+.sentiment-icon{
+    font-size:22px;
+}
+
+.sentiment-icon.positive{
+    color:#22c55e;
+}
+
+.sentiment-icon.neutral{
+    color:#facc15;
+}
+
+.sentiment-icon.negative{
+    color:#ef4444;
+}
+
+.sentiment-progress{
+    width:100%;
+    height:10px;
+    background:#e5e7eb;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    border-radius:999px;
+}
+
+.progress-fill.positive{
+    background:#22c55e;
+}
+
+.progress-fill.neutral{
+    background:#facc15;
+}
+
+.progress-fill.negative{
+    background:#ef4444;
+}
+
+.sentiment-percent{
+    text-align:right;
+    font-weight:700;
     color:#334155;
 }
 

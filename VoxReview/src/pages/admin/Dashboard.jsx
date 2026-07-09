@@ -846,7 +846,7 @@ const AdminDashboard = () => {
           <div className="avatar avatar--sm">FV</div>
           <div className="sidebar__user-info">
             <p className="sidebar__user-name">{profName}</p>
-            <p className="sidebar__user-role">Organization Admin</p>
+            <p className="sidebar__user-role">Website Admin</p>
           </div>
           <button className="sidebar__logout" title="Sign out" onClick={() => navigate("/")}>
             <Icons.Logout />
@@ -858,7 +858,7 @@ const AdminDashboard = () => {
       <div className="main-area">
         <header className="topbar">
           <nav className="topbar__breadcrumb" aria-label="breadcrumb">
-            <span className="topbar__breadcrumb-parent">Organization Admin</span>
+            <span className="topbar__breadcrumb-parent">Website Admin</span>
             <span className="topbar__breadcrumb-sep">/</span>
             <span className="topbar__breadcrumb-current" style={{ textTransform: "capitalize" }}>{activeNav.replace("-", " ")}</span>
           </nav>

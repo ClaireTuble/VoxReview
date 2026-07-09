@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import VRLogo from "./img/VR.png";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
+import {FaTruck,FaBoxOpen,FaShieldAlt,FaHeadset,FaDollarSign,FaStar,FaSmile,FaMeh,FaFrown} from "react-icons/fa";
 
 const CLIENT_PLATFORMS = {
   "E-Commerce Websites": [
@@ -328,31 +329,134 @@ const closeModal = () => {
 
         <div className="extension-body">
           {/* Feed Card */}
-          <section className="ext-card ext-feed-section" style={{ display: 'flex', flexDirection: 'column', flex: 1, maxHeight: 'calc(100vh - 150px)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', borderBottom: '1px solid rgba(8, 145, 178, 0.15)', paddingBottom: '0.4rem' }}>
-              <h4 style={{ margin: 0, border: 'none', padding: 0 }}>Feedbacks</h4>
-              <span className="feedback-count-badge" style={{ fontSize: '0.75rem', background: 'rgba(8, 145, 178, 0.1)', color: '#0891b2', padding: '0.15rem 0.5rem', borderRadius: '12px', fontWeight: 700 }}>
-                {filteredFeedbackList.length} items
+        <section className="ext-card ext-feed-section">
+           {/* Product Summary */}
+          <div className="ext-product-summary">
+            <h4 className="summary-title">Product</h4>
+            <div className="product-name">
+              Wooden Clothes Hanger (20 pcs)
+            </div>
+            <div className="product-rating">
+              <FaStar className="rating-star" />
+              <span className="rating-score">4.6</span>
+              <span className="rating-count">(1,245 Reviews)</span>
+            </div>
+          </div>
+          {/* Overall Sentiment */}
+          <div className="ext-overall-sentiment">
+            <h4 className="summary-title">Overall Sentiment</h4>
+            <div className="sentiment-row">
+              <div className="sentiment-label">
+                <FaSmile className="sentiment-icon positive" />
+                <span>Positive</span>
+              </div>
+              <div className="sentiment-progress">
+                <div
+                  className="progress-fill positive"
+                  style={{ width: "72%" }}
+                />
+              </div>
+              <span className="sentiment-percent">72%</span>
+            </div>
+            <div className="sentiment-row">
+              <div className="sentiment-label">
+                <FaMeh className="sentiment-icon neutral" />
+                <span>Neutral</span>
+              </div>
+              <div className="sentiment-progress">
+                <div
+                  className="progress-fill neutral"
+                  style={{ width: "18%" }}
+                />
+              </div>
+              <span className="sentiment-percent">18%</span>
+            </div>
+            <div className="sentiment-row">
+              <div className="sentiment-label">
+                <FaFrown className="sentiment-icon negative" />
+                <span>Negative</span>
+              </div>
+              <div className="sentiment-progress">
+                <div
+                  className="progress-fill negative"
+                  style={{ width: "10%" }}
+                />
+              </div>
+              <span className="sentiment-percent">10%</span>
+            </div>
+          </div>
+          {/* Top Issue Categories */}
+          <div className="ext-top-issues">
+            <h4 className="issues-title">Top Issue Categories</h4>
+            <div className="issue-row">
+              <span className="issue-name">
+                <FaTruck className="issue-icon" />
+                Delivery
               </span>
+              <span className="issue-percent">35%</span>
             </div>
 
-            {/* Filter Dropdown Bar */}
+            <div className="issue-row">
+              <span className="issue-name">
+                <FaBoxOpen className="issue-icon" />
+                Packaging
+              </span>
+              <span className="issue-percent">25%</span>
+            </div>
+
+            <div className="issue-row">
+              <span className="issue-name">
+                <FaShieldAlt className="issue-icon" />
+                Product Quality
+              </span>
+              <span className="issue-percent">20%</span>
+            </div>
+
+            <div className="issue-row">
+              <span className="issue-name">
+                <FaHeadset className="issue-icon" />
+                Customer Service
+              </span>
+              <span className="issue-percent">15%</span>
+            </div>
+
+            <div className="issue-row">
+              <span className="issue-name">
+                <FaDollarSign className="issue-icon" />
+                Pricing
+              </span>
+              <span className="issue-percent">5%</span>
+            </div>
+          </div>
+
+          {/* Feedback Header */}
+          <div className="ext-feedback-header">
+
+            <h4>Feedbacks</h4>
+
             <div className="ext-filter-bar">
-              <label htmlFor="sentiment-filter" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#082f49' }}>Filter:</label>
+              <label htmlFor="sentiment-filter">Filter:</label>
+
               <select
                 id="sentiment-filter"
                 value={sentimentFilter}
                 onChange={(e) => setSentimentFilter(e.target.value)}
                 className="ext-filter-select"
-             >
+              >
                 <option value="ALL">ALL</option>
                 <option value="POSITIVE">POSITIVE</option>
                 <option value="NEUTRAL">NEUTRAL</option>
                 <option value="NEGATIVE">NEGATIVE</option>
+                <option>URGENT</option>
+                <option>NEEDS ATTENTION</option>
+                <option>LOW PRIORITY</option>
               </select>
+
             </div>
 
-            <div className="ext-feedback-list" style={{ flex: 1, overflowY: 'auto' }}>
+          </div>
+
+        <div className="ext-feedback-list"style={{height: "320px",overflowY: "auto",overflowX: "hidden"}}>
               {filteredFeedbackList.length === 0 ? (
                 <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
                   No feedbacks match this sentiment.
