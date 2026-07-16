@@ -2,213 +2,191 @@ import React, { useState, useEffect } from "react";
 import VRLogo from "./img/VR.png";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
-import {FaTruck,FaBoxOpen,FaShieldAlt,FaHeadset,FaDollarSign,FaStar,FaSmile,FaMeh,FaFrown} from "react-icons/fa";
+import { FaTruck, FaBoxOpen, FaShieldAlt, FaHeadset, FaDollarSign, FaStar } from "react-icons/fa";
 
+// Define e-commerce client platforms
 const CLIENT_PLATFORMS = {
   "E-Commerce Websites": [
     "Shopee Sandbox Integration",
     "Lazada Sandbox Integration",
     "Shopify Client Plugin",
     "WooCommerce Plugin"
-  ],
-  "Educational / Corporate Portals": [
-    "Moodle LMS Client",
-    "WMSU Portal Integration",
-    "CS Society Website",
-    "WordPress Client Site"
   ]
 };
 
-const UNIVERSITY_ORGS = {
-  "Western Mindanao State University": [
-    "Computer Science Society (COSS)",
-    "Society of Information Technology Educators (SITE)",
-    "Junior Marketing Association (JMA)",
-    "League of Young Entrepreneurs (LYE)",
-  ],
-  "Mountaineering": [
-    "Alphinity Mountaineering organization",
-    "Beruda Mountaineering organization",
-    "Apo Mountaineering organization",
-  ],
-};
-
-const EVENTS = [
+// Define products list
+const PRODUCTS = [
   "Pants",
-  "fan",
+  "Fan",
   "Tshirt",
-  "Leadership Summit 2026",
-  "General Assembly"
+  "Hoodie",
+  "Cap"
 ];
 
-
+// Preset reviews list in English, except for Tshirt comment which is in Taglish
 const PRESET_FEEDBACK = [
   {
     id: "1",
-    studentName: "Maky Boi",
-    event: "Pants",
+    name: "Maky Boi",
+    product: "Pants",
     rating: 5,
-    comment: "The material is great.",
-    sentiment: "Positive"
+    comment: "The material is great, super quality.",
+    sentiment: "happy"
   },
   {
     id: "2",
-    studentName: "Mary Uy",
-    event: "Fan",
+    name: "Mary Uy",
+    product: "Fan",
     rating: 3,
-    comment: "It works okay.",
-    sentiment: "Neutral"
+    comment: "It works fine, just okay.",
+    sentiment: "envy"
   },
   {
     id: "3",
-    studentName: "Mike Po",
-    event: "T-Shirt",
+    name: "Mike Po",
+    product: "Tshirt",
     rating: 1,
-    comment: "Too hot and very thin cotton. The design is not good and I really don't like the quality.",
-    sentiment: "Negative"
+    comment: "Mainit tsaka sobrang nipis ng cotton. Hindi maganda ang design at hindi ko talaga gusto yung quality.",
+    sentiment: "Disgust"
   }
 ];
+
+// Helper function to get CSS class name based on sentiment
+const getSentimentClass = (sentiment) => {
+  const s = sentiment.toLowerCase();
+  if (s === "happy") return "positive";
+  if (s === "anger" || s === "disgust") return "negative";
+  return "neutral"; // Maps to neutral for sad, envy, and sarcastic
+};
+
+// Helper function to get emoji representation of sentiment
+const getSentimentEmoji = (sentiment) => {
+  switch (sentiment.toLowerCase()) {
+    case "happy": return "😊";
+    case "anger": return "😡";
+    case "sad": return "😢";
+    case "disgust": return "🤢";
+    case "envy": return "😒";
+    case "sarcastic": return "😏";
+    default: return "😐";
+  }
+};
+
+// Custom background colors for new sentiments to avoid breaking CSS designs
+const getSentimentColor = (sentiment) => {
+  switch (sentiment.toLowerCase()) {
+    case "happy": return "#22c55e";      // Green
+    case "anger": return "#ef4444";    // Red
+    case "sad": return "#3b82f6";      // Blue
+    case "disgust": return "#a855f7";  // Purple
+    case "envy": return "#8b5cf6";     // Violet
+    case "sarcastic": return "#ec4899"; // Pink
+    default: return "#94a3b8";
+  }
+};
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  // Modals & Panels State
+  // State variables for modal and panels
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotSuccess, setForgotSuccess] = useState(false);
 
-  // Authentication (Admins)
+  // Admin login state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginRole, setLoginRole] = useState("admin"); // 'admin' or 'superadmin'
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
-  // Org register
-  const [orgName, setOrgName] = useState("");
-  const [orgUniversity, setOrgUniversity] = useState("");
-  const [orgDesc, setOrgDesc] = useState("");
-  const [repName, setRepName] = useState("");
-  const [repEmail, setRepEmail] = useState("");
+  // User registration state
+  const [registerUsername, setRegisterUsername] = useState("");
+  const [registerFullName, setRegisterFullName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerBio, setRegisterBio] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
-  // Register Success
+  // Flag for registration success status
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Extension Feedback Form 
-const [feedbackList, setFeedbackList] = useState(PRESET_FEEDBACK);
-
-  const [studentName, setStudentName] = useState("");
-  const [selectedEvent, setSelectedEvent] = useState(EVENTS[0]);
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
-  const [sentiment, setSentiment] = useState("Neutral");
-
-  // Sidebar drag resizing states
-  const [sidebarWidth, setSidebarWidth] = useState(400);
-  const [isResizing, setIsResizing] = useState(false);
+  // Feedback list for simulator plugin
+  const [feedbackList, setFeedbackList] = useState(PRESET_FEEDBACK);
   const [sentimentFilter, setSentimentFilter] = useState("ALL");
 
+  // Resizing state for dragging the sidebar
+  const [sidebarWidth, setSidebarWidth] = useState(400);
+  const [isResizing, setIsResizing] = useState(false);
+
   const handlePointerDown = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  document.body.style.userSelect = "none";
-  document.body.style.cursor = "ew-resize";
-
-  setIsResizing(true);
-};
-
-useEffect(() => {
-  if (!isResizing) return;
-
-  const handlePointerMove = (e) => {
-    const newWidth = window.innerWidth - e.clientX;
-
-    setSidebarWidth(
-      Math.max(320, Math.min(newWidth, 900))
-    );
+    e.preventDefault();
+    e.stopPropagation();
+    document.body.style.userSelect = "none";
+    document.body.style.cursor = "ew-resize";
+    setIsResizing(true);
   };
 
-  const handlePointerUp = () => {
-    setIsResizing(false);
+  useEffect(() => {
+    if (!isResizing) return;
 
-    document.body.style.userSelect = "";
-    document.body.style.cursor = "";
-  };
+    const handlePointerMove = (e) => {
+      const newWidth = window.innerWidth - e.clientX;
+      setSidebarWidth(Math.max(320, Math.min(newWidth, 900)));
+    };
 
-  window.addEventListener("pointermove", handlePointerMove);
-  window.addEventListener("pointerup", handlePointerUp);
+    const handlePointerUp = () => {
+      setIsResizing(false);
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+    };
 
-  return () => {
-    window.removeEventListener("pointermove", handlePointerMove);
-    window.removeEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
 
-    document.body.style.userSelect = "";
-    document.body.style.cursor = "";
-  };
-}, [isResizing]);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+    };
+  }, [isResizing]);
 
-  // Derived filtered feedback list
+  // List of filtered feedbacks based on selected sentiment
   const filteredFeedbackList = feedbackList.filter(item => {
     if (sentimentFilter === "ALL") return true;
-    if (sentimentFilter === "POSITIVE") return item.sentiment.toLowerCase() === "positive";
-    if (sentimentFilter === "NEUTRAL") return item.sentiment.toLowerCase() === "neutral";
-  if (sentimentFilter === "NEGATIVE") return item.sentiment.toLowerCase() === "negative";
-    return true;
+    return item.sentiment.toUpperCase() === sentimentFilter.toUpperCase();
   });
 
-  // Save feedback list to localStorage
+  // Save feedback list to localStorage for dashboard synchronization
   useEffect(() => {
     localStorage.setItem("vox_feedback", JSON.stringify(feedbackList));
   }, [feedbackList]);
 
-  // Sentiment Analyzer
-  useEffect(() => {
-    if (!comment.trim()) {
-      setSentiment("Neutral");
-      return;
-    }
-    const posWords = ["great", "good", "love", "awesome", "fun", "amazing", "excellent", "nice", "best", "cool", "happy", "kudos", "enjoy", "decent", "success", "wonderful"];
-    const negWords = ["bad", "worst", "terrible", "boring", "disappointed", "slow", "hate", "waste", "poor", "sad", "dislike", "hot", "disorganized", "delayed", "ruined", "annoyed"];
-    
-    let score = 0;
-    const lower = comment.toLowerCase();
-    
-    posWords.forEach(w => {
-      if (lower.includes(w)) score += 1;
-    });
-    negWords.forEach(w => {
-      if (lower.includes(w)) score -= 1;
-    });
-
-    if (score > 0) {
-      setSentiment("Positive");
-    } else if (score < 0) {
-      setSentiment("Negative");
-    } else {
-      setSentiment("Neutral");
-    }
-  }, [comment]);
-
-const openLoginModal = () => {
-  setIsSidebarOpen(false);   
-  setIsSignUp(false);
-  setShowSuccess(false);
-  setIsModalOpen(true);
-};
-
-  const openRegisterModal = () => {
-    setIsSignUp(true);
+  const openLoginModal = () => {
+    setIsSidebarOpen(false);   
+    setIsSignUp(false);
+    setIsForgotPassword(false);
     setShowSuccess(false);
     setIsModalOpen(true);
   };
-const closeModal = () => {
-  setIsModalOpen(false);
-  setShowSuccess(false);
-  setIsSidebarOpen(true);    // Show the sidebar again after closing
-};
+
+  const openRegisterModal = () => {
+    setIsSignUp(true);
+    setIsForgotPassword(false);
+    setShowSuccess(false);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setShowSuccess(false);
+    setIsSidebarOpen(true); // Open sidebar again after closing
+  };
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (loginRole === "superadmin") {
@@ -219,50 +197,40 @@ const closeModal = () => {
     closeModal();
   };
 
-  const handleOrgRegisterSubmit = (e) => {
+  // Submit handler for registering a new user
+  const handleUserRegisterSubmit = (e) => {
     e.preventDefault();
     setSuccessMessage(
-      `Registration for "${orgName}" submitted successfully. Accreditation requests are under review by the platform Super Administrator. Approval details will be sent to "${repEmail}" in 1-2 business days.`
+      `Registration for user account "${registerFullName}" (${registerUsername}) has been successfully submitted. It is currently under review by the platform Super Administrator. Approval details will be sent to "${registerEmail}" in 1-2 business days.`
     );
     setShowSuccess(true);
-    // Reset fields
-    setOrgName("");
-    setOrgUniversity("");
-    setOrgDesc("");
-    setRepName("");
-    setRepEmail("");
+    // Reset form fields
+    setRegisterUsername("");
+    setRegisterFullName("");
+    setRegisterEmail("");
+    setRegisterBio("");
     setRegisterPassword("");
   };
 
-  const handleFeedbackSubmit = (e) => {
-    e.preventDefault();
-    if (!comment.trim()) return;
+  // Calculate percentages for the six sentiments
+  const totalReviewsCount = feedbackList.length;
+  const happyCount = feedbackList.filter(f => f.sentiment === "Happy").length;
+  const angerCount = feedbackList.filter(f => f.sentiment === "Anger").length;
+  const sadCount = feedbackList.filter(f => f.sentiment === "Sad").length;
+  const disgustCount = feedbackList.filter(f => f.sentiment === "Disgust").length;
+  const envyCount = feedbackList.filter(f => f.sentiment === "Envy").length;
+  const sarcasticCount = feedbackList.filter(f => f.sentiment === "Sarcastic").length;
 
-    const newFeedback = {
-      id: Date.now().toString(),
-      studentName: studentName.trim() || "Anonymous Student",
-      event: selectedEvent,
-      rating,
-      comment: comment.trim(),
-      sentiment
-    };
-
-    const updated = [newFeedback, ...feedbackList];
-    setFeedbackList(updated);
-    
-    // Save to sync with dashboards if needed
-    localStorage.setItem("vox_feedback_latest", JSON.stringify(newFeedback));
-
-    // Reset Form
-    setStudentName("");
-    setComment("");
-    setRating(5);
-    alert("Feedback submitted successfully! Thank you.");
-  };
+  const happyPct = totalReviewsCount > 0 ? Math.round((happyCount / totalReviewsCount) * 100) : 0;
+  const angerPct = totalReviewsCount > 0 ? Math.round((angerCount / totalReviewsCount) * 100) : 0;
+  const sadPct = totalReviewsCount > 0 ? Math.round((sadCount / totalReviewsCount) * 100) : 0;
+  const disgustPct = totalReviewsCount > 0 ? Math.round((disgustCount / totalReviewsCount) * 100) : 0;
+  const envyPct = totalReviewsCount > 0 ? Math.round((envyCount / totalReviewsCount) * 100) : 0;
+  const sarcasticPct = totalReviewsCount > 0 ? Math.round((sarcasticCount / totalReviewsCount) * 100) : 0;
 
   return (
     <div className="host-container-blank">
-      {/* Background Hub Description ) */}
+      {/* Simulation Host Site Background */}
       <div className="blank-page-helper">
         <div className="blank-page-card">
           <div className="mock-shopee-header">
@@ -271,12 +239,12 @@ const closeModal = () => {
           </div>
           <h1>VoxReview Integration</h1>
           <p>
-            This is just a blank page of a host application where your sentiment review plugin is integrated.
+            This is a temporary host application where the VoxReview feedback plugin sidebar is integrated.
           </p>
         </div>
       </div>
 
-      {/* upper right button*/}
+      {/* Floating trigger button at the top right */}
       <button 
         className={`floating-feedback-trigger-ur ${isSidebarOpen ? "active" : ""}`}
         onClick={() => setIsSidebarOpen(true)}
@@ -289,22 +257,17 @@ const closeModal = () => {
         <span className="trigger-text">VoxReview Portal</span>
       </button>
 
-      {/* sidebar */}
-        <div
-         className={`extension-sidebar ${isSidebarOpen ? "open" : ""} ${
-           isResizing ? "resizing" : ""
-          }`}
-          style={{
+      {/* Sidebar sheet for plugin view */}
+      <div
+        className={`extension-sidebar ${isSidebarOpen ? "open" : ""} ${isResizing ? "resizing" : ""}`}
+        style={{
           width: `${sidebarWidth}px`,
-          transform: isSidebarOpen
-         ? "translateX(0)"
-       : "translateX(100%)",  }}
-    >
-        <div
-        className="sidebar-resize-handle"
-         onPointerDown={handlePointerDown}
-         />
-        {/* navnar in the User View */}
+          transform: isSidebarOpen ? "translateX(0)" : "translateX(100%)",
+        }}
+      >
+        <div className="sidebar-resize-handle" onPointerDown={handlePointerDown} />
+        
+        {/* Navbar inside the plugin */}
         <header className="user-view-navbar">
           <div className="user-navbar-brand">
             <div className="brand-titles">
@@ -313,9 +276,10 @@ const closeModal = () => {
           </div>
           <div className="user-navbar-buttons">
             <button className="btn-user-nav btn-user-login" onClick={openLoginModal}>Log In</button>
-                   {/* <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register Website</button> */}
+            <button className="btn-user-nav btn-user-register" onClick={openRegisterModal}>Register User</button>
           </div>
         </header>
+
         <div className="extension-header">
           <div className="ext-logo">
             <div className="ext-logo-text">
@@ -329,148 +293,120 @@ const closeModal = () => {
 
         <div className="extension-body">
           {/* Feed Card */}
-        <section className="ext-card ext-feed-section">
-           {/* Product Summary */}
-          <div className="ext-product-summary">
-            <h4 className="summary-title">Product</h4>
-            <div className="product-name">
-              Wooden Clothes Hanger (20 pcs)
-            </div>
-            <div className="product-rating">
-              <FaStar className="rating-star" />
-              <span className="rating-score">4.6</span>
-              <span className="rating-count">(1,245 Reviews)</span>
-            </div>
-          </div>
-          {/* Overall Sentiment */}
-          <div className="ext-overall-sentiment">
-            <h4 className="summary-title">Overall Sentiment</h4>
-            <div className="sentiment-row">
-              <div className="sentiment-label">
-                <FaSmile className="sentiment-icon positive" />
-                <span>Positive</span>
+          <section className="ext-card ext-feed-section">
+            {/* Product summary details */}
+            <div className="ext-product-summary">
+              <h4 className="summary-title">Product</h4>
+              <div className="product-name">
+                Wooden Clothes Hanger (20 pcs)
               </div>
-              <div className="sentiment-progress">
-                <div
-                  className="progress-fill positive"
-                  style={{ width: "72%" }}
-                />
+              <div className="product-rating">
+                <FaStar className="rating-star" />
+                <span className="rating-score">4.6</span>
+                <span className="rating-count">(1,245 Reviews)</span>
               </div>
-              <span className="sentiment-percent">72%</span>
             </div>
-            <div className="sentiment-row">
-              <div className="sentiment-label">
-                <FaMeh className="sentiment-icon neutral" />
-                <span>Neutral</span>
+
+            {/* Overall sentiment distribution breakdown */}
+            <div className="ext-overall-sentiment">
+              <h4 className="summary-title">Overall Sentiment</h4>
+              {[
+                { label: "Happy", pct: happyPct, colorClass: "positive", emoji: "😊" },
+                { label: "Anger", pct: angerPct, colorClass: "negative", emoji: "😡" },
+                { label: "Sad", pct: sadPct, colorClass: "neutral", emoji: "😢" },
+                { label: "Disgust", pct: disgustPct, colorClass: "negative", emoji: "🤢", customColor: "#a855f7" },
+                { label: "Envy", pct: envyPct, colorClass: "neutral", emoji: "😒" },
+                { label: "Sarcastic", pct: sarcasticPct, colorClass: "neutral", emoji: "😏", customColor: "#ec4899" }
+              ].map(emo => (
+                <div className="sentiment-row" key={emo.label}>
+                  <div className="sentiment-label" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ fontSize: "1.1rem" }}>{emo.emoji}</span>
+                    <span>{emo.label}</span>
+                  </div>
+                  <div className="sentiment-progress">
+                    <div
+                      className={`progress-fill ${emo.colorClass}`}
+                      style={{ 
+                        width: `${emo.pct}%`,
+                        ...(emo.customColor ? { backgroundColor: emo.customColor } : {})
+                      }}
+                    />
+                  </div>
+                  <span className="sentiment-percent">{emo.pct}%</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Top issue categories */}
+            <div className="ext-top-issues">
+              <h4 className="issues-title">Top Issue Categories</h4>
+              <div className="issue-row">
+                <span className="issue-name"><FaTruck className="issue-icon" /> Delivery</span>
+                <span className="issue-percent">35%</span>
               </div>
-              <div className="sentiment-progress">
-                <div
-                  className="progress-fill neutral"
-                  style={{ width: "18%" }}
-                />
+              <div className="issue-row">
+                <span className="issue-name"><FaBoxOpen className="issue-icon" /> Packaging</span>
+                <span className="issue-percent">25%</span>
               </div>
-              <span className="sentiment-percent">18%</span>
-            </div>
-            <div className="sentiment-row">
-              <div className="sentiment-label">
-                <FaFrown className="sentiment-icon negative" />
-                <span>Negative</span>
+              <div className="issue-row">
+                <span className="issue-name"><FaShieldAlt className="issue-icon" /> Product Quality</span>
+                <span className="issue-percent">20%</span>
               </div>
-              <div className="sentiment-progress">
-                <div
-                  className="progress-fill negative"
-                  style={{ width: "10%" }}
-                />
+              <div className="issue-row">
+                <span className="issue-name"><FaHeadset className="issue-icon" /> Customer Service</span>
+                <span className="issue-percent">15%</span>
               </div>
-              <span className="sentiment-percent">10%</span>
-            </div>
-          </div>
-          {/* Top Issue Categories */}
-          <div className="ext-top-issues">
-            <h4 className="issues-title">Top Issue Categories</h4>
-            <div className="issue-row">
-              <span className="issue-name">
-                <FaTruck className="issue-icon" />
-                Delivery
-              </span>
-              <span className="issue-percent">35%</span>
+              <div className="issue-row">
+                <span className="issue-name"><FaDollarSign className="issue-icon" /> Pricing</span>
+                <span className="issue-percent">5%</span>
+              </div>
             </div>
 
-            <div className="issue-row">
-              <span className="issue-name">
-                <FaBoxOpen className="issue-icon" />
-                Packaging
-              </span>
-              <span className="issue-percent">25%</span>
+            {/* Header and filter controls for reviews list */}
+            <div className="ext-feedback-header">
+              <h4>Feedbacks</h4>
+              <div className="ext-filter-bar">
+                <label htmlFor="sentiment-filter">Filter:</label>
+                <select
+                  id="sentiment-filter"
+                  value={sentimentFilter}
+                  onChange={(e) => setSentimentFilter(e.target.value)}
+                  className="ext-filter-select"
+                >
+                  <option value="ALL">ALL</option>
+                  <option value="HAPPY">HAPPY</option>
+                  <option value="ANGER">ANGER</option>
+                  <option value="SAD">SAD</option>
+                  <option value="DISGUST">DISGUST</option>
+                  <option value="ENVY">ENVY</option>
+                  <option value="SARCASTIC">SARCASTIC</option>
+                </select>
+              </div>
             </div>
 
-            <div className="issue-row">
-              <span className="issue-name">
-                <FaShieldAlt className="issue-icon" />
-                Product Quality
-              </span>
-              <span className="issue-percent">20%</span>
-            </div>
-
-            <div className="issue-row">
-              <span className="issue-name">
-                <FaHeadset className="issue-icon" />
-                Customer Service
-              </span>
-              <span className="issue-percent">15%</span>
-            </div>
-
-            <div className="issue-row">
-              <span className="issue-name">
-                <FaDollarSign className="issue-icon" />
-                Pricing
-              </span>
-              <span className="issue-percent">5%</span>
-            </div>
-          </div>
-
-          {/* Feedback Header */}
-          <div className="ext-feedback-header">
-
-            <h4>Feedbacks</h4>
-
-            <div className="ext-filter-bar">
-              <label htmlFor="sentiment-filter">Filter:</label>
-
-              <select
-                id="sentiment-filter"
-                value={sentimentFilter}
-                onChange={(e) => setSentimentFilter(e.target.value)}
-                className="ext-filter-select"
-              >
-                <option value="ALL">ALL</option>
-                <option value="POSITIVE">POSITIVE</option>
-                <option value="NEUTRAL">NEUTRAL</option>
-                <option value="NEGATIVE">NEGATIVE</option>
-                <option>URGENT</option>
-                <option>NEEDS ATTENTION</option>
-                <option>LOW PRIORITY</option>
-              </select>
-
-            </div>
-
-          </div>
-
-        <div className="ext-feedback-list"style={{height: "320px",overflowY: "auto",overflowX: "hidden"}}>
+            <div className="ext-feedback-list" style={{ height: "320px", overflowY: "auto", overflowX: "hidden" }}>
               {filteredFeedbackList.length === 0 ? (
                 <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
-                  No feedbacks match this sentiment.
+                  No feedback matches this sentiment.
                 </div>
               ) : (
                 filteredFeedbackList.map(item => (
                   <div key={item.id} className="ext-feedback-item">
                     <div className="ext-item-header">
                       <div>
-                        <h5>{item.studentName}</h5>
-                        <span className="ext-item-event">{item.event}</span>
+                        <h5>{item.name}</h5>
+                        <span className="ext-item-event">{item.product}</span>
                       </div>
-                      <span className={`ext-badge ext-badge-small ext-badge--${item.sentiment.toLowerCase()}`}>
-                        {item.sentiment === "Negative" ? "Negative" : item.sentiment}
+                      <span 
+                        className={`ext-badge ext-badge-small ext-badge--${getSentimentClass(item.sentiment)}`}
+                        style={{ 
+                          textTransform: "uppercase",
+                          backgroundColor: getSentimentColor(item.sentiment) + "26", // alpha opacity
+                          color: getSentimentColor(item.sentiment),
+                          border: `1px solid ${getSentimentColor(item.sentiment)}33`
+                        }}
+                      >
+                        {getSentimentEmoji(item.sentiment)} {item.sentiment}
                       </span>
                     </div>
                     <p className="ext-item-comment">"{item.comment}"</p>
@@ -482,66 +418,108 @@ const closeModal = () => {
         </div>
       </div>
 
-      {/* Modal (Admin) */}
+      {/* Pop-up modal for login, registration, and forgot password */}
       {isModalOpen && (
         <div className="auth-modal-overlay" onClick={closeModal}>
           <div className="auth-modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="auth-bg-column auth-bg-left"></div>
-      <div className="auth-bg-column auth-bg-left"></div>
+            <div className="auth-bg-column auth-bg-left"></div>
 
-<div className="auth-bg-column auth-bg-right">
-  <div className="auth-right-content">    
-    <div className="auth-logo">
-      <h1>VoxReview</h1>
-      <span>Sentiment Review Plugin</span>
-    </div>
-    <div className="auth-illustration"> 
-    <img src={VRLogo} alt="VoxReview Logo" className="auth-logo-image"
-/>
-    </div>
+            <div className="auth-bg-column auth-bg-right">
+              <div className="auth-right-content">    
+                <div className="auth-logo">
+                  <h1>VoxReview</h1>
+                  <span>Sentiment Review Plugin</span>
+                </div>
+                <div className="auth-illustration"> 
+                  <img src={VRLogo} alt="VoxReview Logo" className="auth-logo-image" />
+                </div>
+                <div className="auth-description">
+                  <h2>Welcome!</h2>
+                  <p>
+                    Log in to manage product reviews and monitor user sentiments.
+                  </p>
+                </div>
+              </div>
+            </div>
 
-    <div className="auth-description">
-      <h2>Welcome!</h2>
-
-      <p>
-        Log in to manage your Website's feedback, monitor sentiment.
-      </p>
-    </div>
-  </div>
-</div>
             <button className="auth-modal-close" onClick={closeModal}>×</button>
 
             <div className={`auth-sliding-card ${isSignUp ? "slide-right" : ""}`}>
               {showSuccess ? (
                 /* Success Screen */
                 <div className="success-register-screen">
-                  <h2>Organization Registration submitted</h2>
+                  <h2>User Registration Submitted</h2>
                   <p>{successMessage}</p>
                   <button className="auth-btn-primary" onClick={openLoginModal}>
                     Go to Login
                   </button>
                 </div>
-              ) : !isSignUp ? (
-                /* Login */
+              ) : isForgotPassword ? (
+                /* Forgot Password Form */
                 <div className="auth-card-content">
-                  <h2>Admin Portal Log In</h2>
-                  <p className="auth-subtitle">Access your VoxReview administrative dashboard</p>
+                  <h2>Forgot Password</h2>
+                  <p className="auth-subtitle">Enter your email address to receive a password reset link</p>
                   
-                  {/* Role Selector */}
+                  {forgotSuccess ? (
+                    <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
+                      <p style={{ color: "#10b981", fontWeight: "600", marginBottom: "1.5rem" }}>
+                        The reset link has been successfully sent to your email address! Please check your inbox.
+                      </p>
+                      <button className="auth-btn-primary" onClick={() => {
+                        setIsForgotPassword(false);
+                        setForgotSuccess(false);
+                        setForgotEmail("");
+                      }}>
+                        Back to Log In
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={(e) => { e.preventDefault(); setForgotSuccess(true); }}>
+                      <div className="auth-input-group">
+                        <label>Email Address</label>
+                        <input 
+                          type="email" 
+                          placeholder="user@example.com" 
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          required 
+                        />
+                      </div>
+                      
+                      <button type="submit" className="auth-btn-primary">
+                        Send Reset Link
+                      </button>
+                      
+                      <div className="auth-switch-text" style={{ marginTop: "1.5rem" }}>
+                        <button type="button" className="auth-switch-btn" onClick={() => setIsForgotPassword(false)}>
+                          Back to Log In
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              ) : !isSignUp ? (
+                /* Login Form */
+                <div className="auth-card-content">
+                  <h2>User Portal Log In</h2>
+                  <p className="auth-subtitle">Access your VoxReview dashboard</p>
+                  
+                  {/* Tabs to switch between Web User and SuperAdmin */}
                   <div className="role-selector">
                     <button 
                       type="button" 
                       className={`role-tab ${loginRole === "admin" ? "active" : ""}`}
                       onClick={() => setLoginRole("admin")}
                     >
-                      Web Admin
+                      Web User
                     </button>
                     <button 
                       type="button" 
                       className={`role-tab ${loginRole === "superadmin" ? "active" : ""}`}
                       onClick={() => setLoginRole("superadmin")}
                     >
-                      Example SuperAdmin
+                      SuperAdmin
                     </button>
                   </div>
 
@@ -576,76 +554,90 @@ const closeModal = () => {
                           {showLoginPassword ? "Hide" : "Show"}
                         </button>
                       </div>
+                      
+                      {/* Password Reset Link */}
+                      <div style={{ textAlign: "right", marginTop: "6px" }}>
+                        <button 
+                          type="button" 
+                          className="auth-switch-btn" 
+                          onClick={() => setIsForgotPassword(true)}
+                          style={{ fontSize: "0.75rem", color: "#6366f1", border: "none", background: "none", cursor: "pointer" }}
+                        >
+                          Forgot Password?
+                        </button>
+                      </div>
                     </div>
                     
                     <button type="submit" className="auth-btn-primary">
-                      Log In {loginRole === "superadmin" ? "SuperAdmin" : "Admin"}
+                      Log In {loginRole === "superadmin" ? "SuperAdmin" : "User"}
                     </button>
                   </form>
 
                   <div className="quick-test-note">
-                    <strong>Reminder:</strong> Dipa tapos pi </div>
+                    <strong>Reminder:</strong> This is sandbox mode only.
+                  </div>
 
-                  {/* <div className="auth-switch-text">
-                    Want to register an organization?{" "}
-                   <button className="auth-switch-btn" onClick={() => setIsSignUp(true)}>Register here</button> Feed Card 
-                  </div> */}
+                  <div className="auth-switch-text" style={{ marginTop: "1rem" }}>
+                    Need a new account?{" "}
+                    <button type="button" className="auth-switch-btn" onClick={() => {
+                      setIsSignUp(true);
+                      setIsForgotPassword(false);
+                    }}>Register here</button>
+                  </div>
                 </div>
               ) : (
-                /* Register Org Content (No User Option) */
+                /* Register User Form */
                 <div className="auth-card-content">
                   <div className="register-form scrollable-form">
-                    <h2>Register Site</h2>
-                    <p className="auth-subtitle">Accredit your website for feedback</p>
+                    <h2>Register User</h2>
+                    <p className="auth-subtitle">Create your VoxReview user account</p>
                     
-                    <form onSubmit={handleOrgRegisterSubmit}>
+                    <form onSubmit={handleUserRegisterSubmit}>
                       <div className="auth-input-group">
-                        <label>Website Name</label>
+                        <label>Username</label>
                         <input 
                           type="text" 
-                          placeholder="e.g. Computer Science Society" 
+                          placeholder="e.g. juan_delacruz" 
                           required 
-                          value={orgName} 
-                          onChange={(e) => setOrgName(e.target.value)} 
+                          value={registerUsername} 
+                          onChange={(e) => setRegisterUsername(e.target.value)} 
                         />
                       </div>
 
-
                       <div className="auth-input-group">
-                        <label>Brief Description</label>
+                        <label>Short Bio</label>
                         <textarea 
                           rows="2" 
-                          placeholder="About your website" 
-                          value={orgDesc} 
-                          onChange={(e) => setOrgDesc(e.target.value)}
+                          placeholder="Short description about you..." 
+                          value={registerBio} 
+                          onChange={(e) => setRegisterBio(e.target.value)}
                           required
                         ></textarea>
                       </div>
 
                       <div className="auth-input-row">
                         <div className="auth-input-group">
-                          <label>Representative Name</label>
+                          <label>Full Name</label>
                           <input 
                             type="text" 
                             placeholder="Full Name" 
                             required 
-                            value={repName} 
-                            onChange={(e) => setRepName(e.target.value)} 
+                            value={registerFullName} 
+                            onChange={(e) => setRegisterFullName(e.target.value)} 
                           />
                         </div>
                         <div className="auth-input-group">
                           <label>Contact Email</label>
                           <input 
                             type="email" 
-                            placeholder="name@gmail.com" 
+                            placeholder="name@example.com" 
                             required 
-                            value={repEmail} 
-                            onChange={(e) => setRepEmail(e.target.value)} 
+                            value={registerEmail} 
+                            onChange={(e) => setRegisterEmail(e.target.value)} 
                           />
                         </div>
                       </div>
 
-                      {/* Password with hide/see feature */}
                       <div className="auth-input-group">
                         <label>Password</label>
                         <div style={{ position: "relative" }}>
@@ -667,12 +659,12 @@ const closeModal = () => {
                         </div>
                       </div>
                       
-                      <button type="submit" className="auth-btn-primary">Submit Accreditation Request</button>
+                      <button type="submit" className="auth-btn-primary">Register User</button>
                     </form>
 
                     <div className="auth-switch-text" style={{ marginTop: "1rem" }}>
                       Already have an account?{" "}
-                      <button className="auth-switch-btn" onClick={() => setIsSignUp(false)}>Log In</button>
+                      <button type="button" className="auth-switch-btn" onClick={() => setIsSignUp(false)}>Log In</button>
                     </div>
                   </div>
                 </div>

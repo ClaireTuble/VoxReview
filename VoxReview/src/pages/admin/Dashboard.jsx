@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./dash.css";
 
-// SVG Icons
+// SVG Icons for dashboard interface
 const Icons = {
   Dashboard: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-  ),
-  Events: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-  ),
+  ), 
   Feedback: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  ),
-  Moderation: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
   ),
   Reports: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -34,18 +28,6 @@ const Icons = {
   Search: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   ),
-  Plus: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-  ),
-  Trash: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-  ),
-  Approve: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  ),
-  Reject: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  ),
   ChevronDown: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   ),
@@ -54,18 +36,18 @@ const Icons = {
   )
 };
 
+// Section hierarchy in user dashboard navigation sidebar
 const NAV_SECTIONS = [
   {
     heading: "Overview",
     items: [{ id: "dashboard", label: "Dashboard", icon: Icons.Dashboard }],
   },
-  {
-    heading: "Management",
-    items: [
-      { id: "feedback-inbox", label: "Inbox", icon: Icons.Feedback },
-      
-    ],
-  },
+{
+  heading: "Management",
+  items: [
+    { id: "feedback-inbox", label: "Inbox", icon: Icons.Feedback }
+  ],
+},
   {
     heading: "Analytics",
     items: [
@@ -81,185 +63,105 @@ const NAV_SECTIONS = [
   },
 ];
 
-// eme
-const INITIAL_EVENTS = [
-  { id: "e1", name: "Pants", organizer: "Student Council", date: "Dec 12-18, 2025", reviews: 120, rating: 4.5, status: "Completed" },
-  { id: "e2", name: "fan", organizer: "Science Club", date: "Oct 10-14, 2025", reviews: 85, rating: 3.8, status: "Completed" },
-  { id: "e3", name: "Tshirt", organizer: "Sports Office", date: "Sep 5-8, 2025", reviews: 142, rating: 2.1, status: "Completed" },
-  { id: "e4", name: "Leadership Summit 2026", organizer: "COSS", date: "Feb 15, 2026", reviews: 0, rating: 0.0, status: "Upcoming" },
-  { id: "e5", name: "General Assembly", organizer: "SITE", date: "Jul 10, 2026", reviews: 0, rating: 0.0, status: "Active" }
-];
 
+// Initial feedbacks with name, product, and sentiment fields
 const INITIAL_FEEDBACKS = [
-  { id: "f1", studentName: "Maky Boi", event: "Pants", rating: 5, comment: "The Material is great.", sentiment: "Positive", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
-  { id: "f2", studentName: "Mary Uy", event: "fan", rating: 3, comment: "it works okay.", sentiment: "Neutral", date: "5 hrs ago", priority: "Neutral", status: "Read" },
-  { id: "f3", studentName: "Mike po ", event: "Tshirt", rating: 1, comment: "Too hot and very thin cotton are ugly and the design is not good. I hate it.", sentiment: "Negative", date: "1 day ago", priority: "High Priority", status: "Unread" },
-  { id: "f4", studentName: "Cardo", event: "Foundation Week 2025", rating: 4, comment: "Loved the food trucks and overall vibe. Concert was amazing!", sentiment: "Positive", date: "2 days ago", priority: "Neutral", status: "Read" },
-  { id: "f5", studentName: "Susan roses", event: "CSM Fest", rating: 4, comment: "Great booths, had a lot of interactive games. Well done organizers.", sentiment: "Positive", date: "3 days ago", priority: "Neutral", status: "Unread" }
+  { id: "f1", name: "Maky Boi", product: "Pants", rating: 5, comment: "The material is great, super quality.", sentiment: "Happy", date: "2 hrs ago", priority: "Neutral", status: "Unread" },
+  { id: "f2", name: "Mary Uy", product: "Fan", rating: 3, comment: "It works fine, just okay.", sentiment: "Envy", date: "5 hrs ago", priority: "Neutral", status: "Read" },
+  { id: "f3", name: "Mike po ", product: "Tshirt", rating: 1, comment: "Mainit tsaka sobrang nipis ng cotton. Hindi maganda ang design at hindi ko talaga gusto yung quality.", sentiment: "Disgust", date: "1 day ago", priority: "High Priority", status: "Unread" },
+  { id: "f4", name: "Cardo", product: "Hoodie", rating: 4, comment: "A bit warm but the fabric fit is nice. Cool color too.", sentiment: "Happy", date: "2 days ago", priority: "Neutral", status: "Read" },
+  { id: "f5", name: "Susan roses", product: "Cap", rating: 4, comment: "The cap is okay, but a bit tight on my head. Delivery was slow.", sentiment: "Envy", date: "3 days ago", priority: "Neutral", status: "Unread" }
 ];
 
-const INITIAL_MODERATION = [
-  { id: "m1", studentName: "Aldrin Ramos", event: "Palaro 2025", rating: 2, comment: "The sports schedule kept changing without notice. Frustrating.", sentiment: "Negative", date: "10 mins ago" },
-  { id: "m2", studentName: "Klaire Cruz", event: "Foundation Week 2025", rating: 5, comment: "Best week of the year! WMSU represent!", sentiment: "Positive", date: "30 mins ago" },
-  { id: "m3", studentName: "Joseph Tan", event: "General Assembly", rating: 3, comment: "Okay meeting, but audio was terrible at the gym.", sentiment: "Neutral", date: "1 hr ago" }
-];
 
+// Initial alert system notifications
 const INITIAL_NOTIFICATIONS = [
-  { id: "n1", text: "New negative review received for Tshirt", date: "10m ago", read: false },
-  { id: "n2", text: "Shirt feedback flagged as high priority", date: "1h ago", read: false },
-  { id: "n3", text: "Pants reached a milestone of 80 reviews", date: "2h ago", read: true },
+  { id: "n1", text: "New feedback containing Disgust sentiment received for Tshirt", date: "10m ago", read: false },
+  { id: "n2", text: "Cap review flagged as high priority due to Envy score", date: "1h ago", read: false },
+  { id: "n3", text: "Pants reached a milestone of 120 reviews", date: "2h ago", read: true },
 ];
+
+// Helper function to get custom sentiment colors
+const getSentimentColor = (sentiment) => {
+  switch (sentiment.toLowerCase()) {
+    case "happy": return "#22c55e";      // Green
+    case "anger": return "#ef4444";    // Red
+    case "sad": return "#f97316";     // Orange
+    case "disgust": return "#a855f7";  // Purple
+    case "envy": return "#eab308";  // Yellow
+    case "sarcastic": return "#ec4899"; // Pink
+    default: return "#94a3b8";
+  }
+};
 
 const AdminDashboard = () => {
   const [activeNav, setActiveNav] = useState("dashboard");
   const navigate = useNavigate();
 
-  // Shared application 
-  const [events, setEvents] = useState(INITIAL_EVENTS);
+  // Dashboard component data states
   const [feedbacks, setFeedbacks] = useState(INITIAL_FEEDBACKS);
-  const [modQueue, setModQueue] = useState(INITIAL_MODERATION);
   const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
 
-  // Modal 
+  // Modal display toggles
   const [showNotificationsModal, setShowNotificationsModal] = useState(false);
 
-  // Profile fields 
+  // Profile fields state
   const [profName, setProfName] = useState("Faye Vega");
   const [profEmail, setProfEmail] = useState("admin@voxreview.com");
-  const [profOrg, setProfOrg] = useState("Computer Science Society");
   const [profPhone, setProfPhone] = useState("09123456789");
 
-  // Settings states
+  // Settings configurations
   const [sensitivity, setSensitivity] = useState(60);
-  const [notifNew, setNotifNew] = useState(true);
-  const [notifDaily, setNotifDaily] = useState(false);
-  const [anonymousAllowed, setAnonymousAllowed] = useState(true);
-  const [apiKey, setApiKey] = useState("vox_live_8f3a9d2c1e6b5a4d");
 
-  // Load any latest feedback submitted from sidebar (extension)
+  // Sync feedbacks using periodic polling from localStorage
   useEffect(() => {
     const handleStorageChange = () => {
       const latest = localStorage.getItem("vox_feedback_latest");
       if (latest) {
         const item = JSON.parse(latest);
-        // Avoid duplicate entry if reloading
-        const exists = feedbacks.some(f => f.comment === item.comment && f.studentName === item.studentName);
+        const exists = feedbacks.some(f => f.comment === item.comment && f.name === item.name);
         if (!exists) {
           const formatted = {
             id: item.id,
-            studentName: item.studentName,
-            event: item.event,
+            name: item.name,
+            product: item.product,
             rating: item.rating,
             comment: item.comment,
-            sentiment: item.sentiment,
+            sentiment: item.sentiment || "happy",
             date: "Just now",
-            priority: item.sentiment === "Negative" ? "High Priority" : "Neutral",
+            priority: (item.sentiment === "Anger" || item.sentiment === "Disgust") ? "High Priority" : "Neutral",
             status: "Unread"
           };
           setFeedbacks(prev => [formatted, ...prev]);
           
-          // Generate notification
+          // Add a new admin notification alert
           const newNotif = {
             id: "n" + Date.now(),
-            text: `New review submitted: ${item.sentiment} sentiment for ${item.event}`,
+            text: `New review from ${item.name}: ${item.sentiment} sentiment for ${item.product}`,
             date: "Just now",
             read: false
           };
-          setNotifications(prev => [newNotif, ...prev]);
+           setNotifications(prev => [newNotif, ...prev]);
 
-          // Update event reviews stats
-          setEvents(prev => prev.map(ev => {
-            if (ev.name === item.event) {
-              const newReviews = ev.reviews + 1;
-              const newRating = parseFloat(((ev.rating * ev.reviews + item.rating) / newReviews).toFixed(1));
-              return { ...ev, reviews: newReviews, rating: newRating };
-            }
-            return ev;
-          }));
           localStorage.removeItem("vox_feedback_latest");
         }
       }
     };
 
-    // Check periodically since local storage don't fire on the same window
     const interval = setInterval(handleStorageChange, 1500);
+
     return () => clearInterval(interval);
   }, [feedbacks]);
 
-  // Handle Event Creation
-  const [showEventModal, setShowEventModal] = useState(false);
-  const [newEventName, setNewEventName] = useState("");
-  const [newEventOrg, setNewEventOrg] = useState("Computer Science Society");
-  const [newEventDate, setNewEventDate] = useState("");
-  const [newEventStatus, setNewEventStatus] = useState("Active");
-
-  const handleCreateEvent = (e) => {
-    e.preventDefault();
-    if (!newEventName.trim()) return;
-
-    const newEv = {
-      id: "e" + (events.length + 1),
-      name: newEventName.trim(),
-      organizer: newEventOrg,
-      date: newEventDate || "TBA",
-      reviews: 0,
-      rating: 0.0,
-      status: newEventStatus
-    };
-
-    setEvents([...events, newEv]);
-    setShowEventModal(false);
-    setNewEventName("");
-    setNewEventDate("");
-    alert("New campus event registered successfully!");
-  };
-
-  // Handle Moderation actions
-  const handleApproveFeedback = (id) => {
-    const item = modQueue.find(m => m.id === id);
-    if (!item) return;
-
-    // Remove from moderation
-    setModQueue(modQueue.filter(m => m.id !== id));
-
-    // Add to approved feedbacks
-    const approvedItem = {
-      ...item,
-      id: "f" + (feedbacks.length + 1),
-      date: "Just now",
-      priority: item.sentiment === "Negative" ? "High Priority" : "Neutral",
-      status: "Unread"
-    };
-    setFeedbacks([approvedItem, ...feedbacks]);
-
-    // Update event stats
-    setEvents(events.map(ev => {
-      if (ev.name === item.event) {
-        const newReviews = ev.reviews + 1;
-        const newRating = parseFloat(((ev.rating * ev.reviews + item.rating) / newReviews).toFixed(1));
-        return { ...ev, reviews: newReviews, rating: newRating };
-      }
-      return ev;
-    }));
-
-    alert("Feedback review approved and published to the public portal feed.");
-  };
-
-  const handleRejectFeedback = (id) => {
-    setModQueue(modQueue.filter(m => m.id !== id));
-    alert("Feedback review rejected and archived.");
-  };
-
-  // Feedback Inbox Filter and Search
-  const [inboxPriority, setInboxPriority] = useState("All"); // All, High Priority, Neutral
-  const [inboxStatus, setInboxStatus] = useState("All"); // All, Read, Unread
-  const [inboxSentiment, setInboxSentiment] = useState("All"); // All, Positive, Neutral, Negative
+  // Inbox search and filter controls
+  const [inboxPriority, setInboxPriority] = useState("All");
+  const [inboxStatus, setInboxStatus] = useState("All");
+  const [inboxSentiment, setInboxSentiment] = useState("All");
   const [inboxSearch, setInboxSearch] = useState("");
-
   const filteredFeedbacks = feedbacks.filter(f => {
     const matchesSearch = f.comment.toLowerCase().includes(inboxSearch.toLowerCase()) || 
-                          f.studentName.toLowerCase().includes(inboxSearch.toLowerCase()) ||
-                          f.event.toLowerCase().includes(inboxSearch.toLowerCase());
+                          f.name.toLowerCase().includes(inboxSearch.toLowerCase()) ||
+                          f.product.toLowerCase().includes(inboxSearch.toLowerCase());
     
     const matchesPriority = inboxPriority === "All" || f.priority === inboxPriority;
     const matchesStatus = inboxStatus === "All" || f.status === inboxStatus;
@@ -272,35 +174,37 @@ const AdminDashboard = () => {
     setFeedbacks(feedbacks.map(f => f.id === id ? { ...f, status: f.status === "Read" ? "Unread" : "Read" } : f));
   };
 
-  const togglePriority = (id) => {
-    setFeedbacks(feedbacks.map(f => f.id === id ? { ...f, priority: f.priority === "High Priority" ? "Neutral" : "High Priority" } : f));
-  };
-
-  // Calculate Sentiment statistics
+  // Calculate cumulative sentiment counts
   const totalReviews = feedbacks.length;
-  const positiveReviews = feedbacks.filter(f => f.sentiment === "Positive").length;
-  const neutralReviews = feedbacks.filter(f => f.sentiment === "Neutral").length;
-  const negativeReviews = feedbacks.filter(f => f.sentiment === "Negative").length;
+  const happyCount = feedbacks.filter(f => f.sentiment === "Happy").length;
+  const angerCount = feedbacks.filter(f => f.sentiment === "Anger").length;
+  const sadCount = feedbacks.filter(f => f.sentiment === "Sad").length;
+  const disgustCount = feedbacks.filter(f => f.sentiment === "Disgust").length;
+  const envyCount = feedbacks.filter(f => f.sentiment === "Envy").length;
+  const sarcasticCount = feedbacks.filter(f => f.sentiment === "Sarcastic").length;
 
-  const posPct = totalReviews > 0 ? Math.round((positiveReviews / totalReviews) * 100) : 0;
-  const neuPct = totalReviews > 0 ? Math.round((neutralReviews / totalReviews) * 100) : 0;
-  const negPct = totalReviews > 0 ? Math.round((negativeReviews / totalReviews) * 100) : 0;
+  const happyPct = totalReviews > 0 ? Math.round((happyCount / totalReviews) * 100) : 0;
+  const angerPct = totalReviews > 0 ? Math.round((angerCount / totalReviews) * 100) : 0;
+  const sadPct = totalReviews > 0 ? Math.round((sadCount / totalReviews) * 100) : 0;
+  const disgustPct = totalReviews > 0 ? Math.round((disgustCount / totalReviews) * 100) : 0;
+  const envyPct = totalReviews > 0 ? Math.round((envyCount / totalReviews) * 100) : 0;
+  const sarcasticPct = totalReviews > 0 ? Math.round((sarcasticCount / totalReviews) * 100) : 0;
 
-  // View switch renderer
+  // View renderer for navigation tabs
   const renderViewContent = () => {
     switch (activeNav) {
       case "dashboard":
         return (
           <>
-            {/* KPI Cards */}
+            {/* KPI statistics cards */}
             <section className="stat-cards-grid">
               <div className="stat-card">
                 <div className="stat-icon stat-icon--purple">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </div>
                 <p className="stat-value">{feedbacks.length}</p>
-                <p className="stat-label">Total Feedback</p>
-                <p className="stat-trend stat-trend--positive">+{feedbacks.filter(f => f.date === "Just now" || f.date.includes("hr")).length} new today</p>
+                <p className="stat-label">Total Reviews</p>
+                <p className="stat-trend stat-trend--positive">Active monitoring</p>
               </div>
 
               <div className="stat-card">
@@ -311,57 +215,81 @@ const AdminDashboard = () => {
                   {feedbacks.length > 0 ? (feedbacks.reduce((acc, f) => acc + f.rating, 0) / feedbacks.length).toFixed(1) : "0.0"}/5.0
                 </p>
                 <p className="stat-label">Avg Satisfaction</p>
-                <p className="stat-trend stat-trend--positive">Stable rating</p>
+                <p className="stat-trend stat-trend--positive">Consistent feedback</p>
               </div>
-
-
             </section>
 
-            {/* Sentiment */}
+            {/* Sentiment distribution bar for the 6 sentiments */}
             <section className="card">
               <h2 className="card__title">Overall Sentiment Distribution</h2>
               <div className="sentiment-section">
-                <div className="sentiment-bar">
-                  <div className="sentiment-bar__segment sentiment-bar__segment--positive" style={{ flex: posPct || 1 }} />
-                  <div className="sentiment-bar__segment sentiment-bar__segment--neutral"  style={{ flex: neuPct || 1 }} />
-                  <div className="sentiment-bar__segment sentiment-bar__segment--negative" style={{ flex: negPct || 1 }} />
+                <div className="sentiment-bar" style={{ display: "flex", height: "16px", borderRadius: "8px", overflow: "hidden", margin: "1.2rem 0" }}>
+                  <div className="sentiment-bar__segment" style={{ flex: happyCount || 1, backgroundColor: "#22c55e" }} title={`Happy: ${happyPct}%`} />
+                  <div className="sentiment-bar__segment" style={{ flex: angerCount || 1, backgroundColor: "#ef4444" }} title={`Anger: ${angerPct}%`} />
+                  <div className="sentiment-bar__segment" style={{ flex: sadCount || 1, backgroundColor: "#f97316" }} title={`Sad: ${sadPct}%`} />
+                  <div className="sentiment-bar__segment" style={{ flex: disgustCount || 1, backgroundColor: "#a855f7" }} title={`Disgust: ${disgustPct}%`} />
+                  <div className="sentiment-bar__segment" style={{ flex: envyCount || 1, backgroundColor: "#eab308" }} title={`Envy: ${envyPct}%`} />
+                  <div className="sentiment-bar__segment" style={{ flex: sarcasticCount || 1, backgroundColor: "#ec4899" }} title={`Sarcastic: ${sarcasticPct}%`} />
                 </div>
-                <div className="sentiment-legend">
-                  <span className="legend-item">
-                    <span className="legend-dot legend-dot--positive" /> Positive {posPct}%
+                <div className="sentiment-legend" style={{ display: "flex", flexWrap: "wrap", gap: "14px", marginTop: "1rem" }}>
+                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#22c55e" }} /> Happy {happyPct}%
                   </span>
-                  <span className="legend-item">
-                    <span className="legend-dot legend-dot--neutral" /> Neutral {neuPct}%
+                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#ef4444" }} /> Anger {angerPct}%
                   </span>
-                  <span className="legend-item">
-                    <span className="legend-dot legend-dot--negative" /> Negative {negPct}%
+                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#f97316" }} /> Sad {sadPct}%
+                  </span>
+                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#a855f7" }} /> Disgust {disgustPct}%
+                  </span>
+                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#eab308" }} /> Envy {envyPct}%
+                  </span>
+                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#ec4899" }} /> Sarcastic {sarcasticPct}%
                   </span>
                 </div>
               </div>
             </section>
 
-            {/* Bottom Row */}
+            {/* Bottom Grid for recent activities */}
             <div className="bottom-grid">
               <section className="card">
-                <h2 className="card__title">Recent Feedback</h2>
+                <h2 className="card__title">Recent Feedback Reviews</h2>
                 <div className="feedback-table-wrapper">
                   <table className="feedback-table">
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Item</th>
+                        <th>Product</th>
                         <th>Sentiment</th>
                         <th>Rating</th>
                         <th>Date</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {feedbacks.slice(0, 3).map(({ id, studentName, event, sentiment, rating, date }) => (
+                      {feedbacks.slice(0, 3).map(({ id, name, product, sentiment, rating, date }) => (  
                         <tr key={id}>
-                          <td className="td-name">{studentName}</td>
-                          <td className="td-event">{event}</td>
+                          <td className="td-name">{name}</td>
+                          <td className="td-event">{product}</td>
                           <td>
-                            <span className={`badge badge--${sentiment.toLowerCase()}`}>{sentiment}</span>
+                            <span 
+                              className="badge" 
+                              style={{ 
+                                textTransform: "uppercase",
+                                fontSize: "0.7rem",
+                                padding: "2px 8px",
+                                borderRadius: "4px",
+                                fontWeight: 700,
+                                backgroundColor: getSentimentColor(sentiment) + "22",
+                                color: getSentimentColor(sentiment),
+                                border: `1px solid ${getSentimentColor(sentiment)}44`
+                              }}
+                            >
+                              {sentiment}
+                            </span>
                           </td>
                           <td>
                             {[1, 2, 3, 4, 5].map(star => (
@@ -378,9 +306,8 @@ const AdminDashboard = () => {
 
               <section className="card quick-actions">
                 <h2 className="card__title">Quick Actions</h2>
-
                 <button className="btn btn--secondary" onClick={() => {
-                  alert("Preparing export files... Excel template report download started!");
+                  alert("Exporting sentiment reports to Excel... Please check your downloads folder!");
                 }}>
                   Export Report
                 </button>
@@ -389,113 +316,6 @@ const AdminDashboard = () => {
           </>
         );
 
-      case "events":
-        return (
-          <div className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-              <h2>Events Management</h2>
-              <button className="btn btn--primary" style={{ padding: "10px 18px", display: "flex", alignItems: "center", gap: "6px" }} onClick={() => setShowEventModal(true)}>
-                <Icons.Plus /> New Event
-              </button>
-            </div>
-
-            {/* Create Event */}
-            {showEventModal && (
-              <div className="custom-modal-overlay">
-                <div className="custom-modal-content">
-                  <h3>Register New Event</h3>
-                  <form onSubmit={handleCreateEvent} style={{ marginTop: "1rem" }}>
-                    <div className="form-item">
-                      <label>Event Name</label>
-                      <input 
-                        type="text" 
-                        placeholder="e.g. WMSU Palaro 2026" 
-                        value={newEventName} 
-                        onChange={(e) => setNewEventName(e.target.value)} 
-                        required 
-                      />
-                    </div>
-                    <div className="form-item">
-                      <label>Organizing Department/Society</label>
-                      <input 
-                        type="text" 
-                        value={newEventOrg} 
-                        onChange={(e) => setNewEventOrg(e.target.value)} 
-                        required 
-                      />
-                    </div>
-                    <div className="form-item-row">
-                      <div className="form-item" style={{ flex: 1 }}>
-                        <label>Schedule / Date</label>
-                        <input 
-                          type="text" 
-                          placeholder="e.g. Oct 10-14, 2025" 
-                          value={newEventDate} 
-                          onChange={(e) => setNewEventDate(e.target.value)} 
-                        />
-                      </div>
-                      <div className="form-item" style={{ flex: 1 }}>
-                        <label>Initial Status</label>
-                        <select value={newEventStatus} onChange={(e) => setNewEventStatus(e.target.value)}>
-                          <option value="Active">Active</option>
-                          <option value="Upcoming">Upcoming</option>
-                          <option value="Completed">Completed</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", gap: "10px", marginTop: "1.5rem", justifyContent: "flex-end" }}>
-                      <button type="button" className="btn btn--secondary" style={{ padding: "8px 16px" }} onClick={() => setShowEventModal(false)}>Cancel</button>
-                      <button type="submit" className="btn btn--primary" style={{ padding: "8px 16px" }}>Register Event</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
-
-            <div className="feedback-table-wrapper">
-              <table className="feedback-table">
-                <thead>
-                  <tr>
-                    <th>Event Name</th>
-                    <th>Organizer</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Reviews</th>
-                    <th>Avg Score</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {events.map((ev) => (
-                    <tr key={ev.id}>
-                      <td style={{ fontWeight: 600 }}>{ev.name}</td>
-                      <td>{ev.organizer}</td>
-                      <td>{ev.date}</td>
-                      <td>
-                        <span className={`badge-status status-${ev.status.toLowerCase()}`}>
-                          {ev.status}
-                        </span>
-                      </td>
-                      <td>{ev.reviews} reviews</td>
-                      <td style={{ fontWeight: 600, color: ev.rating >= 4 ? "#166534" : ev.rating >= 3 ? "#92400e" : "#991b1b" }}>
-                        {ev.rating > 0 ? `${ev.rating} ★` : "No reviews"}
-                      </td>
-                      <td>
-                        <button className="icon-btn-danger" title="Delete Event" onClick={() => {
-                          if (confirm(`Are you sure you want to delete ${ev.name}?`)) {
-                            setEvents(events.filter(e => e.id !== ev.id));
-                          }
-                        }}>
-                          <Icons.Trash />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
 
       case "feedback-inbox":
         return (
@@ -505,67 +325,56 @@ const AdminDashboard = () => {
               Filter feedback dynamically by Priority levels, Read/Unread statuses, and Sentiment types.
             </p>
             
-            {/* Search and Filters */}
             <div className="inbox-toolbar">
               <div className="search-box">
                 <span className="search-icon"><Icons.Search /></span>
                 <input 
                   type="text" 
-                  placeholder="Search inbox by student name, keywords, or event..." 
+                  placeholder="Search inbox by name, keywords, or product..." 
                   value={inboxSearch}
                   onChange={(e) => setInboxSearch(e.target.value)}
                 />
               </div>
 
-              {/* Filters */}
-<div className="filter-controls-group">
+              <div className="filter-controls-group">
+                <div className="filter-item">
+                  <label>Priority</label>
+                  <select value={inboxPriority} onChange={(e) => setInboxPriority(e.target.value)}>
+                    <option value="All">All</option>
+                    <option value="High Priority">High Priority</option>
+                    <option value="Low Priority">Low Priority</option>
+                    <option value="Neutral">Neutral</option>
+                  </select>
+                </div>
 
-  <div className="filter-item">
-    <label>Priority</label>
-    <select
-      value={inboxPriority}
-      onChange={(e) => setInboxPriority(e.target.value)}
-    >
-      <option value="All">All</option>
-      <option value="High Priority">High Priority</option>
-      <option value="Low Priority">Low Priority</option>
-      <option value="Urgent">Urgent</option>
-      <option value="Needs Attention">Needs Attention</option>
-      <option value="Neutral">Neutral</option>
-    </select>
-  </div>
+                <div className="filter-item">
+                  <label>Status</label>
+                  <select value={inboxStatus} onChange={(e) => setInboxStatus(e.target.value)}>
+                    <option value="All">All</option>
+                    <option value="Unread">Unread</option>
+                    <option value="Read">Read</option>
+                  </select>
+                </div>
 
-  <div className="filter-item">
-    <label>Status</label>
-    <select
-      value={inboxStatus}
-      onChange={(e) => setInboxStatus(e.target.value)}
-    >
-      <option value="All">All</option>
-      <option value="Unread">Unread</option>
-      <option value="Read">Read</option>
-    </select>
-  </div>
-
-  <div className="filter-item">
-    <label>Sentiment</label>
-    <select
-      value={inboxSentiment}
-      onChange={(e) => setInboxSentiment(e.target.value)}
-    >
-      <option value="All">All</option>
-      <option value="Positive">Positive</option>
-      <option value="Neutral">Neutral</option>
-      <option value="Negative">Negative</option>
-    </select>
-  </div>
-</div>
-
+                <div className="filter-item">
+                  <label>Sentiment</label>
+                  <select value={inboxSentiment} onChange={(e) => setInboxSentiment(e.target.value)}>
+                    <option value="All">All</option>
+                    <option value="Happy">Happy</option>
+                    <option value="Anger">Anger</option>
+                    <option value="Sad">Sad</option>
+                    <option value="Disgust">Disgust</option>
+                    <option value="Envy">Envy</option>
+                    <option value="Sarcastic">Sarcastic</option>
+                  </select>
+                </div>
+              </div>
             </div>
+
             <div className="feedback-cards-list">
               {filteredFeedbacks.length === 0 ? (
                 <div className="empty-state">
-                  <p>No feedback matching the selected priority, status, and sentiment filters found.</p>
+                  <p>No feedback matching the selected filter parameters found.</p>
                 </div>
               ) : (
                 filteredFeedbacks.map((f) => (
@@ -573,13 +382,27 @@ const AdminDashboard = () => {
                     <div className="card-header-inbox">
                       <div className="info-main">
                         <h4 style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
-                          {f.studentName}
+                          {f.name}
                           {f.status === "Unread" && <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4f46e5" }} title="Unread review" />}
                           {f.priority === "High Priority" && <span style={{ fontSize: "0.7rem", padding: "2px 6px", background: "#fef2f2", color: "#ef4444", borderRadius: "4px", fontWeight: "700" }}>HIGH PRIORITY</span>}
                         </h4>
-                        <span className="sub-event-info">{f.event} • {f.date}</span>
+                        <span className="sub-event-info">{f.product} • {f.date}</span>
                       </div>
-                      <span className={`badge badge--${f.sentiment.toLowerCase()}`}>{f.sentiment}</span>
+                      <span 
+                        className="badge"
+                        style={{
+                          textTransform: "uppercase",
+                          fontSize: "0.7rem",
+                          padding: "2px 8px",
+                          borderRadius: "4px",
+                          fontWeight: 700,
+                          backgroundColor: getSentimentColor(f.sentiment) + "22",
+                          color: getSentimentColor(f.sentiment),
+                          border: `1px solid ${getSentimentColor(f.sentiment)}44`
+                        }}
+                      >
+                        {f.sentiment}
+                      </span>
                     </div>
 
                     <div style={{ margin: "0.5rem 0", color: "#fbbf24" }}>
@@ -591,14 +414,11 @@ const AdminDashboard = () => {
                     <p className="feedback-comment">"{f.comment}"</p>
 
                     <div className="feedback-card-footer">
-                      {/* Filter test helpers toggles */}
                       <button className="card-action-btn" onClick={() => toggleReadStatus(f.id)}>
                         Mark as {f.status === "Read" ? "Unread" : "Read"}
                       </button>
-                    
-
                       <button className="card-action-btn card-action-btn-danger" onClick={() => {
-                        if (confirm("Delete this review permanently?")) {
+                        if (confirm("Are you sure you want to permanently delete this review?")) {
                           setFeedbacks(feedbacks.filter(item => item.id !== f.id));
                         }
                       }}>Delete</button>
@@ -610,115 +430,27 @@ const AdminDashboard = () => {
           </div>
         );
 
-      case "moderation-queue":
-        return (
-          <div className="card">
-            <h2>Moderation Approval Queue</h2>
-            <p style={{ color: "#64748b", fontSize: "0.9rem", marginBottom: "1.5rem" }}>
-              User reviews held for moderation review. Approving them will import and publish them on the live metrics.
-            </p>
-
-            {modQueue.length === 0 ? (
-              <div className="empty-queue-banner">
-                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#22c55e" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg>
-                <h3>All Clear!</h3>
-                <p>There are no feedback submissions waiting in the moderation approval queue.</p>
-              </div>
-            ) : (
-              <div className="feedback-table-wrapper">
-                <table className="feedback-table">
-                  <thead>
-                    <tr>
-                      <th>Student</th>
-                      <th>Event</th>
-                      <th>Comment</th>
-                      <th>Detected Sentiment</th>
-                      <th>Rating</th>
-                      <th style={{ textAlign: "right" }}>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {modQueue.map((item) => (
-                      <tr key={item.id}>
-                        <td style={{ fontWeight: 600 }}>{item.studentName}</td>
-                        <td>{item.event}</td>
-                        <td style={{ maxWidth: "250px", wordBreak: "break-word" }}>"{item.comment}"</td>
-                        <td>
-                          <span className={`badge badge--${item.sentiment.toLowerCase()}`}>{item.sentiment}</span>
-                        </td>
-                        <td>
-                          {[1,2,3,4,5].map(star => (
-                            <Icons.Star key={star} filled={star <= item.rating} />
-                          ))}
-                        </td>
-                        <td style={{ textAlign: "right" }}>
-                          <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
-                            <button className="action-btn-success" title="Approve & Publish" onClick={() => handleApproveFeedback(item.id)}>
-                              <Icons.Approve /> Approve
-                            </button>
-                            <button className="action-btn-danger" title="Reject & Delete" onClick={() => handleRejectFeedback(item.id)}>
-                              <Icons.Reject /> Reject
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        );
-
+  
       case "reports":
         return (
           <div className="card">
-            <h2>Sentiment Analysis Reports</h2>
+            <h2>Sentiment Analysis & Breakdown Reports</h2>
             
             <div className="report-stats-summary" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", margin: "1.5rem 0" }}>
               <div className="stat-sub-card">
-                <h5>Overall Sentiment Score</h5>
-                <h3>82% Positive</h3>
-                <div className="sentiment-mini-bar" style={{ background: "#22c55e", height: "4px", borderRadius: "2px", width: "82%" }}></div>
+                <h5>Highest Sentiment Score</h5>
+                <h3>Happy ({happyPct}%)</h3>
+                <div className="sentiment-mini-bar" style={{ background: "#22c55e", height: "4px", borderRadius: "2px", width: `${happyPct}%` }}></div>
               </div>
               <div className="stat-sub-card">
-                <h5>Highest Rated</h5>
-                <h3>Products (4.5 ★)</h3>
-                <p>Total reviews: 120</p>
+                <h5>Total Reviewed Items</h5>
+                <h3>{feedbacks.length} Reviews</h3>
+                <p>Total reviews: {feedbacks.length}</p>
               </div>
             </div>
 
-            <h3 style={{ margin: "2rem 0 1rem" }}>Sentiment Split</h3>
+            <h3 style={{ margin: "2rem 0 1rem" }}>Product-Specific Sentiment Breakdown</h3>
             
-            <div className="event-sentiment-charts">
-              {events.filter(e => e.reviews > 0).map(ev => {
-                // Mock splits
-                let pos = 70;
-                let neu = 20;
-                let neg = 10;
-                if (ev.rating >= 4.5) { pos = 85; neu = 10; neg = 5; }
-                else if (ev.rating < 3.0) { pos = 25; neu = 30; neg = 45; }
-
-                return (
-                  <div key={ev.id} className="event-chart-row" style={{ marginBottom: "1.5rem" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.35rem", fontSize: "0.9rem" }}>
-                      <span style={{ fontWeight: 700 }}>{ev.name} ({ev.reviews} reviews)</span>
-                      <span style={{ color: "#64748b" }}>Rating: {ev.rating} ★</span>
-                    </div>
-                    <div className="sentiment-bar" style={{ height: "18px" }}>
-                      <div className="sentiment-bar__segment sentiment-bar__segment--positive" style={{ flex: pos }} title={`Positive: ${pos}%`} />
-                      <div className="sentiment-bar__segment sentiment-bar__segment--neutral"  style={{ flex: neu }} title={`Neutral: ${neu}%`} />
-                      <div className="sentiment-bar__segment sentiment-bar__segment--negative" style={{ flex: neg }} title={`Negative: ${neg}%`} />
-                    </div>
-                    <div style={{ display: "flex", gap: "10px", fontSize: "0.75rem", color: "#64748b", marginTop: "0.2rem" }}>
-                      <span>Positive {pos}%</span>
-                      <span>Neutral {neu}%</span>
-                      <span>Negative {neg}%</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
 
             <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "1.5rem", marginTop: "2rem", display: "flex", gap: "10px" }}>
               <button className="btn btn--primary" onClick={() => alert("PDF report compilation started. Check downloads folder.")}>
@@ -731,11 +463,10 @@ const AdminDashboard = () => {
       case "profile":
         return (
           <div className="card">
-            <h2>Website Administrator Profile</h2>
-            
+            <h2>Website User Profile</h2>
             <form style={{ maxWidth: "600px", marginTop: "1.5rem" }} onSubmit={(e) => {
               e.preventDefault();
-              alert("Admin Profile configuration saved successfully!");
+              alert("Successfully saved profile updates!");
             }}>
               <div className="form-item">
                 <label>Full Name</label>
@@ -749,7 +480,6 @@ const AdminDashboard = () => {
                 <label>Contact Phone Number</label>
                 <input type="text" value={profPhone} onChange={(e) => setProfPhone(e.target.value)} required />
               </div>
-              
               <button type="submit" className="btn btn--primary" style={{ marginTop: "1rem" }}>
                 Update Profile Info
               </button>
@@ -766,7 +496,7 @@ const AdminDashboard = () => {
               <div className="settings-block">
                 <h3>Sentiment Classification Threshold</h3>
                 <p style={{ color: "#64748b", fontSize: "0.85rem", margin: "0.25rem 0 1rem" }}>
-                  Adjust classification sensitivity score mapping for reviews positive/negative filters.
+                  Adjust classification sensitivity mapping for automatic sentiment engine tagging.
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
                   <input 
@@ -780,34 +510,14 @@ const AdminDashboard = () => {
                   <span style={{ fontWeight: 700, minWidth: "50px" }}>{sensitivity}%</span>
                 </div>
               </div>
-              {/*
-              <div className="settings-block">
-                <h3>System Configurations</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "1rem" }}>
-                  <label style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", fontSize: "0.95rem" }}>
-                    <input type="checkbox" checked={notifNew} onChange={(e) => setNotifNew(e.target.checked)} />
-                    Email Notification when new negative feedback is received
-                  </label>
-                  <label style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", fontSize: "0.95rem" }}>
-                    <input type="checkbox" checked={notifDaily} onChange={(e) => setNotifDaily(e.target.checked)} />
-                    Daily digests report email
-                  </label>
-                  <label style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", fontSize: "0.95rem" }}>
-                    <input type="checkbox" checked={anonymousAllowed} onChange={(e) => setAnonymousAllowed(e.target.checked)} />
-                    Allow anonymous feedback submissions on the widget sidebar
-                  </label>
-                </div>
-              </div>
-*/}
               <div>
-                <button className="btn btn--primary" onClick={() => alert("Configurations saved successfully!")}>
+                <button className="btn btn--primary" onClick={() => alert("System settings saved successfully!")}>
                   Save System Settings
                 </button>
               </div>
             </div>
           </div>
         );
-        
 
       default:
         return <div>View not implemented.</div>;
@@ -818,7 +528,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="app-shell">
-      {/* Sidebar */}
+      {/* Navigation Sidebar */}
       <aside className="sidebar">
         <div className="sidebar__brand">
           <span className="sidebar__brand-name">VoxReview</span>
@@ -846,7 +556,7 @@ const AdminDashboard = () => {
           <div className="avatar avatar--sm">FV</div>
           <div className="sidebar__user-info">
             <p className="sidebar__user-name">{profName}</p>
-            <p className="sidebar__user-role">Website Admin</p>
+            <p className="sidebar__user-role">Website User</p>
           </div>
           <button className="sidebar__logout" title="Sign out" onClick={() => navigate("/")}>
             <Icons.Logout />
@@ -854,16 +564,15 @@ const AdminDashboard = () => {
         </div>
       </aside>
 
-      {/* Main */}
+      {/* Main Container Area */}
       <div className="main-area">
         <header className="topbar">
           <nav className="topbar__breadcrumb" aria-label="breadcrumb">
-            <span className="topbar__breadcrumb-parent">Website Admin</span>
+            <span className="topbar__breadcrumb-parent">Website User</span>
             <span className="topbar__breadcrumb-sep">/</span>
             <span className="topbar__breadcrumb-current" style={{ textTransform: "capitalize" }}>{activeNav.replace("-", " ")}</span>
           </nav>
           <div className="topbar__actions">        
-            {/* Clickable Bell to open Modal Design notifications */}
             <button 
               className="topbar__icon-btn topbar__icon-btn--notif" 
               aria-label="Notifications" 
@@ -872,7 +581,6 @@ const AdminDashboard = () => {
               <Icons.Bell />
               {unreadNotifCount > 0 && <span className="notif-dot" />}
             </button>
-
             <div className="avatar" style={{ width: "32px", height: "32px", fontSize: "0.85rem" }}>FV</div>
             <span className="topbar__username" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }} onClick={() => setActiveNav("profile")}>
               Faye <Icons.ChevronDown />
@@ -885,7 +593,7 @@ const AdminDashboard = () => {
         </main>
       </div>
 
-      {/* Notif modal design */}
+      {/* Notification alerts modals view */}
       {showNotificationsModal && (
         <div className="custom-modal-overlay" onClick={() => setShowNotificationsModal(false)}>
           <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{ width: "450px" }}>
@@ -935,4 +643,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboard;  

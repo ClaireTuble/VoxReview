@@ -534,7 +534,6 @@ body {
     background: #94a3b8;
     border-radius: 10px;
 }
-
 .ext-feedback-list::-webkit-scrollbar-thumb:hover{
     background: #64748b;
 }
