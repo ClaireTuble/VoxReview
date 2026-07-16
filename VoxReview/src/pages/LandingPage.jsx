@@ -442,9 +442,7 @@ const openRegisterModal = () => {
       <div className="auth-descriptionleft">
         <h2>Join VoxReview</h2>
         <p>
-          Create your user account to access the VoxReview platform, submit
-          product reviews, and help businesses improve through meaningful
-          customer feedback.
+          Create your user account to access the VoxReview platform.
         </p>
       </div>
     </div>
@@ -466,7 +464,7 @@ const openRegisterModal = () => {
                 <div className="auth-description">
                   <h2>Welcome!</h2>
                   <p>
-                    Log in to manage product reviews and monitor user sentiments.
+                    Log in to monitor user sentiments.
                   </p>
                 </div>
               </div>
@@ -626,7 +624,7 @@ const openRegisterModal = () => {
                         <label>Username</label>
                         <input 
                           type="text" 
-                          placeholder="e.g. juan_delacruz" 
+                          placeholder="Enter your username" 
                           required 
                           value={registerUsername} 
                           onChange={(e) => setRegisterUsername(e.target.value)} 
