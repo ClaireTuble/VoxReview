@@ -174,12 +174,13 @@ const LandingPage = () => {
     setIsModalOpen(true);
   };
 
-  const openRegisterModal = () => {
-    setIsSignUp(true);
-    setIsForgotPassword(false);
-    setShowSuccess(false);
-    setIsModalOpen(true);
-  };
+const openRegisterModal = () => {
+  setIsSidebarOpen(false);      // Hide the extension sidebar
+  setIsSignUp(true);
+  setIsForgotPassword(false);
+  setShowSuccess(false);
+  setIsModalOpen(true);
+};
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -422,9 +423,37 @@ const LandingPage = () => {
       {isModalOpen && (
         <div className="auth-modal-overlay" onClick={closeModal}>
           <div className="auth-modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="auth-bg-column auth-bg-left"></div>
-            <div className="auth-bg-column auth-bg-left"></div>
+         {isSignUp ? (
+  <div className="auth-bg-column auth-bg-left">
+    <div className="auth-left-content">
+      <div className="auth-logoleft">
+        <h1>VoxReview</h1>
+        <span>Sentiment Review Plugin</span>
+      </div>
 
+      <div className="auth-illustration">
+        <img
+          src={VRLogo}
+          alt="VoxReview Logo"
+          className="auth-logo-image"
+        />
+      </div>
+
+      <div className="auth-descriptionleft">
+        <h2>Join VoxReview</h2>
+        <p>
+          Create your user account to access the VoxReview platform, submit
+          product reviews, and help businesses improve through meaningful
+          customer feedback.
+        </p>
+      </div>
+    </div>
+  </div>
+) : (
+  <>
+    <div className="auth-bg-column auth-bg-left"></div>
+  </>
+)}
             <div className="auth-bg-column auth-bg-right">
               <div className="auth-right-content">    
                 <div className="auth-logo">
