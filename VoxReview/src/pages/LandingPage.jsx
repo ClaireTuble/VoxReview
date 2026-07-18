@@ -681,7 +681,7 @@ const handleTriggerClick = () => {
                   </form>
 
                   <div className="quick-test-note">
-                    <strong>Reminder:</strong> This is sandbox mode only.
+                    <strong>Reminder:</strong> This is temporary.
                   </div>
 
                   <div className="auth-switch-text" style={{ marginTop: "1rem" }}>
