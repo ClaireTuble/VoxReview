@@ -143,7 +143,8 @@ body {
     transition:transform .30s ease,width .08s linear;
 }
 .extension-sidebar.open{
-    transform: translateX(0);
+    width: 330px;
+    transform: translateX(0px);
 }
 .extension-sidebar:hover {
     box-shadow:
@@ -350,7 +351,6 @@ body {
 /* Ext Cards */
 .ext-card{
     border-radius:14px;
-    padding:2rem;
 }
 
 .ext-card h4{
@@ -473,7 +473,7 @@ body {
 .ext-feed-section{
     display: flex;
     flex-direction: column;
-    margin-top: -49px;
+    margin-top: -16px;
 }
 
 .ext-feedback-list{
