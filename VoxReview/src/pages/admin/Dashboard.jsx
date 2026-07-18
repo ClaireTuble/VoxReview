@@ -98,6 +98,19 @@ const AdminDashboard = () => {
   const [activeNav, setActiveNav] = useState("dashboard");
   const navigate = useNavigate();
 
+  const handleProfileImageChange = (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    setProfileImage(reader.result);
+  };
+
+  reader.readAsDataURL(file);
+};
   // Dashboard component data states
   const [feedbacks, setFeedbacks] = useState(INITIAL_FEEDBACKS);
   const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
@@ -109,6 +122,7 @@ const AdminDashboard = () => {
   const [profName, setProfName] = useState("Faye Vega");
   const [profEmail, setProfEmail] = useState("admin@voxreview.com");
   const [profPhone, setProfPhone] = useState("09123456789");
+  const [profileImage, setProfileImage] = useState(null);
 
   // Settings configurations
   const [sensitivity, setSensitivity] = useState(60);
@@ -461,31 +475,94 @@ const AdminDashboard = () => {
         );
 
       case "profile":
-        return (
-          <div className="card">
-            <h2>Website User Profile</h2>
-            <form style={{ maxWidth: "600px", marginTop: "1.5rem" }} onSubmit={(e) => {
-              e.preventDefault();
-              alert("Successfully saved profile updates!");
-            }}>
-              <div className="form-item">
-                <label>Full Name</label>
-                <input type="text" value={profName} onChange={(e) => setProfName(e.target.value)} required />
-              </div>
-              <div className="form-item">
-                <label>Work Email Address</label>
-                <input type="email" value={profEmail} onChange={(e) => setProfEmail(e.target.value)} required />
-              </div>
-              <div className="form-item">
-                <label>Contact Phone Number</label>
-                <input type="text" value={profPhone} onChange={(e) => setProfPhone(e.target.value)} required />
-              </div>
-              <button type="submit" className="btn btn--primary" style={{ marginTop: "1rem" }}>
-                Update Profile Info
-              </button>
-            </form>
+              return (
+                <div className="card">
+        <h2>Website User Profile</h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            margin: "25px 0",
+          }}
+        >
+          <img
+            src={
+              profileImage ||
+              "https://ui-avatars.com/api/?name=Faye+Vega&background=4f46e5&color=fff&size=200"
+            }
+            alt="Profile"
+            style={{
+              width: "130px",
+              height: "130px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "4px solid #4f46e5",
+              marginBottom: "15px",
+            }}
+          />
+
+          <label
+            htmlFor="profileUpload"
+            className="btn btn--primary"
+            style={{ cursor: "pointer" }}
+          >
+            Upload Profile Picture
+          </label>
+
+          <input
+            id="profileUpload"
+            type="file"
+            accept="image/*"
+            onChange={handleProfileImageChange}
+            style={{ display: "none" }}
+          />
+        </div>
+
+        <form
+          style={{ maxWidth: "600px" }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            alert("Successfully saved profile updates!");
+          }}
+        >
+          <div className="form-item">
+            <label>Full Name</label>
+            <input
+              type="text"
+              value={profName}
+              onChange={(e) => setProfName(e.target.value)}
+            />
           </div>
-        );
+
+          <div className="form-item">
+            <label>Work Email Address</label>
+            <input
+              type="email"
+              value={profEmail}
+              onChange={(e) => setProfEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="form-item">
+            <label>Contact Phone Number</label>
+            <input
+              type="text"
+              value={profPhone}
+              onChange={(e) => setProfPhone(e.target.value)}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn--primary"
+            style={{ marginTop: "1rem" }}
+          >
+            Update Profile Info
+          </button>
+        </form>
+      </div>        );
 
       case "settings":
         return (
@@ -553,7 +630,16 @@ const AdminDashboard = () => {
         </nav>
 
         <div className="sidebar__user">
-          <div className="avatar avatar--sm">FV</div>
+                      {profileImage ? (
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="avatar avatar--sm"
+                style={{ objectFit: "cover" }}
+              />
+            ) : (
+              <div className="avatar avatar--sm">FV</div>
+            )}
           <div className="sidebar__user-info">
             <p className="sidebar__user-name">{profName}</p>
             <p className="sidebar__user-role">Website User</p>
@@ -581,8 +667,25 @@ const AdminDashboard = () => {
               <Icons.Bell />
               {unreadNotifCount > 0 && <span className="notif-dot" />}
             </button>
-            <div className="avatar" style={{ width: "32px", height: "32px", fontSize: "0.85rem" }}>FV</div>
-            <span className="topbar__username" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }} onClick={() => setActiveNav("profile")}>
+           {profileImage ? (
+  <img
+    src={profileImage}
+    alt="Profile"
+    style={{
+      width: "32px",
+      height: "32px",
+      borderRadius: "50%",
+      objectFit: "cover",
+    }}
+  />
+) : (
+        <div
+          className="avatar"
+          style={{ width: "32px", height: "32px", fontSize: "0.85rem" }}
+        >
+          FV
+        </div>
+      )} <span className="topbar__username" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }} onClick={() => setActiveNav("profile")}>
               Faye <Icons.ChevronDown />
             </span>
           </div>
@@ -600,7 +703,7 @@ const AdminDashboard = () => {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
               <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "1.15rem", fontWeight: 800 }}>
                 <span style={{ color: "#4f46e5", display: "inline-flex" }}><Icons.Bell /></span>
-                Admin Alerts
+                updates
               </h3>
               <button 
                 onClick={() => setShowNotificationsModal(false)}

@@ -92,8 +92,11 @@ const getSentimentColor = (sentiment) => {
   }
 };
 
+
+
 const SuperAdminDashboard = () => {
   const navigate = useNavigate();
+  const [profileImage, setProfileImage] = useState(null);
   const [activeNav, setActiveNav] = useState("dashboard");
 
   // State Management for dashboard view elements
@@ -219,6 +222,19 @@ const SuperAdminDashboard = () => {
       setActivities([newAct, ...activities]);
     }
   };
+const handleProfileImageChange = (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+    setProfileImage(reader.result);
+  };
+
+  reader.readAsDataURL(file);
+};
 
   // Render Subpages
   const renderSubpage = () => {
@@ -328,7 +344,7 @@ const SuperAdminDashboard = () => {
 
       case "user-management":
         return (
-          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", marginRight: "16px", marginLeft: "26px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
               <h2>User Management / Accounts Accreditation</h2>
               <div className="search-box" style={{ width: "300px", position: "relative" }}>
@@ -467,9 +483,55 @@ const SuperAdminDashboard = () => {
           </div>
         );
 
-      case "profile":
+     case "profile":
+        
         return (
           <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+            <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: "25px",
+    marginTop: "20px",
+  }}
+>
+  <img
+    src={
+      profileImage ||
+      "https://ui-avatars.com/api/?name=Claire+Tuble&background=4f46e5&color=fff&size=200"
+    }
+    alt="Profile"
+    style={{
+      width: "130px",
+      height: "130px",
+      borderRadius: "50%",
+      objectFit: "cover",
+      border: "4px solid #4f46e5",
+      marginBottom: "15px",
+    }}
+  />
+  <label
+    htmlFor="profileUpload"
+    style={{
+      background: "#4f46e5",
+      color: "#fff",
+      padding: "10px 18px",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontWeight: "600",
+    }}
+  >
+    Upload Profile Picture
+  </label>
+  <input
+    id="profileUpload"
+    type="file"
+    accept="image/*"
+    onChange={handleProfileImageChange}
+    style={{ display: "none" }}
+  />
+</div>
             <h2>Platform Super Administrator Profile</h2>
             <form style={{ maxWidth: "600px", marginTop: "1.5rem" }} onSubmit={(e) => {
               e.preventDefault();
@@ -564,7 +626,12 @@ const SuperAdminDashboard = () => {
 
         <div className="sidebar-user" style={{ flexDirection: "column", gap: "10px", marginTop: "auto" }}>
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <div className="avatar">CT</div>
+            {profileImage ? (
+               <img src={profileImage} alt="Profile" 
+               style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover", }}/>
+) : (
+  <div className="avatar">CT</div>
+)}
             <div>
               <h4>{adminName}</h4>
               <p>Super Admin</p>
@@ -616,7 +683,20 @@ const SuperAdminDashboard = () => {
               {unreadNotifCount > 0 && <span className="notif-dot" style={{ position: "absolute", top: "1px", right: "2px", width: "6px", height: "6px", background: "#ef4444", borderRadius: "50%" }} />}
             </button>
 
-            <div className="avatar small">CT</div>
+            {profileImage ? (
+               <img
+            src={profileImage}
+            alt="Profile"
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+            />
+          ) : (
+           <div className="avatar small">CT</div>
+          )}
             <span style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }} onClick={() => setActiveNav("profile")}>
               Claire <Icons.ChevronDown />
             </span>
