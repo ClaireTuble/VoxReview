@@ -322,7 +322,7 @@ const handleTriggerClick = () => {
       </div>
 
       {/* Floating trigger button at the top right */}
-{!isSidebarOpen && (
+    {!isSidebarOpen && !isModalOpen && (
   <button
     ref={triggerRef}
     className="floating-feedback-trigger-ur"
@@ -346,7 +346,6 @@ const handleTriggerClick = () => {
         className={`extension-sidebar ${isSidebarOpen ? "open" : ""} ${isResizing ? "resizing" : ""}`}
         style={{
           width: `${sidebarWidth}px`,
-          transform: isSidebarOpen ? "translateX(0)" : "translateX(100%)",
         }}
       >
         <div className="sidebar-resize-handle" onPointerDown={handlePointerDown} />
@@ -510,8 +509,6 @@ const handleTriggerClick = () => {
   <div className="auth-bg-column auth-bg-left">
     <div className="auth-left-content">
       <div className="auth-logoleft">
-        <h1>VoxReview</h1>
-        <span>Sentiment Review Plugin</span>
       </div>
 
       <div className="auth-illustration">

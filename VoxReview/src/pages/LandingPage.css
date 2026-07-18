@@ -125,10 +125,9 @@ body {
 
 
 /* EXTENSION SIDEBAR */
-.extension-sidebar{
+.extension-sidebar {
     position: fixed;
     top: 10px;
-    border-radius: 13px;
     right: 8px;
     min-width: 320px;
     max-width: 900px;
@@ -140,11 +139,19 @@ body {
     flex-direction: column;
     overflow: hidden;
     z-index: 9998;
-    transition:transform .30s ease,width .08s linear;
+    border-radius: 5px;
+    transform: translateX(calc(100% + 16px));
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: transform .30s ease, width .08s linear, visibility 0s .30s;
 }
-.extension-sidebar.open{
-    width: 330px;
-    transform: translateX(0px);
+
+.extension-sidebar.open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition: transform .30s ease, width .08s linear;
 }
 .extension-sidebar:hover {
     box-shadow:
