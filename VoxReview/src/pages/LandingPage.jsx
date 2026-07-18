@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import VRLogo from "./img/VR.png";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
@@ -228,6 +228,82 @@ const openRegisterModal = () => {
   const disgustPct = totalReviewsCount > 0 ? Math.round((disgustCount / totalReviewsCount) * 100) : 0;
   const envyPct = totalReviewsCount > 0 ? Math.round((envyCount / totalReviewsCount) * 100) : 0;
   const sarcasticPct = totalReviewsCount > 0 ? Math.round((sarcasticCount / totalReviewsCount) * 100) : 0;
+  
+  const [triggerPos, setTriggerPos] = useState({
+  x: window.innerWidth - 90,
+  y: 120,
+});
+
+// Ref for the trigger button to handle dragging
+const triggerRef = useRef(null);
+const dragData = useRef({
+  dragging: false,
+  moved: false,
+  startX: 0,
+  startY: 0,
+  offsetX: 0,
+  offsetY: 0,
+});
+
+const handleTriggerPointerDown = (e) => {
+  dragData.current.dragging = true;
+  dragData.current.moved = false;
+
+  dragData.current.startX = e.clientX;
+  dragData.current.startY = e.clientY;
+
+  dragData.current.offsetX = e.clientX - triggerPos.x;
+  dragData.current.offsetY = e.clientY - triggerPos.y;
+
+  window.addEventListener("pointermove", handleTriggerPointerMove);
+  window.addEventListener("pointerup", handleTriggerPointerUp);
+};
+
+const handleTriggerPointerMove = (e) => {
+  if (!dragData.current.dragging) return;
+
+  const dx = Math.abs(e.clientX - dragData.current.startX);
+  const dy = Math.abs(e.clientY - dragData.current.startY);
+
+  if (dx > 6 || dy > 6) {
+    dragData.current.moved = true;
+  }
+
+  setTriggerPos({
+    x: e.clientX - dragData.current.offsetX,
+    y: e.clientY - dragData.current.offsetY,
+  });
+};
+
+const handleTriggerPointerUp = () => {
+  dragData.current.dragging = false;
+
+  setTriggerPos((prev) => {
+    const snapLeft = prev.x < window.innerWidth / 2;
+
+    return {
+      x: snapLeft
+        ? 12
+        : window.innerWidth - 72,
+      y: Math.max(
+        12,
+        Math.min(prev.y, window.innerHeight - 72)
+      ),
+    };
+  });
+
+  window.removeEventListener("pointermove", handleTriggerPointerMove);
+  window.removeEventListener("pointerup", handleTriggerPointerUp);
+};
+
+const handleTriggerClick = () => {
+  if (dragData.current.moved) {
+    dragData.current.moved = false;
+    return;
+  }
+
+  setIsSidebarOpen(true);
+};
 
   return (
     <div className="host-container-blank">
@@ -246,18 +322,25 @@ const openRegisterModal = () => {
       </div>
 
       {/* Floating trigger button at the top right */}
-      <button 
-        className={`floating-feedback-trigger-ur ${isSidebarOpen ? "active" : ""}`}
-        onClick={() => setIsSidebarOpen(true)}
-        title="Open VoxReview Sidebar"
-      >
-        <span className="trigger-pulse"></span>
-        <svg viewBox="0 0 24 24" className="trigger-icon">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        <span className="trigger-text">VoxReview Portal</span>
-      </button>
-
+{!isSidebarOpen && (
+  <button
+    ref={triggerRef}
+    className="floating-feedback-trigger-ur"
+    style={{
+      left: triggerPos.x,
+      top: triggerPos.y,
+      right: "auto",
+      position: "fixed",
+      cursor: "default",
+    }}
+    onPointerDown={handleTriggerPointerDown}
+    onClick={handleTriggerClick}
+    title="Open VoxReview Sidebar"
+  >
+    <span className="trigger-pulse"></span>
+    <img src={VRLogo} alt="VR" className="trigger-vr-logo" />
+  </button>
+)}
       {/* Sidebar sheet for plugin view */}
       <div
         className={`extension-sidebar ${isSidebarOpen ? "open" : ""} ${isResizing ? "resizing" : ""}`}
