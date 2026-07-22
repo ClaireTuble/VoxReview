@@ -32,7 +32,7 @@ const Icons = {
     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   ),
   Star: ({ filled }) => (
-    <span style={{ color: filled ? "#fbbf24" : "#e2e8f0", marginRight: "1px" }}>★</span>
+    <span className={filled ? "star-filled" : "star-empty"}>★</span>
   )
 };
 
@@ -209,7 +209,9 @@ const AdminDashboard = () => {
     switch (activeNav) {
       case "dashboard":
         return (
+          
           <>
+          
             {/* KPI statistics cards */}
             <section className="stat-cards-grid">
               <div className="stat-card">
@@ -237,32 +239,32 @@ const AdminDashboard = () => {
             <section className="card">
               <h2 className="card__title">Overall Sentiment Distribution</h2>
               <div className="sentiment-section">
-                <div className="sentiment-bar" style={{ display: "flex", height: "16px", borderRadius: "8px", overflow: "hidden", margin: "1.2rem 0" }}>
-                  <div className="sentiment-bar__segment" style={{ flex: happyCount || 1, backgroundColor: "#22c55e" }} title={`Happy: ${happyPct}%`} />
-                  <div className="sentiment-bar__segment" style={{ flex: angerCount || 1, backgroundColor: "#ef4444" }} title={`Anger: ${angerPct}%`} />
-                  <div className="sentiment-bar__segment" style={{ flex: sadCount || 1, backgroundColor: "#f97316" }} title={`Sad: ${sadPct}%`} />
-                  <div className="sentiment-bar__segment" style={{ flex: disgustCount || 1, backgroundColor: "#a855f7" }} title={`Disgust: ${disgustPct}%`} />
-                  <div className="sentiment-bar__segment" style={{ flex: envyCount || 1, backgroundColor: "#eab308" }} title={`Envy: ${envyPct}%`} />
-                  <div className="sentiment-bar__segment" style={{ flex: sarcasticCount || 1, backgroundColor: "#ec4899" }} title={`Sarcastic: ${sarcasticPct}%`} />
+                <div className="sentiment-bar">
+                  <div className="sentiment-bar__segment happy" style={{ flex: happyCount || 1 }} title={`Happy: ${happyPct}%`} />
+                  <div className="sentiment-bar__segment angry" style={{ flex: angerCount || 1 }} title={`Anger: ${angerPct}%`} />
+                  <div className="sentiment-bar__segment sad" style={{ flex: sadCount || 1 }} title={`Sad: ${sadPct}%`} />
+                  <div className="sentiment-bar__segment disgust" style={{ flex: disgustCount || 1 }} title={`Disgust: ${disgustPct}%`} />
+                  <div className="sentiment-bar__segment envy" style={{ flex: envyCount || 1 }} title={`Envy: ${envyPct}%`} />
+                  <div className="sentiment-bar__segment sarcastic" style={{ flex: sarcasticCount || 1 }} title={`Sarcastic: ${sarcasticPct}%`} />
                 </div>
-                <div className="sentiment-legend" style={{ display: "flex", flexWrap: "wrap", gap: "14px", marginTop: "1rem" }}>
-                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#22c55e" }} /> Happy {happyPct}%
+                <div className="sentiment-legend">
+                  <span className="legend-item">
+                    <span className="legend-dot happy" /> Happy {happyPct}%
                   </span>
-                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#ef4444" }} /> Anger {angerPct}%
+                  <span className="legend-item">
+                    <span className="legend-dot angry" /> Anger {angerPct}%
                   </span>
-                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#f97316" }} /> Sad {sadPct}%
+                  <span className="legend-item">
+                    <span className="legend-dot sad" /> Sad {sadPct}%
                   </span>
-                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#a855f7" }} /> Disgust {disgustPct}%
+                  <span className="legend-item">
+                    <span className="legend-dot disgust" /> Disgust {disgustPct}%
                   </span>
-                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#eab308" }} /> Envy {envyPct}%
+                  <span className="legend-item">
+                    <span className="legend-dot envy" /> Envy {envyPct}%
                   </span>
-                  <span className="legend-item" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span className="legend-dot" style={{ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#ec4899" }} /> Sarcastic {sarcasticPct}%
+                  <span className="legend-item">
+                    <span className="legend-dot sarcastic" /> Sarcastic {sarcasticPct}%
                   </span>
                 </div>
               </div>
@@ -289,19 +291,7 @@ const AdminDashboard = () => {
                           <td className="td-name">{name}</td>
                           <td className="td-event">{product}</td>
                           <td>
-                            <span 
-                              className="badge" 
-                              style={{ 
-                                textTransform: "uppercase",
-                                fontSize: "0.7rem",
-                                padding: "2px 8px",
-                                borderRadius: "4px",
-                                fontWeight: 700,
-                                backgroundColor: getSentimentColor(sentiment) + "22",
-                                color: getSentimentColor(sentiment),
-                                border: `1px solid ${getSentimentColor(sentiment)}44`
-                              }}
-                            >
+                            <span className={`badge badge-sentiment ${sentiment.toLowerCase()}`}>
                               {sentiment}
                             </span>
                           </td>
@@ -335,7 +325,7 @@ const AdminDashboard = () => {
         return (
           <div className="card">
             <h2>Inbox</h2>
-            <p style={{ color: "#64748b", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
+            <p className="inbox-desc">
               Filter feedback dynamically by Priority levels, Read/Unread statuses, and Sentiment types.
             </p>
             
@@ -392,34 +382,22 @@ const AdminDashboard = () => {
                 </div>
               ) : (
                 filteredFeedbacks.map((f) => (
-                  <div key={f.id} className={`inbox-feedback-card ${f.status === "Unread" ? "unread-bg" : ""}`} style={{ borderLeft: f.priority === "High Priority" ? "4px solid #ef4444" : "1px solid #e5e7eb" }}>
+                  <div key={f.id} className={`inbox-feedback-card ${f.status === "Unread" ? "unread-bg" : ""} ${f.priority === "High Priority" ? "inbox-card-high-priority" : "inbox-card-normal"}`}>
                     <div className="card-header-inbox">
                       <div className="info-main">
-                        <h4 style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                        <h4 className="card-title-inline">
                           {f.name}
-                          {f.status === "Unread" && <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4f46e5" }} title="Unread review" />}
-                          {f.priority === "High Priority" && <span style={{ fontSize: "0.7rem", padding: "2px 6px", background: "#fef2f2", color: "#ef4444", borderRadius: "4px", fontWeight: "700" }}>HIGH PRIORITY</span>}
+                          {f.status === "Unread" && <span className="unread-dot-badge" title="Unread review" />}
+                          {f.priority === "High Priority" && <span className="high-priority-tag">HIGH PRIORITY</span>}
                         </h4>
                         <span className="sub-event-info">{f.product} • {f.date}</span>
                       </div>
-                      <span 
-                        className="badge"
-                        style={{
-                          textTransform: "uppercase",
-                          fontSize: "0.7rem",
-                          padding: "2px 8px",
-                          borderRadius: "4px",
-                          fontWeight: 700,
-                          backgroundColor: getSentimentColor(f.sentiment) + "22",
-                          color: getSentimentColor(f.sentiment),
-                          border: `1px solid ${getSentimentColor(f.sentiment)}44`
-                        }}
-                      >
+                      <span className={`badge badge-sentiment ${f.sentiment.toLowerCase()}`}>
                         {f.sentiment}
                       </span>
                     </div>
 
-                    <div style={{ margin: "0.5rem 0", color: "#fbbf24" }}>
+                    <div className="rating-stars-row">
                       {[1, 2, 3, 4, 5].map(star => (
                         <Icons.Star key={star} filled={star <= f.rating} />
                       ))}
@@ -450,11 +428,11 @@ const AdminDashboard = () => {
           <div className="card">
             <h2>Sentiment Analysis & Breakdown Reports</h2>
             
-            <div className="report-stats-summary" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", margin: "1.5rem 0" }}>
+            <div className="report-stats-summary">
               <div className="stat-sub-card">
                 <h5>Highest Sentiment Score</h5>
                 <h3>Happy ({happyPct}%)</h3>
-                <div className="sentiment-mini-bar" style={{ background: "#22c55e", height: "4px", borderRadius: "2px", width: `${happyPct}%` }}></div>
+                <div className="sentiment-mini-bar" style={{ width: `${happyPct}%` }}></div>
               </div>
               <div className="stat-sub-card">
                 <h5>Total Reviewed Items</h5>
@@ -463,10 +441,9 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <h3 style={{ margin: "2rem 0 1rem" }}>Product-Specific Sentiment Breakdown</h3>
+            <h3 className="report-subtitle">Product-Specific Sentiment Breakdown</h3>
             
-
-            <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "1.5rem", marginTop: "2rem", display: "flex", gap: "10px" }}>
+            <div className="report-download-box">
               <button className="btn btn--primary" onClick={() => alert("PDF report compilation started. Check downloads folder.")}>
                 Download PDF Report
               </button>
@@ -475,116 +452,83 @@ const AdminDashboard = () => {
         );
 
       case "profile":
-              return (
-                <div className="card">
-        <h2>Website User Profile</h2>
+        return (
+          <div className="card">
+            <h2>Website User Profile</h2>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            margin: "25px 0",
-          }}
-        >
-          <img
-            src={
-              profileImage ||
-              "https://ui-avatars.com/api/?name=Faye+Vega&background=4f46e5&color=fff&size=200"
-            }
-            alt="Profile"
-            style={{
-              width: "130px",
-              height: "130px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              border: "4px solid #4f46e5",
-              marginBottom: "15px",
-            }}
-          />
+            <div className="profile-avatar-container">
+              <img
+                src={
+                  profileImage ||
+                  "https://ui-avatars.com/api/?name=Faye+Vega&background=4f46e5&color=fff&size=200"
+                }
+                alt="Profile"
+                className="profile-img-large"
+              />
 
-          <label
-            htmlFor="profileUpload"
-            className="btn btn--primary"
-            style={{ cursor: "pointer" }}
-          >
-            Upload Profile Picture
-          </label>
+              <label htmlFor="profileUpload" className="btn btn--primary profile-upload-btn">
+                Upload Profile Picture
+              </label>
 
-          <input
-            id="profileUpload"
-            type="file"
-            accept="image/*"
-            onChange={handleProfileImageChange}
-            style={{ display: "none" }}
-          />
-        </div>
+              <input
+                id="profileUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+                className="file-input-hidden"
+              />
+            </div>
 
-        <form
-          style={{ maxWidth: "600px" }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            alert("Successfully saved profile updates!");
-          }}
-        >
-          <div className="form-item">
-            <label>Full Name</label>
-            <input
-              type="text"
-              value={profName}
-              onChange={(e) => setProfName(e.target.value)}
-            />
+            <form className="profile-form-container" onSubmit={(e) => {
+              e.preventDefault();
+              alert("Successfully saved profile updates!");
+            }}>
+              <div className="form-item">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  value={profName}
+                  onChange={(e) => setProfName(e.target.value)}
+                />
+              </div>
+
+              <div className="form-item">
+                <label>Work Email Address</label>
+                <input
+                  type="email"
+                  value={profEmail}
+                  onChange={(e) => setProfEmail(e.target.value)}
+                />
+              </div>
+
+              <button type="submit" className="btn btn--primary btn-margin-top">
+                Update Profile Info
+              </button>
+            </form>
           </div>
-
-          <div className="form-item">
-            <label>Work Email Address</label>
-            <input
-              type="email"
-              value={profEmail}
-              onChange={(e) => setProfEmail(e.target.value)}
-            />
-          </div>
-
-          <div className="form-item">
-            <label>Contact Phone Number</label>
-            <input
-              type="text"
-              value={profPhone}
-              onChange={(e) => setProfPhone(e.target.value)}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn--primary"
-            style={{ marginTop: "1rem" }}
-          >
-            Update Profile Info
-          </button>
-        </form>
-      </div>        );
+        );
 
       case "settings":
         return (
           <div className="card">
             <h2>Accreditation & System Settings</h2>
             
-            <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "2rem" }}>
+            <div className="settings-group">
               <div className="settings-block">
                 <h3>Sentiment Classification Threshold</h3>
-                <p style={{ color: "#64748b", fontSize: "0.85rem", margin: "0.25rem 0 1rem" }}>
+                <p className="settings-description">
                   Adjust classification sensitivity mapping for automatic sentiment engine tagging.
                 </p>
-                <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+                <div className="sensitivity-control-row">
                   <input 
                     type="range" 
                     min="10" 
                     max="90" 
                     value={sensitivity} 
                     onChange={(e) => setSensitivity(parseInt(e.target.value))} 
-                    style={{ flex: 1, cursor: "pointer" }}
+                    className="sensitivity-range-input"
                   />
-                  <span style={{ fontWeight: 700, minWidth: "50px" }}>{sensitivity}%</span>
+                  <span className="sensitivity-value-text">{sensitivity}%</span>
                 </div>
               </div>
               <div>
@@ -604,13 +548,13 @@ const AdminDashboard = () => {
   const unreadNotifCount = notifications.filter(n => !n.read).length;
 
   return (
-    <div className="app-shell">
-      {/* Navigation Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar__brand">
-          <span className="sidebar__brand-name">VoxReview</span>
-        </div>
+    
 
+    <div className="dashboard-layout">
+      <aside className="sidebar">
+                <div className="logo">
+          <h2>VoxReview</h2>
+        </div>
         <nav className="sidebar__nav">
           {NAV_SECTIONS.map(({ heading, items }) => (
             <div key={heading} className="nav-section">
@@ -630,16 +574,15 @@ const AdminDashboard = () => {
         </nav>
 
         <div className="sidebar__user">
-                      {profileImage ? (
-              <img
-                src={profileImage}
-                alt="Profile"
-                className="avatar avatar--sm"
-                style={{ objectFit: "cover" }}
-              />
-            ) : (
-              <div className="avatar avatar--sm">FV</div>
-            )}
+          {profileImage ? (
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="avatar avatar--sm avatar-cover"
+            />
+          ) : (
+            <div className="avatar avatar--sm">FV</div>
+          )}
           <div className="sidebar__user-info">
             <p className="sidebar__user-name">{profName}</p>
             <p className="sidebar__user-role">Website User</p>
@@ -656,7 +599,7 @@ const AdminDashboard = () => {
           <nav className="topbar__breadcrumb" aria-label="breadcrumb">
             <span className="topbar__breadcrumb-parent">Website User</span>
             <span className="topbar__breadcrumb-sep">/</span>
-            <span className="topbar__breadcrumb-current" style={{ textTransform: "capitalize" }}>{activeNav.replace("-", " ")}</span>
+            <span className="topbar__breadcrumb-current breadcrumb-current-title">{activeNav.replace("-", " ")}</span>
           </nav>
           <div className="topbar__actions">        
             <button 
@@ -667,25 +610,18 @@ const AdminDashboard = () => {
               <Icons.Bell />
               {unreadNotifCount > 0 && <span className="notif-dot" />}
             </button>
-           {profileImage ? (
-  <img
-    src={profileImage}
-    alt="Profile"
-    style={{
-      width: "32px",
-      height: "32px",
-      borderRadius: "50%",
-      objectFit: "cover",
-    }}
-  />
-) : (
-        <div
-          className="avatar"
-          style={{ width: "32px", height: "32px", fontSize: "0.85rem" }}
-        >
-          FV
-        </div>
-      )} <span className="topbar__username" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }} onClick={() => setActiveNav("profile")}>
+            {profileImage ? (
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="avatar-nav-sm"
+              />
+            ) : (
+              <div className="avatar avatar-fallback-sm">
+                FV
+              </div>
+            )}
+            <span className="topbar__username username-trigger" onClick={() => setActiveNav("profile")}>
               Faye <Icons.ChevronDown />
             </span>
           </div>
@@ -699,43 +635,37 @@ const AdminDashboard = () => {
       {/* Notification alerts modals view */}
       {showNotificationsModal && (
         <div className="custom-modal-overlay" onClick={() => setShowNotificationsModal(false)}>
-          <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{ width: "450px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
-              <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "1.15rem", fontWeight: 800 }}>
-                <span style={{ color: "#4f46e5", display: "inline-flex" }}><Icons.Bell /></span>
+          <div className="custom-modal-content modal-content-450" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">
+                <span className="modal-bell-icon"><Icons.Bell /></span>
                 updates
               </h3>
               <button 
                 onClick={() => setShowNotificationsModal(false)}
-                style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1rem", color: "#64748b" }}
+                className="modal-close-btn"
               >
                 ✕
               </button>
             </div>
             
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "300px", overflowY: "auto", paddingRight: "4px" }}>
+            <div className="notif-list">
               {notifications.map(n => (
-                <div key={n.id} style={{
-                  background: n.read ? "#f8fafc" : "#eff6ff",
-                  border: n.read ? "1px solid #e2e8f0" : "1px solid #bfdbfe",
-                  padding: "0.85rem",
-                  borderRadius: "8px",
-                  position: "relative"
-                }}>
-                  {!n.read && <span style={{ position: "absolute", top: "10px", right: "10px", width: "8px", height: "8px", background: "#3b82f6", borderRadius: "50%" }}></span>}
-                  <p style={{ fontSize: "0.85rem", fontWeight: n.read ? "500" : "700", color: "#1e293b", margin: 0, paddingRight: "15px" }}>{n.text}</p>
-                  <span style={{ fontSize: "0.75rem", color: "#64748b", display: "block", marginTop: "4px" }}>{n.date}</span>
+                <div key={n.id} className={`notif-item ${n.read ? "read" : "unread"}`}>
+                  {!n.read && <span className="unread-indicator"></span>}
+                  <p className={`notif-text ${n.read ? "read" : "unread"}`}>{n.text}</p>
+                  <span className="notif-date">{n.date}</span>
                 </div>
               ))}
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1.5rem", borderTop: "1px solid #e2e8f0", paddingTop: "1rem" }}>
-              <button className="btn btn--secondary" style={{ padding: "6px 12px", fontSize: "0.8rem" }} onClick={() => {
+            <div className="modal-footer">
+              <button className="btn btn--secondary" onClick={() => {
                 setNotifications(notifications.map(n => ({ ...n, read: true })));
               }}>
                 Mark all read
               </button>
-              <button className="btn btn--primary" style={{ padding: "6px 12px", fontSize: "0.8rem" }} onClick={() => setShowNotificationsModal(false)}>
+              <button className="btn btn--primary" onClick={() => setShowNotificationsModal(false)}>
                 Dismiss
               </button>
             </div>

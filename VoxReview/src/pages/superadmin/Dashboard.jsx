@@ -245,77 +245,77 @@ const handleProfileImageChange = (e) => {
         return (
           <>
             {/* Stats Cards Grid */}
-            <section className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.25rem", marginBottom: "1.5rem" }}>
-              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <div className="stat-icon green" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
+            <section className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-icon green">
                   <Icons.Reports />
                 </div>
                 <div>
-                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Total Reviews Processed</p>
-                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{totalReviewsAnalyzedDash.toLocaleString()}</h2>
+                  <p>Total Reviews Processed</p>
+                  <h2>{totalReviewsAnalyzedDash.toLocaleString()}</h2>
                 </div>
               </div>
-              <div className="stat-card" style={{ display: "flex", gap: "15px", alignItems: "center", background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <div className="stat-icon teal" style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px" }}>
+              <div className="stat-card">
+                <div className="stat-icon teal">
                   <Icons.Orgs />
                 </div>
                 <div>
-                  <p style={{ color: "#64748b", fontSize: "0.85rem", margin: 0 }}>Active Users</p>
-                  <h2 style={{ fontSize: "1.6rem", fontWeight: 800, margin: "2px 0 0" }}>{users.filter(u => u.status === "Active").length}</h2>
+                  <p>Active Users</p>
+                  <h2>{users.filter(u => u.status === "Active").length}</h2>
                 </div>
               </div>
             </section>
 
             {/* Platform-wide Sentiment Overview split into 6 sentiments */}
-            <section className="analytics-card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)", marginBottom: "1.5rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <h2 style={{ fontSize: "1.2rem", fontWeight: 800, margin: 0 }}>Platform-Wide Sentiment Analysis</h2>
+            <section className="analytics-card">
+              <div>
+                <h2>Platform-Wide Sentiment Analysis</h2>
               </div>
-              <div className="sentiment-bar" style={{ display: "flex", height: "16px", borderRadius: "8px", overflow: "hidden", margin: "1.2rem 0" }}>
-                <div style={{ background: "#22c55e", flex: 61 }} title="61% Happy"></div>
-                <div style={{ background: "#ef4444", flex: 14 }} title="14% Angry"></div>
-                <div style={{ background: "#f97316", flex: 10 }} title="10% Sad"></div>
-                <div style={{ background: "#a855f7", flex: 5 }} title="5% Disgust"></div>
-                <div style={{ background: "#eab308", flex: 5 }} title="5% Envy"></div>
-                <div style={{ background: "#ec4899", flex: 5 }} title="5% Sarcastic"></div>
+              <div className="sentiment-bar">
+                <div className="sentiment-seg-happy" title="61% Happy"></div>
+                <div className="sentiment-seg-angry" title="14% Angry"></div>
+                <div className="sentiment-seg-sad" title="10% Sad"></div>
+                <div className="sentiment-seg-disgust" title="5% Disgust"></div>
+                <div className="sentiment-seg-envy" title="5% Envy"></div>
+                <div className="sentiment-seg-sarcastic" title="5% Sarcastic"></div>
               </div>
-              <div className="legend" style={{ display: "flex", flexWrap: "wrap", gap: "20px", fontSize: "0.85rem", color: "#64748b" }}>
-                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#22c55e" }}></span> Happy 61%</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#ef4444" }}></span> Angry 14%</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#f97316" }}></span> Sad 10%</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#a855f7" }}></span> Disgust 5%</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#eab308" }}></span> Envy 5%</span>
-                <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#ec4899" }}></span> Sarcastic 5%</span>
+              <div className="legend">
+                <span className="legend-item"><span className="legend-dot happy"></span> Happy 61%</span>
+                <span className="legend-item"><span className="legend-dot angry"></span> Angry 14%</span>
+                <span className="legend-item"><span className="legend-dot sad"></span> Sad 10%</span>
+                <span className="legend-item"><span className="legend-dot disgust"></span> Disgust 5%</span>
+                <span className="legend-item"><span className="legend-dot envy"></span> Envy 5%</span>
+                <span className="legend-item"><span className="legend-dot sarcastic"></span> Sarcastic 5%</span>
               </div>
             </section>
 
             {/* Audit activity logging views */}
-            <div className="bottom-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1.5rem" }}>
-              <section className="table-card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>System Activity Logs</h2>
-                <div className="feedback-table-wrapper" style={{ overflowX: "auto" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+            <div className="bottom-grid">
+              <section className="table-card">
+                <h2 className="card-title">System Activity Logs</h2>
+                <div className="feedback-table-wrapper">
+                  <table className="logs-table">
                     <thead>
-                      <tr style={{ background: "#f8fafc", textAlign: "left" }}>
-                        <th style={{ padding: "10px" }}>User</th>
-                        <th style={{ padding: "10px" }}>Role</th>
-                        <th style={{ padding: "10px" }}>Action</th>
-                        <th style={{ padding: "10px" }}>IP Address</th>
-                        <th style={{ padding: "10px" }}>Timestamp</th>
+                      <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                        <th>IP Address</th>
+                        <th>Timestamp</th>
                       </tr>
                     </thead>
                     <tbody>
                       {activityLogs.map((log) => (
-                        <tr key={log.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                          <td style={{ padding: "10px", fontWeight: 600 }}>{log.user}</td>
-                          <td style={{ padding: "10px" }}>
-                            <span style={{ background: log.role === "Super Admin" ? "#e0f2fe" : "#f1f5f9", color: log.role === "Super Admin" ? "#0369a1" : "#475569", padding: "2px 6px", borderRadius: "4px", fontWeight: 700, fontSize: "0.75rem" }}>
+                        <tr key={log.id}>
+                          <td className="log-user">{log.user}</td>
+                          <td>
+                            <span className={`role-tag ${log.role === "Super Admin" ? "super-admin" : "default"}`}>
                               {log.role}
                             </span>
                           </td>
-                          <td style={{ padding: "10px", fontWeight: 500, color: log.action.includes("Logged In") ? "#16a34a" : "#ea580c" }}>{log.action}</td>
-                          <td style={{ padding: "10px", color: "#64748b" }}>{log.ip}</td>
-                          <td style={{ padding: "10px", color: "#64748b" }}>{log.time}</td>
+                          <td className={log.action.includes("Logged In") ? "log-action-login" : "log-action-other"}>{log.action}</td>
+                          <td className="text-muted">{log.ip}</td>
+                          <td className="text-muted">{log.time}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -323,16 +323,16 @@ const handleProfileImageChange = (e) => {
                 </div>
               </section>
 
-              <section className="activity-card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "1rem" }}>Platform Alerts</h2>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <section className="activity-card">
+                <h2 className="card-title">Platform Alerts</h2>
+                <div className="alerts-list">
                   {activities.map((activity, index) => (
-                    <div key={index} className="activity-item" style={{ display: "flex", gap: "10px", fontSize: "0.85rem", borderBottom: "1px solid #f1f5f9", paddingBottom: "8px" }}>
-                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4f46e5", marginTop: "4px" }}></div>
+                    <div key={index} className="activity-item">
+                      <div className="activity-bullet"></div>
                       <div>
-                        <h4 style={{ fontWeight: 700, margin: 0, color: "#0f172a" }}>{activity.title}</h4>
-                        <p style={{ margin: "2px 0", color: "#64748b" }}>{activity.description}</p>
-                        <small style={{ color: "#94a3b8" }}>{activity.time}</small>
+                        <h4>{activity.title}</h4>
+                        <p>{activity.description}</p>
+                        <small>{activity.time}</small>
                       </div>
                     </div>
                   ))}
@@ -344,59 +344,59 @@ const handleProfileImageChange = (e) => {
 
       case "user-management":
         return (
-          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px", marginRight: "16px", marginLeft: "26px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+          <div className="card user-management-card">
+            <div className="section-header">
               <h2>User Management / Accounts Accreditation</h2>
-              <div className="search-box" style={{ width: "300px", position: "relative" }}>
+              <div className="search-box">
                 <input 
                   type="text" 
+                  className="search-input"
                   placeholder="Search by name or email..." 
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
-                  style={{ width: "100%", padding: "8px 10px 8px 30px", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "inherit" }}
                 />
-                <span style={{ position: "absolute", left: "8px", top: "50%", transform: "translateY(-50%)" }}><Icons.Search /></span>
+                <span className="search-icon"><Icons.Search /></span>
               </div>
             </div>
 
-            <div className="feedback-table-wrapper" style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <div className="feedback-table-wrapper">
+              <table className="users-table">
                 <thead>
-                  <tr style={{ background: "#f8fafc", textAlign: "left" }}>
-                    <th style={{ padding: "12px" }}>Full Name</th>
-                    <th style={{ padding: "12px" }}>Contact Email</th>
-                    <th style={{ padding: "12px" }}>Affiliated Domain</th>
-                    <th style={{ padding: "12px" }}>Reg Date</th>
-                    <th style={{ padding: "12px" }}>Status</th>
-                    <th style={{ padding: "12px", textAlign: "right" }}>Actions</th>
+                  <tr>
+                    <th>Full Name</th>
+                    <th>Contact Email</th>
+                    <th>Affiliated Domain</th>
+                    <th>Reg Date</th>
+                    <th>Status</th>
+                    <th className="text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users
                     .filter(u => u.name.toLowerCase().includes(userSearch.toLowerCase()) || u.email.toLowerCase().includes(userSearch.toLowerCase()))
                     .map((org) => (
-                      <tr key={org.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "12px", fontWeight: 700 }}>{org.name}</td>
-                        <td style={{ padding: "12px" }}>{org.email}</td>
-                        <td style={{ padding: "12px" }}>{org.domain}</td>
-                        <td style={{ padding: "12px" }}>{org.date}</td>
-                        <td style={{ padding: "12px" }}>
+                      <tr key={org.id}>
+                        <td className="user-name">{org.name}</td>
+                        <td>{org.email}</td>
+                        <td>{org.domain}</td>
+                        <td>{org.date}</td>
+                        <td>
                           <span className={`status-tag status-${org.status.toLowerCase().replace(" ", "-")}`}>
                             {org.status}
                           </span>
                         </td>
-                        <td style={{ padding: "12px", textAlign: "right" }}>
+                        <td className="text-right">
                           {org.status === "Pending Approval" ? (
-                            <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
-                              <button className="action-btn-success" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }} onClick={() => handleApproveUser(org.id)}>
+                            <div className="action-buttons-group">
+                              <button className="action-btn-success" onClick={() => handleApproveUser(org.id)}>
                                 <Icons.Approve /> Approve
                               </button>
-                              <button className="action-btn-danger" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }} onClick={() => handleDeclineUser(org.id)}>
+                              <button className="action-btn-danger" onClick={() => handleDeclineUser(org.id)}>
                                 <Icons.Trash /> Decline
                               </button>
                             </div>
                           ) : (
-                            <span style={{ color: "#64748b", fontSize: "0.85rem", fontWeight: 600 }}>Accredited</span>
+                            <span className="accredited-text">Accredited</span>
                           )}
                         </td>
                       </tr>
@@ -411,15 +411,15 @@ const handleProfileImageChange = (e) => {
         const reportUserObj = users.find(u => u.id === selectedReportUser) || users[0];
         
         return (
-          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+          <div className="card">
             <h2>User Account Statistics & Reports</h2>
             
-            <div className="org-selection-header" style={{ margin: "1.5rem 0", display: "flex", alignItems: "center", gap: "15px" }}>
-              <label style={{ fontWeight: 700 }}>Select User Account:</label>
+            <div className="org-selection-header">
+              <label>Select User Account:</label>
               <select 
+                className="select-input"
                 value={selectedReportUser} 
                 onChange={(e) => setSelectedReportUser(e.target.value)}
-                style={{ padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "inherit" }}
               >
                 {users.filter(u => u.status === "Active").map(u => (
                   <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
@@ -428,52 +428,52 @@ const handleProfileImageChange = (e) => {
             </div>
 
             {reportUserObj && (
-              <div className="org-report-layout" style={{ border: "1px solid #e2e8f0", borderRadius: "12px", padding: "2rem" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #f1f5f9", paddingBottom: "1rem" }}>
+              <div className="org-report-layout">
+                <div className="report-top">
                   <div>
                     <h3>{reportUserObj.name}</h3>
-                    <p style={{ color: "#64748b", fontSize: "0.85rem", marginTop: "4px" }}>Affiliated Domain: {reportUserObj.domain}</p>
+                    <p className="report-domain">Affiliated Domain: {reportUserObj.domain}</p>
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>Registration Status</span>
-                    <h4 style={{ color: "#166534" }}>{reportUserObj.status}</h4>
+                  <div className="report-status-box">
+                    <span className="status-label">Registration Status</span>
+                    <h4 className="status-value">{reportUserObj.status}</h4>
                   </div>
                 </div>
 
-                <div className="report-grid-details" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", margin: "1.5rem 0" }}>
-                  <div style={{ background: "#f8fafc", padding: "1rem", borderRadius: "8px" }}>
-                    <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 700 }}>PRODUCTS ACCREDITED</span>
-                    <h2 style={{ fontSize: "2rem", margin: "5px 0 0" }}>{reportUserObj.products}</h2>
+                <div className="report-grid-details">
+                  <div className="report-detail-box">
+                    <span className="report-detail-label">PRODUCTS ACCREDITED</span>
+                    <h2 className="report-detail-value">{reportUserObj.products}</h2>
                   </div>
-                  <div style={{ background: "#f8fafc", padding: "1rem", borderRadius: "8px" }}>
-                    <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 700 }}>FEEDBACK PROCESSES</span>
-                    <h2 style={{ fontSize: "2rem", margin: "5px 0 0" }}>{reportUserObj.feedback}</h2>
+                  <div className="report-detail-box">
+                    <span className="report-detail-label">FEEDBACK PROCESSES</span>
+                    <h2 className="report-detail-value">{reportUserObj.feedback}</h2>
                   </div>
-                  <div style={{ background: "#f8fafc", padding: "1rem", borderRadius: "8px" }}>
-                    <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 700 }}>AVG PRODUCT RATING</span>
-                    <h2 style={{ fontSize: "2rem", color: "#166534", margin: "5px 0 0" }}>{reportUserObj.rating}</h2>
+                  <div className="report-detail-box">
+                    <span className="report-detail-label">AVG PRODUCT RATING</span>
+                    <h2 className="report-detail-value rating">{reportUserObj.rating}</h2>
                   </div>
                 </div>
 
                 <h4>Cumulative Sentiment Breakdown</h4>
-                <div className="sentiment-bar" style={{ display: "flex", height: "14px", borderRadius: "7px", overflow: "hidden", margin: "1rem 0" }}>
-                  <div style={{ background: "#22c55e", flex: 61 }} title="61% Happy"></div>
-                  <div style={{ background: "#ef4444", flex: 14 }} title="14% Angry"></div>
-                  <div style={{ background: "#f97316", flex: 10 }} title="10% Sad"></div>
-                  <div style={{ background: "#a855f7", flex: 5 }} title="5% Disgust"></div>
-                  <div style={{ background: "#eab308", flex: 5 }} title="5% Envy"></div>
-                  <div style={{ background: "#ec4899", flex: 5 }} title="5% Sarcastic"></div>
+                <div className="sentiment-bar">
+                  <div className="sentiment-seg-happy" title="61% Happy"></div>
+                  <div className="sentiment-seg-angry" title="14% Angry"></div>
+                  <div className="sentiment-seg-sad" title="10% Sad"></div>
+                  <div className="sentiment-seg-disgust" title="5% Disgust"></div>
+                  <div className="sentiment-seg-envy" title="5% Envy"></div>
+                  <div className="sentiment-seg-sarcastic" title="5% Sarcastic"></div>
                 </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", fontSize: "0.75rem", color: "#64748b" }}>
-                  <span>● Happy 61%</span>
-                  <span>● Angry 14%</span>
-                  <span>● Sad 10%</span>
-                  <span>● Disgust 5%</span>
-                  <span>● Envy 5%</span>
-                  <span>● Sarcastic 5%</span>
+                <div className="legend">
+                  <span className="legend-item"><span className="legend-dot happy"></span> Happy 61%</span>
+                  <span className="legend-item"><span className="legend-dot angry"></span> Angry 14%</span>
+                  <span className="legend-item"><span className="legend-dot sad"></span> Sad 10%</span>
+                  <span className="legend-item"><span className="legend-dot disgust"></span> Disgust 5%</span>
+                  <span className="legend-item"><span className="legend-dot envy"></span> Envy 5%</span>
+                  <span className="legend-item"><span className="legend-dot sarcastic"></span> Sarcastic 5%</span>
                 </div>
 
-                <div style={{ marginTop: "2rem", borderTop: "1px solid #f1f5f9", paddingTop: "1.5rem" }}>
+                <div className="report-actions">
                   <button className="btn btn--primary" onClick={() => alert(`Accreditation summary report generated for "${reportUserObj.name}". File downloaded!`)}>
                     Export User Report (PDF)
                   </button>
@@ -483,93 +483,63 @@ const handleProfileImageChange = (e) => {
           </div>
         );
 
-     case "profile":
-        
+      case "profile":
         return (
-          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
-            <div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginBottom: "25px",
-    marginTop: "20px",
-  }}
->
-  <img
-    src={
-      profileImage ||
-      "https://ui-avatars.com/api/?name=Claire+Tuble&background=4f46e5&color=fff&size=200"
-    }
-    alt="Profile"
-    style={{
-      width: "130px",
-      height: "130px",
-      borderRadius: "50%",
-      objectFit: "cover",
-      border: "4px solid #4f46e5",
-      marginBottom: "15px",
-    }}
-  />
-  <label
-    htmlFor="profileUpload"
-    style={{
-      background: "#4f46e5",
-      color: "#fff",
-      padding: "10px 18px",
-      borderRadius: "8px",
-      cursor: "pointer",
-      fontWeight: "600",
-    }}
-  >
-    Upload Profile Picture
-  </label>
-  <input
-    id="profileUpload"
-    type="file"
-    accept="image/*"
-    onChange={handleProfileImageChange}
-    style={{ display: "none" }}
-  />
-</div>
+          <div className="card">
+            <div className="profile-header">
+              <img
+                src={
+                  profileImage ||
+                  "https://ui-avatars.com/api/?name=Claire+Tuble&background=4f46e5&color=fff&size=200"
+                }
+                alt="Profile"
+                className="profile-img-large"
+              />
+              <label htmlFor="profileUpload" className="profile-upload-label">
+                Upload Profile Picture
+              </label>
+              <input
+                id="profileUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+                className="file-input-hidden"
+              />
+            </div>
             <h2>Platform Super Administrator Profile</h2>
-            <form style={{ maxWidth: "600px", marginTop: "1.5rem" }} onSubmit={(e) => {
+            <form className="profile-form" onSubmit={(e) => {
               e.preventDefault();
               alert("Super Admin profile saved.");
             }}>
-              <div className="form-item" style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "1rem" }}>
-                <label style={{ fontWeight: 700, fontSize: "0.8rem", color: "#64748b" }}>Full Name</label>
-                <input type="text" value={adminName} onChange={(e) => setAdminName(e.target.value)} style={{ padding: "8px", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "inherit" }} required />
+              <div className="form-item">
+                <label>Full Name</label>
+                <input type="text" className="form-input" value={adminName} onChange={(e) => setAdminName(e.target.value)} required />
               </div>
-              <div className="form-item" style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "1rem" }}>
-                <label style={{ fontWeight: 700, fontSize: "0.8rem", color: "#64748b" }}>Email Address</label>
-                <input type="email" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} style={{ padding: "8px", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "inherit" }} required />
+              <div className="form-item">
+                <label>Email Address</label>
+                <input type="email" className="form-input" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} required />
               </div>
-              <div className="form-item" style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "1rem" }}>
-                <label style={{ fontWeight: 700, fontSize: "0.8rem", color: "#64748b" }}>Admin Phone</label>
-                <input type="text" value={adminPhone} onChange={(e) => setAdminPhone(e.target.value)} style={{ padding: "8px", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "inherit" }} required />
+              <div className="form-item">
+                <label>Role Designation</label>
+                <input type="text" value="System Super Administrator" disabled className="form-input disabled" />
               </div>
-              <div className="form-item" style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "1rem" }}>
-                <label style={{ fontWeight: 700, fontSize: "0.8rem", color: "#64748b" }}>Role Designation</label>
-                <input type="text" value="System Super Administrator" disabled style={{ padding: "8px", border: "1px solid #cbd5e1", borderRadius: "6px", background: "#f1f5f9", fontFamily: "inherit" }} />
-              </div>
-              <button type="submit" className="btn btn--primary" style={{ marginTop: "1rem" }}>Save Credentials</button>
+              <button type="submit" className="btn btn--primary">Save Credentials</button>
             </form>
           </div>
         );
 
       case "settings":
         return (
-          <div className="card" style={{ background: "white", padding: "1.5rem", borderRadius: "12px" }}>
+          <div className="card">
             <h2>System Settings & Global Configurations</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginTop: "1.5rem" }}>
+            <div className="settings-container">
               <div className="settings-block">
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700 }}>Database Backup</h3>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", marginBottom: "0.5rem" }}>Configure system backups schedule for database logs and sentiment indexes.</p>
+                <h3 className="settings-title">Database Backup</h3>
+                <p className="settings-desc">Configure system backups schedule for database logs and sentiment indexes.</p>
                 <select 
+                  className="select-input"
                   value={backupSchedule} 
                   onChange={(e) => setBackupSchedule(e.target.value)}
-                  style={{ padding: "8px", border: "1px solid #cbd5e1", borderRadius: "6px", fontFamily: "inherit" }}
                 >
                   <option value="Daily">Daily Backup</option>
                   <option value="Weekly">Weekly Backup</option>
@@ -596,8 +566,8 @@ const handleProfileImageChange = (e) => {
     <div className="dashboard-layout">
       {/* Sidebar Navigation Panel */}
       <aside className="sidebar">
-        <div className="logo" style={{ background: "lightcyan", display: "flex", alignItems: "center", gap: "10px", padding: "1.6rem", borderBottom: "1px solid #e2e8f0" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, margin: 0, color: "#4f46e5" }}>VoxReview</h2>
+        <div className="logo">
+          <h2>VoxReview</h2>
         </div>
 
         <div className="nav-section">
@@ -616,22 +586,18 @@ const handleProfileImageChange = (e) => {
 
         <div className="nav-section">
           <span className="section-title">ACCOUNT</span>
-          <button className={`nav-item ${activeNav === "profile" ? "active" : ""}`} onClick={() => setActiveNav("profile")}>
-            <Icons.Profile /> Profile
-          </button>
           <button className={`nav-item ${activeNav === "settings" ? "active" : ""}`} onClick={() => setActiveNav("settings")}>
             <Icons.Settings /> Settings
           </button>
         </div>
 
-        <div className="sidebar-user" style={{ flexDirection: "column", gap: "10px", marginTop: "auto" }}>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+        <div className="sidebar-user">
+          <div className="sidebar-user-info">
             {profileImage ? (
-               <img src={profileImage} alt="Profile" 
-               style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover", }}/>
-) : (
-  <div className="avatar">CT</div>
-)}
+              <img src={profileImage} alt="Profile" className="avatar-img" />
+            ) : (
+              <div className="avatar">CT</div>
+            )}
             <div>
               <h4>{adminName}</h4>
               <p>Super Admin</p>
@@ -639,27 +605,7 @@ const handleProfileImageChange = (e) => {
           </div>
           <button 
             onClick={() => navigate("/")}
-            style={{
-              marginTop: "8px",
-              width: "100%",
-              padding: "10px",
-              background: "#fee2e2",
-              color: "#ef4444",
-              border: "1px solid #fecaca",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontWeight: "600",
-              textAlign: "center",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = "#ef4444";
-              e.currentTarget.style.color = "white";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = "#fee2e2";
-              e.currentTarget.style.color = "#ef4444";
-            }}
+            className="signout-btn"
           >
             Sign Out
           </button>
@@ -669,41 +615,31 @@ const handleProfileImageChange = (e) => {
       {/* Main content display viewport */}
       <main className="main-content">
         <header className="topbar">
-          <div className="breadcrumb" style={{ textTransform: "capitalize" }}>
+          <div className="breadcrumb">
             Super Administrator / <strong>{activeNav.replace("-", " ")}</strong>
           </div>
             
-          <div className="topbar-right" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+          <div className="topbar-right">
             <button 
-              className="topbar-right" 
-              onClick={() => setShowNotificationsModal(true)} 
-              style={{ position: "relative", border: "none", background: "none", cursor: "pointer", color: "#64748b" }}
+              className="topbar-bell-btn" 
+              onClick={() => setShowNotificationsModal(true)}
             >
               <Icons.Bell />
-              {unreadNotifCount > 0 && <span className="notif-dot" style={{ position: "absolute", top: "1px", right: "2px", width: "6px", height: "6px", background: "#ef4444", borderRadius: "50%" }} />}
+              {unreadNotifCount > 0 && <span className="notif-dot" />}
             </button>
 
             {profileImage ? (
-               <img
-            src={profileImage}
-            alt="Profile"
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-            />
-          ) : (
-           <div className="avatar small">CT</div>
-          )}
-            <span style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }} onClick={() => setActiveNav("profile")}>
+              <img src={profileImage} alt="Profile" className="avatar-img-small" />
+            ) : (
+              <div className="avatar small">CT</div>
+            )}
+            <span className="user-dropdown-trigger" onClick={() => setActiveNav("profile")}>
               Claire <Icons.ChevronDown />
             </span>
           </div>
         </header>
 
-        <div style={{ marginTop: "1.5rem" }}>
+        <div className="main-subpage-container">
           {renderSubpage()}
         </div>
       </main>
@@ -711,43 +647,37 @@ const handleProfileImageChange = (e) => {
       {/* User admin notifications modal popup */}
       {showNotificationsModal && (
         <div className="custom-modal-overlay" onClick={() => setShowNotificationsModal(false)}>
-          <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{ width: "450px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
-              <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "1.15rem", fontWeight: 800 }}>
-                <span style={{ color: "#4f46e5", display: "inline-flex" }}><Icons.Bell /></span>
+          <div className="custom-modal-content modal-width-450" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">
+                <span className="modal-bell-icon"><Icons.Bell /></span>
                 Platform alerts (Super Admin)
               </h3>
               <button 
                 onClick={() => setShowNotificationsModal(false)}
-                style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1rem", color: "#64748b" }}
+                className="modal-close-btn"
               >
                 ✕
               </button>
             </div>
             
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "300px", overflowY: "auto", paddingRight: "4px" }}>
+            <div className="notif-list">
               {notifications.map(n => (
-                <div key={n.id} style={{
-                  background: n.read ? "#f8fafc" : "#eff6ff",
-                  border: n.read ? "1px solid #e2e8f0" : "1px solid #bfdbfe",
-                  padding: "0.85rem",
-                  borderRadius: "8px",
-                  position: "relative"
-                }}>
-                  {!n.read && <span style={{ position: "absolute", top: "10px", right: "10px", width: "8px", height: "8px", background: "#3b82f6", borderRadius: "50%" }}></span>}
-                  <p style={{ fontSize: "0.85rem", fontWeight: n.read ? "500" : "700", color: "#1e293b", margin: 0, paddingRight: "15px" }}>{n.text}</p>
-                  <span style={{ fontSize: "0.75rem", color: "#64748b", display: "block", marginTop: "4px" }}>{n.date}</span>
+                <div key={n.id} className={`notif-item ${n.read ? "read" : "unread"}`}>
+                  {!n.read && <span className="unread-indicator"></span>}
+                  <p className={`notif-text ${n.read ? "read" : "unread"}`}>{n.text}</p>
+                  <span className="notif-date">{n.date}</span>
                 </div>
               ))}
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1.5rem", borderTop: "1px solid #e2e8f0", paddingTop: "1rem" }}>
-              <button className="btn btn--secondary" style={{ padding: "6px 12px", fontSize: "0.8rem" }} onClick={() => {
+            <div className="modal-footer">
+              <button className="btn btn--secondary" onClick={() => {
                 setNotifications(notifications.map(n => ({ ...n, read: true })));
               }}>
                 Mark all read
               </button>
-              <button className="btn btn--primary" style={{ padding: "6px 12px", fontSize: "0.8rem" }} onClick={() => setShowNotificationsModal(false)}>
+              <button className="btn btn--primary" onClick={() => setShowNotificationsModal(false)}>
                 Dismiss
               </button>
             </div>

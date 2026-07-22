@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 import { FaTruck, FaBoxOpen, FaShieldAlt, FaHeadset, FaDollarSign, FaStar } from "react-icons/fa";
 
-// Define e-commerce client platforms
+// e-commerce client platforms
 const CLIENT_PLATFORMS = {
   "E-Commerce Websites": [
     "Shopee Sandbox Integration",
@@ -14,7 +14,12 @@ const CLIENT_PLATFORMS = {
   ]
 };
 
-// Define products list
+// Website name
+const WEBSITE_NAME = "Shopee" ;
+
+
+
+// products list
 const PRODUCTS = [
   "Pants",
   "Fan",
@@ -109,7 +114,9 @@ const LandingPage = () => {
   const [registerBio, setRegisterBio] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
-
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
   // Flag for registration success status
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -367,6 +374,7 @@ const handleTriggerClick = () => {
           <div className="ext-logo">
             <div className="ext-logo-text">
               <p>Feedback Plugin</p>
+              <h3>{WEBSITE_NAME}</h3>
             </div>
           </div>
           <button className="btn-close-extension" onClick={() => setIsSidebarOpen(false)} title="Close Sidebar">
@@ -711,17 +719,6 @@ const handleTriggerClick = () => {
                         />
                       </div>
 
-                      <div className="auth-input-group">
-                        <label>Short Bio</label>
-                        <textarea 
-                          rows="2" 
-                          placeholder="Short description about you..." 
-                          value={registerBio} 
-                          onChange={(e) => setRegisterBio(e.target.value)}
-                          required
-                        ></textarea>
-                      </div>
-
                       <div className="auth-input-row">
                         <div className="auth-input-group">
                           <label>Full Name</label>
@@ -765,6 +762,29 @@ const handleTriggerClick = () => {
                           </button>
                         </div>
                       </div>
+
+                      <div className="auth-input-group">
+                    <label>Confirm Password</label>
+
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        style={{ paddingRight: "50px", width: "100%" }}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="password-toggle-btn"
+                      >
+                        {showConfirmPassword ? "Hide" : "Show"}
+                      </button>
+                    </div>
+                  </div>
                       
                       <button type="submit" className="auth-btn-primary">Register User</button>
                     </form>
